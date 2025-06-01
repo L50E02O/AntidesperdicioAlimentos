@@ -1,0 +1,88 @@
+<template>
+  <div class="resumen-card">
+    <div class="icono">
+      <slot name="icono">
+        <!-- Si no se pasa un slot, usa un ícono por defecto -->
+        📊
+      </slot>
+    </div>
+    <div class="contenido">
+      <p class="titulo">{{ titulo }}</p>
+      <h2 class="subtitulo">{{ subtitulo }}</h2>
+      <p class="cantidad">{{ cantidad }}</p>
+      <button class="boton" @click="onClick">{{ textoBoton }}</button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ResumenCard',
+  props: {
+    titulo: {
+      type: String,
+      required: true
+    },
+    subtitulo: {
+      type: String,
+      required: true
+    },
+    cantidad: {
+      type: String,
+      required: true
+    },
+    textoBoton: {
+      type: String,
+      default: 'Ver más'
+    }
+  },
+  methods: {
+    onClick() {
+      this.$emit('boton-click')
+    }
+  }
+}
+</script>
+
+<style scoped>
+.resumen-card {
+  flex-direction: column;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  width: 220px;
+  height: auto;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.icono {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.titulo {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+.subtitulo {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+.cantidad {
+  font-size: 12px;
+  color: #888;
+}
+.boton {
+  margin-top: 10px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.boton:hover {
+  background: #2563eb;
+}
+</style>

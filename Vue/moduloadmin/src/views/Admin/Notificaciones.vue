@@ -1,0 +1,18 @@
+<template>
+<h1>aquí van las notificaciones :) </h1>
+    
+</template>
+
+<script>
+    import LayoutSidebar from '../../layouts/LayoutSidebar.vue';
+
+    export default{ 
+        components:{
+            LayoutSidebar
+        }
+    }
+</script>
+
+<style>
+
+</style>
