@@ -1,0 +1,46 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding-left: 5px;
+}
+
+.dashboard-button {
+  padding: 15px;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.dashboard-button:hover {
+  background-color: #333333;
+  color: white;
+}
+
+.presenta-Perfil {
+  display: flex;
+  height: 100px;
+  width: 225px;
+  background-color: #ffffff;
+  color: #000000;
+  margin-top: 275px;
+  margin-left: 25px;
+}
