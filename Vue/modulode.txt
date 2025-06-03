@@ -1,3 +1,0 @@
-Nombre: Neysser Delgado
-
-Hace el modulo de Administrador
