@@ -2,7 +2,6 @@
     <div class="elemento-lista">
         <div class="icono">
             <slot name="icono">
-                <!-- Si no se pasa un slot, usa un ícono por defecto -->
                 📊
             </slot>
         </div>
@@ -13,27 +12,18 @@
     </div>
 </template>
 
-<script>
-import { withDirectives } from 'vue';
+<script setup lang="ts">
+    defineProps({
+        nombreEstablecimiento: String,
+        direccion: String,
+        estado: String
+    })
 
-export default{
-    name: "ElementoLista",
-    props: {
-        nombreEstablecimiento:{
-            type: String,
-            required: true
-        },
-        direccion:{
-            type: String,
-            required: true
-        },
-        estado:{
-            type: String,
-            required: true
-        }
+    const emit = defineEmits(['click'])
+    const onClick = () => {
+        emit('click')
     }
-}
-
+    
 </script>
 
 <style>

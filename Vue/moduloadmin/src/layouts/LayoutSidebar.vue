@@ -4,7 +4,7 @@
       <aside class="sidebar">
 
         <div class="sidebar-top">
-            <h2 class="app-name">Buen Provecho</h2>
+            <h2 class="app-name">ReAprovecha</h2>
 
             <nav class="menu">
             <RouterLink to="/dashboard" class="menu-item" active-class="active">🏠 Dashboard</RouterLink>
@@ -17,7 +17,7 @@
 
         <div class="sidebar-bottom">
             <div class="user-profile">
-            <img src="https://i.pravatar.cc/30" alt="user" class="avatar" />
+            <div class="avatar-static"></div>
             <div class="user-info">
                 <p class="user-name">Admin</p>
                 <p class="user-role">Administrador</p>
@@ -35,9 +35,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 //import { RouterLink } from 'vue-router'
-// Este layout se puede usar en cualquier vista envolviendo su contenido
 </script>
 
 <style scoped>
@@ -96,10 +95,11 @@
   padding: 0.75rem 0;
 }
 
-.avatar {
+.avatar-static {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  background-color: #007BFF;
 }
 
 .user-info {

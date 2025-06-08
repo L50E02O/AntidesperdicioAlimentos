@@ -1,24 +1,22 @@
 <template>
     <div class="contenido">
 
-      <h1>Resumen general</h1>
+      <h2>Resumen general</h2>
       <div class="resumen-general">
         <ResumenCard
-          titulo="Activos"
+          titulo="Habilitados"
           subtitulo="Establecimientos"
-          cantidad="24 activos"
+          cantidad="12 habilitados"
           textoBoton="Ver todos"
           @boton-click="verEstablecimientos">
-
           <template #icono>
-            
           </template>
         </ResumenCard>
 
         <ResumenCard
-          titulo="Solicitudes"
-          subtitulo="Pendientes"
-          cantidad="5 nuevas"
+          titulo="Habilitados"
+          subtitulo="Comerciantes"
+          cantidad="5 habilitados"
           textoBoton="Ver todos"
           @boton-click="revisarSolicitudes">
           <template #icono>
@@ -27,74 +25,30 @@
         </ResumenCard>
 
           <ResumenCard
-          titulo="Incidencias"
-          subtitulo="Pendientes"
+          titulo="Pendientes"
+          subtitulo="Incidencias"
           cantidad="3 sin ressolver"
           textoBoton="Ver todos"
           @boton-click="revisarSolicitudes">
           <template #icono>
-            📄
-          </template>
-        </ResumenCard>
-
-        <ResumenCard
-          titulo="Solicitudes"
-          subtitulo="Pendientes"
-          cantidad="5 nuevas"
-          textoBoton="Ver todos"
-          @boton-click="revisarSolicitudes">
-          <template #icono>
-            📄
           </template>
         </ResumenCard>
       </div>
 
-      <h1>Solicitudes recientes</h1>
-      <div class="solicidudes-recientes">
-        <ElementoLista
-          nombreEstablecimiento="Panadería"
-          direccion="Av. Central 123"
-          estado="Pendiente">
-
-          <template #icono>
-
-          </template>
-        </ElementoLista>
-
-        <ElementoLista
-          nombreEstablecimiento="Panadería"
-          direccion="Av. Central 123"
-          estado="Pendiente">
-
-          <template #icono>
-
-          </template>
-        </ElementoLista>
+      <h2>Notificaciones recientes</h2>
+      <div class="notificaciones-recientes">
       </div>
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import ResumenCard from '../../components/ResumenCard.vue';
-import LayoutSidebar from '../../layouts/LayoutSidebar.vue';
-import ElementoLista from '../../components/ElementoLista.vue';
 
-export default {
-    components: {
-    ResumenCard,
-    LayoutSidebar,
-    ElementoLista,
-  },
-
-  methods: {
-    verEstablecimientos() {
-      console.log('Ver todos los establecimientos')
-    },
-
-    revisarSolicitudes() {
-      console.log('Revisar solicitudes pendientes')
-    }
-  }
+const verEstablecimientos = () => {
+  alert('Ver todos los establecimientos habilitados');
+}
+const revisarSolicitudes = () => {
+  alert('Revisar todas las solicitudes pendientes');
 }
 </script>
 
@@ -112,7 +66,7 @@ export default {
   border-radius: 12px;
 }
 
-.solicidudes-recientes {
+.notificaciones-recientes {
   display: flex;
   width: 100%;
   flex-direction: column;

@@ -1,10 +1,12 @@
 <template>
   <div class="comerciante-card">
-    <div class="avatar-placeholder"></div>
+    <div class="icon"></div>
     <div class="info">
       <h3>{{ nombre }}</h3>
-      <p class="direccion">{{ establecimiento }}</p>
-      <p class="estado">Estado: <span class="pendiente">Pendiente</span></p>
+      <p class="contenido-datos">{{ direccion }}</p>
+      <p class="contenido-datos">Teléfono: {{ telefono }}</p>
+      <p class="contenido-datos">Email: {{ email }}</p>
+      <p class="contenido-datos">Estado: {{ estado }}</p>
       <div class="acciones">
         <button class="btn aprobar" @click="$emit('aprobar')">Aprobar</button>
         <button class="btn rechazar" @click="$emit('rechazar')">Rechazar</button>
@@ -13,11 +15,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 defineProps({
   nombre: String,
-  establecimiento: String,
+  direccion: String,
+  telefono: String,
+  email: String,
+  estado: String
 })
+
 </script>
 
 <style scoped>
@@ -35,7 +41,7 @@ defineProps({
   text-align: center;
 }
 
-.avatar-placeholder {
+.icon {
   width: 40px;
   height: 40px;
   background-color: #3b82f6;
@@ -47,7 +53,7 @@ defineProps({
   font-size: 1.1rem;
 }
 
-.direccion, .estado {
+.contenido-datos {
   font-size: 0.875rem;
   color: #666;
 }
@@ -55,7 +61,7 @@ defineProps({
 .acciones {
   margin-top: 0.8rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   gap: 0.5rem;
 }
 

@@ -2,7 +2,6 @@
   <div class="resumen-card">
     <div class="icono">
       <slot name="icono">
-        <!-- Si no se pasa un slot, usa un ícono por defecto -->
         📊
       </slot>
     </div>
@@ -15,33 +14,18 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ResumenCard',
-  props: {
-    titulo: {
-      type: String,
-      required: true
-    },
-    subtitulo: {
-      type: String,
-      required: true
-    },
-    cantidad: {
-      type: String,
-      required: true
-    },
-    textoBoton: {
-      type: String,
-      default: 'Ver más'
-    }
-  },
-  methods: {
-    onClick() {
-      this.$emit('boton-click')
-    }
+<script setup lang="ts">
+  defineProps({
+    titulo: String,
+    subtitulo: String,
+    cantidad: String,
+    textoBoton: String
+  })
+  
+  const emit = defineEmits(['boton-click'])
+  const onClick = () => {
+    emit('boton-click')
   }
-}
 </script>
 
 <style scoped>

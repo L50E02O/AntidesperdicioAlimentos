@@ -1,39 +1,39 @@
 <template>
   <div>
-    <!-- <nav class="breadcrumb">
-      <span>Dashboard</span> &gt; <span>Comerciantes</span>
-    </nav> -->
     <h2 class="title">Lista de Comerciantes</h2>
     <div class="cards-container">
       <ComercianteCard
         v-for="comerciante in comerciantes"
-        :key="comerciante.id"
+        :key="comerciante.id_comerciante"
         :nombre="comerciante.nombre"
-        :establecimiento="comerciante.establecimiento"
-        @aprobar="aprobarComerciante(comerciante.id)"
-        @rechazar="rechazarComerciante(comerciante.id)"
+        :direccion="comerciante.direccion"
+        :telefono="comerciante.telefono"
+        :email="comerciante.email"
+        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
+        @aprobar="aprobarComerciante(comerciante.id_comerciante)"
+        @rechazar="rechazarComerciante(comerciante.id_comerciante)"
       />
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ComercianteCard from '../../components/ComercianteCard.vue'
+import type {Comerciante} from '../../types/comerciante'
 
-const comerciantes = [
-  { id: 1, nombre: 'Juan Pérez', establecimiento: 'Mercado Central, Av. Libertad 123' },
-  { id: 2, nombre: 'Ana Gómez', establecimiento: 'Tienda Verde, Calle 45 #10' },
-  { id: 3, nombre: 'Carlos Ruiz', establecimiento: 'Frutería Ruiz, Av. Sol 77' },
-  { id: 4, nombre: 'Lucía Torres', establecimiento: 'Panadería Dulce, Calle Luna 8' },
-  { id: 5, nombre: 'Miguel Ángel', establecimiento: 'Verduras Frescas, Av. Norte 22' },
+const comerciantes: Comerciante[] = [
+  {id_comerciante: "1234567890", nombre: 'Juan Pérez', direccion: 'Mercado Central, Av. Libertad 123', telefono: '987654321', email: 'juan@gmail.com', habilitado: false},
+  {id_comerciante: "0987654321", nombre: 'María López', direccion: 'Plaza Mayor, Calle Real 456', telefono: '123456789', email: 'maria@gmail.com', habilitado: false},
+  {id_comerciante: "1122334455", nombre: 'Carlos García', direccion: 'Barrio Nuevo, Av. Sol 789', telefono: '456789123', email: 'carlos@gmail.com', habilitado: false},
+  {id_comerciante: "5566778899", nombre: 'Ana Torres', direccion: 'Zona Industrial, Calle Fuerte 321', telefono: '321654987', email: 'ana@gmail.com', habilitado: false}
 ]
 
-const aprobarComerciante = (id) => {
+const aprobarComerciante = (id:string) => {
   console.log(`Aprobado comerciante ID ${id}`)
   // lógica para aprobar
 }
 
-const rechazarComerciante = (id) => {
+const rechazarComerciante = (id:string) => {
   console.log(`Rechazado comerciante ID ${id}`)
   // lógica para rechazar
 }

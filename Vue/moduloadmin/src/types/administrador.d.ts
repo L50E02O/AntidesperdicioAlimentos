@@ -1,5 +1,5 @@
 export interface Administrator {
-  id_administrador: number;
+  id_administrador: string;
   nombre: string;
   apellido: string;
   correo: string;
