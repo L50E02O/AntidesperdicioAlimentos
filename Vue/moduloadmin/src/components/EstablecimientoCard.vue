@@ -7,8 +7,8 @@
       <p class="contenido-datos">Horario: {{ horario }}</p>
       <p class="contenido-datos">Estado: {{ estado }}</p>
       <div class="acciones">
-        <button class="btn inventario" @click="$emit('aprobar')">Inventario</button>
-        <button class="btn deshabilitar" @click="$emit('rechazar')">Deshabilitar</button>
+        <button class="btn inventario" @click="$emit('inventario')">Inventario</button>
+        <button class="btn deshabilitar" @click="$emit('deshabilitar')">Deshabilitar</button>
       </div>
     </div>
   </div>

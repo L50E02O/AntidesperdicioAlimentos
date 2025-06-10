@@ -9,12 +9,14 @@
 
     <div v-if="activeTab === 'habilitados'" class="lista">
       <EstablecimientosCard
-        v-for="(establecimiento, id_establecimiento) in habilitado"
+        v-for="(establecimiento, id_establecimiento) in habilitados"
         :key="id_establecimiento"
         :nombre="establecimiento.nombre"
         :direccion="establecimiento.direccion"
         :horario="establecimiento.horario"
         :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
+        @inventario=""
+        @deshabilitar="deshabilitar(establecimiento)"
       />
     </div>
 
@@ -26,39 +28,101 @@
         :direccion="establecimiento.direccion"
         :horario="establecimiento.horario"
         :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @aceptar="aceptar(establecimiento)"
-        @rechazar="rechazar(establecimiento)"
+        @habilitar="habilitar(establecimiento)"
+        @eliminar="eliminar(establecimiento)"
       />
     </div>    
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import {supabase} from '../../config/supabase'
 import EstablecimientosCard from '../../components/EstablecimientoCard.vue'
 import EstablecimientoDeshabilitadoRow from '../../components/EstablecimientoDeshabilitadoRow.vue'
 import type { Establecimiento } from '../../types/establecimiento'
+import {ref, onMounted} from 'vue'
 
 const activeTab = ref('habilitados')
 
-const habilitado: Establecimiento[] = [
-  {id_establecimiento:1, nombre: 'Café Aroma', direccion: 'Calle Norte 45', horario: '08:00-20:00', id_inventario: 1, id_comerciante:'1234567890', habilitado:true},
-  {id_establecimiento:2, nombre: 'Mercado Verde', direccion: 'Av. Bosque 88', horario: '08:30-21:00', id_inventario: 2, id_comerciante:'0987654321', habilitado:true},
-  {id_establecimiento:3, nombre: 'Panadería Dulce', direccion: 'Calle Sol 30', horario: '07:00-19:00', id_inventario: 3, id_comerciante:'1122334455', habilitado:true},
-  {id_establecimiento:4, nombre: 'Librería Sabia', direccion: 'Calle Luna 15', horario: '09:00-18:00', id_inventario: 4, id_comerciante:'5566778899', habilitado:true}
-]
+const habilitados = ref<Establecimiento>([])
+const deshabilitados = ref<Establecimiento>([])
 
-const deshabilitados: Establecimiento[] = [
-  {id_establecimiento:3, nombre: 'Panadería Dulce', direccion: 'Calle Sol 30', horario: '07:00-19:00', id_inventario: 3, id_comerciante:'1122334455', habilitado:false},
-  {id_establecimiento:3, nombre: 'Panadería Dulce', direccion: 'Calle Sol 30', horario: '07:00-19:00', id_inventario: 3, id_comerciante:'1122334455', habilitado:false},
-]
+// Cargar los establecimientos habilitados al montar el componente
+onMounted(async () => {
+  const { data, error } = await supabase
+    .from('establecimiento')
+    .select('*')
+    .order('id_establecimiento', { ascending: true })
+    .eq('habilitado', true)
+  if (error) {
+    console.error(error)}
+  else {
+    console.log("Se obtenieron los establecimiento habilitados correctamente")
+    habilitados.value = data || []
+    console.log(data)
+  }
+})
 
-function aceptar(establecimiento: Establecimiento) {
-  alert(`Aceptado: ${establecimiento.nombre}`)
+onMounted(async () => {
+  const { data, error } = await supabase
+    .from('establecimiento')
+    .select('*')
+    .order('id_establecimiento', { ascending: true })
+    .eq('habilitado', false)
+  if (error) {
+    console.error(error)}
+  else {
+    console.log("Se obtenieron los establecimientos deshabilitados correctamente")
+    deshabilitados.value = data || []
+    console.log(data)
+  }
+})
+
+async function habilitar(establecimiento: Establecimiento){
+  const {error} = await supabase
+  .from("establecimiento")
+  .update({habilitado:true})
+  .eq("id_establecimiento", establecimiento.id_establecimiento)
+  if (error){
+    console.error("No se pudo habilitar el establecimiento:", error)
+  }else{
+    alert(`Establecimiento ${establecimiento.nombre} habilitado correctamente`)
+    // Actualizar la lista de habilitados
+    const index = habilitados.value.findIndex(e => e.id_establecimiento === establecimiento.id_establecimiento);
+  }
 }
-function rechazar(establecimiento: Establecimiento) {
-  alert(`Rechazado: ${establecimiento.nombre}`)
+
+async function deshabilitar(establecimiento: Establecimiento){
+  const {error} = await supabase
+  .from("establecimiento")
+  .update({habilitado:false})
+  .eq("id_establecimiento", establecimiento.id_establecimiento)
+  if (error){
+    console.error("No se pudo deshabilitar el establecimiento:", error)
+  }else{
+    alert(`Establecimiento ${establecimiento.nombre} deshabilitado correctamente`)
+    // Actualizar la lista de deshabilitados
+    const index = deshabilitados.value.findIndex(e => e.id_establecimiento === establecimiento.id_establecimiento);
+  }
 }
+
+async function eliminar(establecimiento: Establecimiento){
+  const {error} = await supabase
+  .from("establecimiento")
+  .delete()
+  .eq("id_establecimiento", establecimiento.id_establecimiento)
+  if (error){
+    console.error("No se pudo eliminar el establecimiento:", error)
+  }else{
+    alert(`Establecimiento ${establecimiento.nombre} eliminado correctamente`)
+    // Actualizar la lista de deshabilitados
+    const index = deshabilitados.value.findIndex(e => e.id_establecimiento === establecimiento.id_establecimiento);
+    if (index !== -1) {
+      deshabilitados.value.splice(index, 1);
+    }
+  }
+}
+
 </script>
 
 <style scoped>

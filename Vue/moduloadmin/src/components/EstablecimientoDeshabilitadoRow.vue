@@ -5,8 +5,8 @@
     <div>{{ horario }}</div>
     <div>{{ estado }}</div>
     <div class="acciones">
-      <button class="habilitar" @click="$emit('Habilitar')">Habilitar</button>
-      <button class="deshabilitar" @click="$emit('Eliminar')">Eliminar</button>
+      <button class="habilitar" @click="$emit('habilitar')">Habilitar</button>
+      <button class="eliminar" @click="$emit('eliminar')">Eliminar</button>
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@ defineProps({
   color: white;
 }
 
-.deshabilitar{
+.eliminar{
   background-color: #e0e7ff;
   color: #3b82f6;
 }
