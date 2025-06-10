@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     const { data, error } = await this.supabase.getSupabase()
-      .from('producto') // Reemplaza con el nombre de tu tabla
+      .from('establecimiento') // Reemplaza con el nombre de tu tabla
       .select('*');
 
     if (error) {

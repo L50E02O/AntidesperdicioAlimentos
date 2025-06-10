@@ -6,7 +6,7 @@
 */
 /* Import Google Font if not already globally available */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
+    
 :host { /* Styles applied to the component's host element itself */
     display: flex; /* Makes <app-dashboard> behave like a flex container */
     width: 100%;

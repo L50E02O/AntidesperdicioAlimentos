@@ -1,3 +1,0 @@
-Nombre: Leo Holguin
-
-Hace el modulo de Comerciante
