@@ -15,7 +15,8 @@
   flex-direction: column;
   margin: 0;
   padding-left: 5px;
-}
+  border-right: 1px rgb();
+  }
 
 .dashboard-button {
   padding: 15px;

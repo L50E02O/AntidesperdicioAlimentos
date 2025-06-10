@@ -1,17 +1,30 @@
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import './Productos.css';
-import React from 'react';
-const ProductosEjemplo = [
-    {
-        Nombre: "Ensalada mixta",
-        Cantidad: "5 porciones",
-        fecha: "2023-10-01",
-        Ubicacion: "Cocina",
-        Tipo: "Reservar",
-        icono: "🥗"
-    }
-];
+
+const supabaseUrl = 'https://ghnczjiqciwtjwnpqexg.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdobmN6amlxY2l3dGp3bnBxZXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5MjIyOTQsImV4cCI6MjA2NDQ5ODI5NH0.nV_PXemJ_-NIt6qZZRLLfvSptcE4cObVdAm5zBaQq98';
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function Productos() {
+    const [productos, setProductos] = useState([]);
+
+    useEffect(() => {
+        const fetchProductos = async () => {
+            const { data, error} = await supabase
+                .from('producto')
+                .select('*');
+            
+            if (error) {
+                console.error('Error al obtener productos:', error.message);
+            } else {
+                setProductos(data);
+            }
+        };
+
+        fetchProductos();
+    }, []);
     return (
         <div className="Productos-Container">
             <h2 className="Titulo-Busqueda">Buscar productos</h2>
@@ -26,14 +39,14 @@ function Productos() {
 
             <h3 className="Titulo-Disponibles">Productos Disponibles</h3>
             <div className="Tarjetas-Productos">
-                {ProductosEjemplo.map((producto, index) => (
+                {productos.map((producto, index) => (
                     <div key={index} className="Tarjeta">
-                        <div className="Icono">{producto.icono}</div>
-                        <h4>{producto.Nombre}</h4>
-                        <p>Cantidad: {producto.Cantidad}</p>
-                        <p>Consumir antes: {producto.fecha}</p>
-                        <p>Ubicacion: {producto.Ubicacion}</p>
-                        <button className="btn-accion">{producto.Tipo}</button>
+                        <div className="Icono">🍽️</div>
+                        <h4>{producto.nombre}</h4>
+                        <p>Precio: ${producto.precio}</p>
+                        <p>Stock: {producto.stock}</p>
+                        <p>Descripcion: {producto.descripcion}</p>
+                        <button className="btn-accion">Reservar</button>
                     </div>
                 ))}
             </div>

@@ -11,8 +11,8 @@ function App() {
         <h2>ReAprovecha</h2>
         <button className="dashboard-button" onClick={() => setVistaActual("Inicio")}>🏠 Inicio</button>
         <button className="dashboard-button" onClick={() => setVistaActual("Productos")}>🛒 Productos</button>
-        <button className="dashboard-button">🔔 Notificaciones</button>
-        <button className="dashboard-button">👤 Perfil</button>
+        <button className="dashboard-button" onClick={() => setVistaActual("Notificaciones")}>🔔 Notificaciones</button>
+        <button className="dashboard-button" onClick={() => setVistaActual("Perfil")}>👤 Perfil</button>
 
         <div className="presenta-Perfil">
           <h3>Perfil y Foto</h3>
