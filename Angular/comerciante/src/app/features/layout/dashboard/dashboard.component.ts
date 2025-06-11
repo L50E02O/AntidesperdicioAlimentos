@@ -1,19 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common'; // Import CommonModule or NgForOf
-
-interface NavItem {
-  label: string;
-  route: string;
-  active: boolean;
-}
-
-interface DashboardCard {
-  title: string;
-  subtitle: string;
-  buttonText: string;
-  iconClass?: string;
-  action?: () => void;
-}
+import { NavItem } from '../../../core/models/INavItem.model'; 
+import { DashboardCard } from '../../../core/models/IDashboardCard.model'; // Assuming you have these interfaces defined
 
 @Component({
   selector: 'app-dashboard',

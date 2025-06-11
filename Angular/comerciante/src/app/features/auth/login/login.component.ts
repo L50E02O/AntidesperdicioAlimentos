@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LoginService } from '../../../core/services/auth.service/login.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,15 +15,14 @@ export class LoginComponent {
   id_comerciante: string = '';
   password: string = '';
   error: string = '';
-
-  constructor(private loginService: LoginService) {}
-
+  constructor(private loginService: LoginService, private router: Router) {}
   async onSubmit() {
     try {
       const loginExitoso = await this.loginService.login(this.id_comerciante);
       if (loginExitoso) {
         this.error = 'Credenciales correctas';
-        // Aquí podrías redirigir al usuario a otra página o realizar alguna acción adicional
+        this.router.navigate(['/dashboard']);
+
       } else {
         this.error = 'Credenciales incorrectas';
       }
