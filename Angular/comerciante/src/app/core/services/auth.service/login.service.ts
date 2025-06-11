@@ -7,12 +7,13 @@ import { SupabaseService } from '../supabase.service';
 export class LoginService {
   constructor(private supabase: SupabaseService) {}
 
-  async login(id_comerciante: string): Promise<boolean> {
+  async login(id_comerciante: string, password: string): Promise<boolean> {
     const { data, error } = await this.supabase
       .getSupabase()
       .from('comerciante')
-      .select('id_comerciante')
-      .eq('id_comerciante', id_comerciante)
+      .select('id_comerciante, password')
+      .eq('id_comerciante', id_comerciante || '')
+      .eq('password', password || '')
       .single();
 
     if (error && error.code !== 'PGRST116') { // PGRST116: No rows found

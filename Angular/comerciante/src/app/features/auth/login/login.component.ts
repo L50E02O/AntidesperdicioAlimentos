@@ -18,7 +18,7 @@ export class LoginComponent {
   constructor(private loginService: LoginService, private router: Router) {}
   async onSubmit() {
     try {
-      const loginExitoso = await this.loginService.login(this.id_comerciante);
+      const loginExitoso = await this.loginService.login(this.id_comerciante, this.password);
       if (loginExitoso) {
         this.error = 'Credenciales correctas';
         this.router.navigate(['/dashboard']);
