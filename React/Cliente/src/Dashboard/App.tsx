@@ -1,6 +1,7 @@
 import './App.css';
 import { useState } from 'react';
-import Productos from './Productos';
+import Productos from '../Productos/Productos';
+import Perfil from '../Perfil/perfil';
 
 
 function App() {
@@ -15,13 +16,23 @@ function App() {
         <button className="dashboard-button" onClick={() => setVistaActual("Perfil")}>👤 Perfil</button>
 
         <div className="presenta-Perfil">
-          <h3>Perfil y Foto</h3>
+            <img
+              src="https://via.placeholder.com/40"
+              alt="Foto de perfil"
+              className="foto-mini"
+            />
+          <div>
+            <p className="nombre-mini">María López</p>
+            <p className="rol-mini">Usuario</p>
+          </div>
         </div>
+
 
 
       </div>
 
       {vistaActual === "Productos" && <Productos />}
+      {vistaActual === "Perfil" && <Perfil />}
     </div>
   )
 }

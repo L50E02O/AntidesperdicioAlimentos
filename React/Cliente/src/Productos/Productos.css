@@ -12,12 +12,30 @@
     
 }
 
-.input-Busqueda {
-    padding: 10px;
-    margin: 10px 0;
-    width: 100%;
+.BarraBusqueda {
+    display: flex;
+    align-items: center;
+    background-color: white;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    padding: 8px 12px;
+    border-radius: 9999px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Input-Busqueda {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+.IconoLupa {
+  color: #aaa;
+  margin-right: 8px;
 }
 
 .Filtros {
