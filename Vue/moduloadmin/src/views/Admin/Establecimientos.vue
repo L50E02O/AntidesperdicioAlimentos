@@ -15,7 +15,6 @@
         :direccion="establecimiento.direccion"
         :horario="establecimiento.horario"
         :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @inventario=""
         @deshabilitar="deshabilitar(establecimiento)"
       />
     </div>
@@ -31,103 +30,36 @@
         @habilitar="habilitar(establecimiento)"
         @eliminar="eliminar(establecimiento)"
       />
-    </div>    
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {supabase} from '../../config/supabase'
-import EstablecimientosCard from '../../components/EstablecimientoCard.vue'
-import EstablecimientoDeshabilitadoRow from '../../components/EstablecimientoDeshabilitadoRow.vue'
+import { ref, onMounted } from 'vue'
+import EstablecimientosCard from '../../components/establecimiento/EstablecimientoCard.vue'
+import EstablecimientoDeshabilitadoRow from '../../components/establecimiento/EstablecimientoDeshabilitadoRow.vue'
 import type { Establecimiento } from '../../types/establecimiento'
-import {ref, onMounted} from 'vue'
+import {
+  obtenerEstablecimientosHabilitados,
+  obtenerEstablecimientosDeshabilitados,
+  habilitar,
+  deshabilitar,
+  eliminar,
+} from '../../services/servicioEstablecimiento'
 
 const activeTab = ref('habilitados')
-
-const habilitados = ref<Establecimiento>([])
-const deshabilitados = ref<Establecimiento>([])
-
-// Cargar los establecimientos habilitados al montar el componente
-onMounted(async () => {
-  const { data, error } = await supabase
-    .from('establecimiento')
-    .select('*')
-    .order('id_establecimiento', { ascending: true })
-    .eq('habilitado', true)
-  if (error) {
-    console.error(error)}
-  else {
-    console.log("Se obtenieron los establecimiento habilitados correctamente")
-    habilitados.value = data || []
-    console.log(data)
-  }
-})
+const habilitados = ref<Establecimiento[]>([])
+const deshabilitados = ref<Establecimiento[]>([])
 
 onMounted(async () => {
-  const { data, error } = await supabase
-    .from('establecimiento')
-    .select('*')
-    .order('id_establecimiento', { ascending: true })
-    .eq('habilitado', false)
-  if (error) {
-    console.error(error)}
-  else {
-    console.log("Se obtenieron los establecimientos deshabilitados correctamente")
-    deshabilitados.value = data || []
-    console.log(data)
-  }
+  habilitados.value = await obtenerEstablecimientosHabilitados()
+  deshabilitados.value = await obtenerEstablecimientosDeshabilitados()
 })
-
-async function habilitar(establecimiento: Establecimiento){
-  const {error} = await supabase
-  .from("establecimiento")
-  .update({habilitado:true})
-  .eq("id_establecimiento", establecimiento.id_establecimiento)
-  if (error){
-    console.error("No se pudo habilitar el establecimiento:", error)
-  }else{
-    alert(`Establecimiento ${establecimiento.nombre} habilitado correctamente`)
-    // Actualizar la lista de habilitados
-    const index = habilitados.value.findIndex(e => e.id_establecimiento === establecimiento.id_establecimiento);
-  }
-}
-
-async function deshabilitar(establecimiento: Establecimiento){
-  const {error} = await supabase
-  .from("establecimiento")
-  .update({habilitado:false})
-  .eq("id_establecimiento", establecimiento.id_establecimiento)
-  if (error){
-    console.error("No se pudo deshabilitar el establecimiento:", error)
-  }else{
-    alert(`Establecimiento ${establecimiento.nombre} deshabilitado correctamente`)
-    // Actualizar la lista de deshabilitados
-    const index = deshabilitados.value.findIndex(e => e.id_establecimiento === establecimiento.id_establecimiento);
-  }
-}
-
-async function eliminar(establecimiento: Establecimiento){
-  const {error} = await supabase
-  .from("establecimiento")
-  .delete()
-  .eq("id_establecimiento", establecimiento.id_establecimiento)
-  if (error){
-    console.error("No se pudo eliminar el establecimiento:", error)
-  }else{
-    alert(`Establecimiento ${establecimiento.nombre} eliminado correctamente`)
-    // Actualizar la lista de deshabilitados
-    const index = deshabilitados.value.findIndex(e => e.id_establecimiento === establecimiento.id_establecimiento);
-    if (index !== -1) {
-      deshabilitados.value.splice(index, 1);
-    }
-  }
-}
-
 </script>
 
-<style scoped>
 
-.establecimientos {
+<style scoped>
+.comerciantes {
   padding: 1rem;
 }
 .tabs {
@@ -149,8 +81,12 @@ async function eliminar(establecimiento: Establecimiento){
 .lista {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 .solicitudes {
   margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 </style>

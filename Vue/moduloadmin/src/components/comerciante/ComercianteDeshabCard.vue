@@ -8,8 +8,8 @@
       <p class="contenido-datos">Email: {{ email }}</p>
       <p class="contenido-datos">Estado: {{ estado }}</p>
       <div class="acciones">
-        <button class="btn aprobar" @click="$emit('aprobar')">Aprobar</button>
-        <button class="btn rechazar" @click="$emit('rechazar')">Rechazar</button>
+        <button class="btn habilitar" @click="$emit('habilitar')">habilitar</button>
+        <button class="btn eliminar" @click="$emit('eliminar')">Eliminar</button>
       </div>
     </div>
   </div>
@@ -73,12 +73,12 @@ defineProps({
   cursor: pointer;
 }
 
-.aprobar {
+.habilitar {
   background-color: #3b82f6;
   color: white;
 }
 
-.rechazar {
+.eliminar {
   background-color: #e0e7ff;
   color: #3b82f6;
 }
