@@ -30,8 +30,8 @@ function Productos() {
         <div className="Productos-Container">
             <h2 className="Titulo-Busqueda">Buscar productos</h2>
             <div className = "BarraBusqueda">
-                <Search classname="IconoLupa" size={20} />
                 <input className="Input-Busqueda" placeholder="Nombre o palabra clave" />
+                <Search classname="IconoLupa" size={20} />
             </div>
             <div className="Filtros">
                 <button>Comida preparada</button>
@@ -51,6 +51,7 @@ function Productos() {
                         <p>Stock: {producto.stock}</p>
                         <p>Descripcion: {producto.descripcion}</p>
                         <button className="btn-accion">Reservar</button>
+                        <button className="Boton-Detalles">Detalles</button>
                     </div>
                 ))}
             </div>

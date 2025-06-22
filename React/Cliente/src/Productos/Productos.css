@@ -93,3 +93,16 @@
     border-radius: 8px;
     cursor: pointer;
 }
+
+.Boton-Detalles {
+  background-color: #e0e7ff;
+  color: #3b4cd1;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.Boton-Detalles:hover {
+  background-color: #d0dbff;
+}

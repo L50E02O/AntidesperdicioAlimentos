@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import Productos from '../Productos/Productos';
 import Perfil from '../Perfil/perfil';
+import Inicio from '../Inicio/Inicio';
 
 
 function App() {
@@ -30,6 +31,13 @@ function App() {
 
 
       </div>
+
+      {vistaActual === "Inicio" && (
+      <div>
+          <h1 className="bienvenida">Bienvenido a ReAprovecha</h1>
+        <Inicio />
+      </div>
+      )}
 
       {vistaActual === "Productos" && <Productos />}
       {vistaActual === "Perfil" && <Perfil />}
