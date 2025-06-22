@@ -2,12 +2,12 @@
   <h2>Iniciar sesión</h2>
   <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
     <div class="form-group">
-      <label for="id_comerciante">ID Comerciante</label>
+      <label for="usuario">Usuario</label>
       <input
         type="text"
-        id="id_comerciante"
-        name="id_comerciante"
-        [(ngModel)]="id_comerciante"
+        id="usuario"
+        name="usuario"
+        [(ngModel)]="usuario"
         required
         autocomplete="username"
       />

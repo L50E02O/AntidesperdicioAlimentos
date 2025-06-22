@@ -7,12 +7,12 @@ import { SupabaseService } from '../supabase.service';
 export class LoginService {
   constructor(private supabase: SupabaseService) {}
 
-  async login(id_comerciante: string, password: string): Promise<any> {
+  async login(usuario: string, password: string): Promise<any> {
     const { data, error } = await this.supabase
       .getSupabase()
       .from('comerciante')
       .select('*')
-      .eq('id_comerciante', id_comerciante || '')
+      .eq('usuario', usuario || '')
       .eq('password', password || '')
       .single();
 

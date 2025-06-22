@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  id_comerciante: string = '';
+  usuario: string = '';
   password: string = '';
   error: string = '';
   constructor(
@@ -24,7 +24,7 @@ export class LoginComponent {
 
   async onSubmit() {
     try {
-      const usuario = await this.loginService.login(this.id_comerciante, this.password);
+      const usuario = await this.loginService.login(this.usuario, this.password);
       if (usuario) {
         this.authService.setUsuario(usuario); // Guarda el usuario
         this.error = 'Credenciales correctas';
