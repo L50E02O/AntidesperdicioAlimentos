@@ -1,0 +1,108 @@
+.Productos-Container {
+    padding: 20px;
+    background-color: #fafafa;
+    flex-grow: 1;
+}
+
+.Titulo-Busqueda {
+    color: #003399;
+    font-size: 20px;
+    background-color: #e7f0ff;
+    padding: 10px
+    
+}
+
+.BarraBusqueda {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 9999px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Input-Busqueda {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+.IconoLupa {
+  color: #aaa;
+  margin-right: 8px;
+}
+
+.Filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.Filtros button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f0f0ff;
+    color: #0033cc;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.Filtros button:hover {
+    background-color: #e0e0ff;
+}
+
+
+.Titulo-Disponibles {
+    color: green;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.Tarjetas-Productos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.Tarjeta {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.Icono {
+    font-size: 30px;
+}
+
+.btn-accion {
+    margin-top: 10px;
+    background-color: #2a40f9;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.Boton-Detalles {
+  background-color: #e0e7ff;
+  color: #3b4cd1;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.Boton-Detalles:hover {
+  background-color: #d0dbff;
+}

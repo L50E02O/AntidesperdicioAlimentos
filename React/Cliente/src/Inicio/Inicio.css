@@ -1,0 +1,105 @@
+.Inicio-Container {
+  padding: 2rem;
+  flex-grow: 1;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.Titulo-Inicio {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #111;
+}
+
+.Filtros-Busqueda {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.Input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  flex: 1;
+  min-width: 180px;
+}
+
+.Subtitulo {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.Tarjetas-Contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.Tarjeta-Producto {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  width: 250px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.Tarjeta-Producto:hover {
+  transform: translateY(-3px);
+}
+
+.Icono-Categoria {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.Producto-Nombre {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.Producto-Texto {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 0.3rem;
+}
+
+.Botones {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.Boton-Reservar {
+  background-color: #3b4cd1;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.Boton-Reservar:hover {
+  background-color: #2a38a8;
+}
+
+.Boton-Detalles {
+  background-color: #e0e7ff;
+  color: #3b4cd1;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.Boton-Detalles:hover {
+  background-color: #d0dbff;
+}
