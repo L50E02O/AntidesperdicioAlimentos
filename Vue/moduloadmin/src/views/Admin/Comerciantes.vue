@@ -1,60 +1,100 @@
 <template>
-  <div>
-    <h2 class="title">Lista de Comerciantes</h2>
-    <div class="cards-container">
+  <div class="comerciantes">
+    <h2>Gestión de Comerciantes</h2>
+
+    <div class="tabs">
+      <button :class="{ active: activeTab === 'habilitados' }" @click="activeTab = 'habilitados'">Habilitados</button>
+      <button :class="{ active: activeTab === 'deshabilitados' }" @click="activeTab = 'deshabilitados'">Deshabilitados</button>
+    </div>
+
+    <div>
+      <RouterLink to="/form-crear-comerciante" >Crear Comerciante</RouterLink>
+    </div>
+
+    <div v-if="activeTab === 'habilitados'" class="lista">
       <ComercianteCard
-        v-for="comerciante in comerciantes"
-        :key="comerciante.id_comerciante"
+        v-for="(comerciante, id_comerciante) in habilitados"
+        :key="id_comerciante"
+        :nombre="comerciante.nombre"
+        :id="comerciante.id_comerciante"
+        :direccion="comerciante.direccion"
+        :telefono="comerciante.telefono"
+        :email="comerciante.email"
+        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
+        @deshabilitar="deshabilitar(comerciante)"
+        @eliminar="eliminar(comerciante)"
+      />
+    </div>
+
+    <div v-if="activeTab === 'deshabilitados'" class="solicitudes">
+      <ComercianteDeshabCard
+        v-for="(comerciante, id_comerciante) in deshabilitados"
+        :key="id_comerciante"
         :nombre="comerciante.nombre"
         :direccion="comerciante.direccion"
         :telefono="comerciante.telefono"
         :email="comerciante.email"
         :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @aprobar="aprobarComerciante(comerciante.id_comerciante)"
-        @rechazar="rechazarComerciante(comerciante.id_comerciante)"
+        @habilitar="habilitar(comerciante)"
+        @eliminar="eliminar(comerciante)"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import ComercianteCard from '../../components/ComercianteCard.vue'
-import type {Comerciante} from '../../types/comerciante'
+import { ref, onMounted } from 'vue'
+import ComercianteCard from '../../components/comerciante/ComercianteCard.vue'
+import ComercianteDeshabCard from '../../components/comerciante/ComercianteDeshabCard.vue'
+import type { Comerciante } from '../../types/comerciante'
 
-const comerciantes: Comerciante[] = [
-  {id_comerciante: "1234567890", nombre: 'Juan Pérez', direccion: 'Mercado Central, Av. Libertad 123', telefono: '987654321', email: 'juan@gmail.com', habilitado: false},
-  {id_comerciante: "0987654321", nombre: 'María López', direccion: 'Plaza Mayor, Calle Real 456', telefono: '123456789', email: 'maria@gmail.com', habilitado: false},
-  {id_comerciante: "1122334455", nombre: 'Carlos García', direccion: 'Barrio Nuevo, Av. Sol 789', telefono: '456789123', email: 'carlos@gmail.com', habilitado: false},
-  {id_comerciante: "5566778899", nombre: 'Ana Torres', direccion: 'Zona Industrial, Calle Fuerte 321', telefono: '321654987', email: 'ana@gmail.com', habilitado: false}
-]
+import {
+  obtenerComerciantesHabilitados,
+  obtenerComerciantesDeshabilitados,
+  habilitar,
+  deshabilitar,
+  eliminar,
+} from '../../services/servicioComerciante'
 
-const aprobarComerciante = (id:string) => {
-  console.log(`Aprobado comerciante ID ${id}`)
-  // lógica para aprobar
-}
+const activeTab = ref('habilitados')
+const habilitados = ref<Comerciante[]>([])
+const deshabilitados = ref<Comerciante[]>([])
 
-const rechazarComerciante = (id:string) => {
-  console.log(`Rechazado comerciante ID ${id}`)
-  // lógica para rechazar
-}
+onMounted(async () => {
+  habilitados.value = await obtenerComerciantesHabilitados()
+  deshabilitados.value = await obtenerComerciantesDeshabilitados()
+})
 </script>
 
 <style scoped>
-.breadcrumb {
-  color: #666;
-  font-size: 0.875rem;
+.comerciantes {
+  padding: 1rem;
+}
+.tabs {
+  display: flex;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
-
-.title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
+.tabs button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem;
+  cursor: pointer;
 }
-
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
+.tabs button.active {
+  border-color: black;
+  font-weight: bold;
+}
+.lista {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.solicitudes {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 </style>

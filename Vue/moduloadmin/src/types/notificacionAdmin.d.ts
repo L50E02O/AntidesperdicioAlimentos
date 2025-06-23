@@ -1,5 +1,5 @@
 // src/types/notification.d.ts
-export interface Notificacion_admin {
+export interface NotificacionAdmin {
   id_notificacion: number;
   mensaje: string;
   fecha_envio: string; 
