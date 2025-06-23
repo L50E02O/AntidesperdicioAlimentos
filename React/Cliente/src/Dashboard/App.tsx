@@ -3,11 +3,14 @@ import { useState } from 'react';
 import Productos from '../Productos/Productos';
 import Perfil from '../Perfil/perfil';
 import Inicio from '../Inicio/Inicio';
+import Notificaciones from '../Notificaciones/Notificaciones';
 
 
 function App() {
   const [vistaActual, setVistaActual] = useState("Inicio");
+
   return (
+
     <div className="App">
       <div className="sidebar">
         <h2>ReAprovecha</h2>
@@ -31,7 +34,6 @@ function App() {
 
 
       </div>
-
       {vistaActual === "Inicio" && (
       <div>
           <h1 className="bienvenida">Bienvenido a ReAprovecha</h1>
@@ -41,6 +43,7 @@ function App() {
 
       {vistaActual === "Productos" && <Productos />}
       {vistaActual === "Perfil" && <Perfil />}
+      {vistaActual === "Notificaciones" && <Notificaciones />}
     </div>
   )
 }
