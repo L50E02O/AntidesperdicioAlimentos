@@ -1,29 +1,17 @@
-import './Inicio.css';
+import '../../styles/Inicio.css';
+import type { Producto } from '../../types/productoT';
 import { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { getProducts } from '../../data/base-datos';
 import { Search, MapPin, CircleCheck, Shapes } from 'lucide-react';
 
-const supabaseUrl = 'https://ghnczjiqciwtjwnpqexg.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdobmN6amlxY2l3dGp3bnBxZXhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5MjIyOTQsImV4cCI6MjA2NDQ5ODI5NH0.nV_PXemJ_-NIt6qZZRLLfvSptcE4cObVdAm5zBaQq98';
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-//else setProductos(data);
-
-function Inicio() {
-  const [productos, setProductos] = useState([]);
+const Inicio = () => {
+  const [productos, setProductos] = useState<Producto[]>([]);
 
   useEffect(() => {
     const fetchProductos = async () => {
-        const { data, error } = await supabase
-        .from('producto')
-        .select('*');
-
-    if (error) {
-        console.error('Error:', error.message);
-    } else {
-        console.log('Productos recibidos:', data);
-        setProductos(data);
-    }
+        const productos = await getProducts();
+        setProductos(productos);
 };
 
     fetchProductos();
