@@ -15,6 +15,7 @@
         :direccion="establecimiento.direccion"
         :horario="establecimiento.horario"
         :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
+        :id_inventario="establecimiento.id_inventario"
         @deshabilitar="deshabilitar(establecimiento)"
       />
     </div>

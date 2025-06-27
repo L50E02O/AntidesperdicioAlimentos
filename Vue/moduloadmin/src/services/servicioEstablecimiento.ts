@@ -1,6 +1,7 @@
 // src/services/servicioEstablecimiento.ts
 import { supabase } from '../config/supabase'
 import type { Establecimiento } from '../types/establecimiento'
+import type { Inventario } from '../types/inventario'
 
 export async function obtenerEstablecimientosHabilitados(): Promise<Establecimiento[]> {
   const { data, error } = await supabase
@@ -64,3 +65,4 @@ export async function eliminar(establecimiento: Establecimiento) {
 
   alert(`Establecimiento ${establecimiento.nombre} eliminado correctamente`)
 }
+

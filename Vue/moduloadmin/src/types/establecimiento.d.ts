@@ -1,9 +1,9 @@
 export interface Establecimiento {
-    id_establecimiento: number;
+    id_establecimiento: string;
     nombre: string;
     direccion: string;
     horario: string;
-    id_inventario: number;
+    id_inventario: string;
     id_comerciante: string;
     habilitado: boolean;
 }
