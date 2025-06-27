@@ -3,6 +3,7 @@ export interface Administrator {
   nombre: string;
   apellido: string;
   correo: string;
+  usuario: string;
   // password no se suele retornar en la API después del login
 }
 

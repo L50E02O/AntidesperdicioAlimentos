@@ -1,5 +1,5 @@
 export interface Incidencia {
-  id_incidencia: number;
+  id_incidencia: string;
   descripcion: string;
   fecha: string; 
   estado: string; //'pendiente' | 'abierto' | 'resuelto' | 

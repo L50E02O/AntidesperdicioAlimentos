@@ -7,7 +7,7 @@
       <p class="contenido-datos">Horario: {{ horario }}</p>
       <p class="contenido-datos">Estado: {{ estado }}</p>
       <div class="acciones">
-        <button class="btn inventario" @click="$emit('inventario')">Inventario</button>
+        <RouterLink :to ="`/inventario/${id_inventario}`" class="btn inventario">Inventario</RouterLink>
         <button class="btn deshabilitar" @click="$emit('deshabilitar')">Deshabilitar</button>
       </div>
     </div>
@@ -19,9 +19,9 @@ defineProps({
   nombre: String,
   direccion: String,
   horario: String,
-  estado: String
+  estado: String,
+  id_inventario: String,
 })
-
 </script>
 
 <style scoped>
@@ -74,6 +74,7 @@ defineProps({
 .inventario {
   background-color: #3b82f6;
   color: white;
+  text-decoration-line: none;
 }
 
 .deshabilitar {
