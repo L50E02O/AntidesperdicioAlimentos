@@ -1,0 +1,1 @@
+Funciones globales que no generan itnerfaz grafica en el modulo

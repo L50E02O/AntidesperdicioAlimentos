@@ -1,0 +1,274 @@
+/*
+  NOTE: Some of these styles (like body, *, font-family) would typically be in a global
+  stylesheet (e.g., styles.css or styles.scss) in a larger application.
+  For a self-contained component demo, they are included here.
+  Angular's style encapsulation will prevent these from leaking out by default.
+*/
+/* Import Google Font if not already globally available */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+:host { /* Styles applied to the component's host element itself */
+    display: flex; /* Makes <app-dashboard> behave like a flex container */
+    width: 100%;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #FCFCFC;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: #F7F7F7;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #EAEAEA;
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1D2129;
+    margin-bottom: 30px;
+    padding-left: 10px;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-nav li a:hover {
+    background-color: #E9ECEF;
+}
+
+.sidebar-nav li a.active {
+    background-color: #E9ECEF;
+    color: #1D2129;
+    font-weight: 600;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    margin-top: auto; /* Pushes to the bottom */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+    background-color: #D32F2F; /* Placeholder if image fails */
+}
+
+.user-info .user-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1D2129;
+    margin: 0;
+}
+
+.user-info .user-role {
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+}
+
+/* Main Content Area */
+.main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+}
+
+.main-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1E7E34; /* Green color for welcome message */
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.dashboard-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1E7E34; /* Green color for section titles */
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.cards-container {
+    display: grid;
+    gap: 25px;
+}
+
+.cards-container.four-columns {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+@media (min-width: 1200px) {
+    .cards-container.four-columns {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.cards-container.two-columns {
+     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+@media (min-width: 768px) {
+    .cards-container.two-columns {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.card {
+    background-color: #FFFFFF;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-icon-container {
+    margin-bottom: 15px;
+}
+
+.card-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #2C67FF; /* Blue icon color */
+    border-radius: 50%;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1D2129;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    color: #6C757D;
+    margin-top: 0;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Pushes button to bottom if card heights vary */
+}
+
+.card-button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #2C67FF; /* Blue button color */
+    color: #FFFFFF;
+    align-self: flex-start; /* Align button to the start of the flex item */
+    transition: background-color 0.2s ease;
+}
+
+.card-button:hover {
+    background-color: #1A53E0; /* Darker blue on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 220px;
+    }
+    .logo {
+        font-size: 20px;
+    }
+    .main-content {
+        padding: 20px;
+    }
+    .cards-container.four-columns {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    /* :host can also be targeted for media queries affecting the component's root */
+    /*
+    :host {
+        flex-direction: column;
+    }
+    */
+    .dashboard-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #EAEAEA;
+        padding: 15px;
+    }
+    .sidebar-nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .sidebar-nav li a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    .logo {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    .user-profile {
+        justify-content: center;
+        padding-top: 10px;
+    }
+    .main-header h2 {
+        font-size: 24px;
+    }
+    .section-title {
+        font-size: 18px;
+    }
+    .cards-container.four-columns,
+    .cards-container.two-columns {
+        grid-template-columns: 1fr; /* Stack cards on small screens */
+    }
+}

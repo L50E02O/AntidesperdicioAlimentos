@@ -1,60 +1,100 @@
 <template>
-  <div>
-    <!-- <nav class="breadcrumb">
-      <span>Dashboard</span> &gt; <span>Comerciantes</span>
-    </nav> -->
-    <h2 class="title">Lista de Comerciantes</h2>
-    <div class="cards-container">
+  <div class="comerciantes">
+    <h2>Gestión de Comerciantes</h2>
+
+    <div class="tabs">
+      <button :class="{ active: activeTab === 'habilitados' }" @click="activeTab = 'habilitados'">Habilitados</button>
+      <button :class="{ active: activeTab === 'deshabilitados' }" @click="activeTab = 'deshabilitados'">Deshabilitados</button>
+    </div>
+
+    <div>
+      <RouterLink to="/form-crear-comerciante" >Crear Comerciante</RouterLink>
+    </div>
+
+    <div v-if="activeTab === 'habilitados'" class="lista">
       <ComercianteCard
-        v-for="comerciante in comerciantes"
-        :key="comerciante.id"
+        v-for="(comerciante, id_comerciante) in habilitados"
+        :key="id_comerciante"
         :nombre="comerciante.nombre"
-        :establecimiento="comerciante.establecimiento"
-        @aprobar="aprobarComerciante(comerciante.id)"
-        @rechazar="rechazarComerciante(comerciante.id)"
+        :id="comerciante.id_comerciante"
+        :direccion="comerciante.direccion"
+        :telefono="comerciante.telefono"
+        :email="comerciante.email"
+        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
+        @deshabilitar="deshabilitar(comerciante)"
+        @eliminar="eliminar(comerciante)"
+      />
+    </div>
+
+    <div v-if="activeTab === 'deshabilitados'" class="solicitudes">
+      <ComercianteDeshabCard
+        v-for="(comerciante, id_comerciante) in deshabilitados"
+        :key="id_comerciante"
+        :nombre="comerciante.nombre"
+        :direccion="comerciante.direccion"
+        :telefono="comerciante.telefono"
+        :email="comerciante.email"
+        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
+        @habilitar="habilitar(comerciante)"
+        @eliminar="eliminar(comerciante)"
       />
     </div>
   </div>
 </template>
 
-<script setup>
-import ComercianteCard from '../../components/ComercianteCard.vue'
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import ComercianteCard from '../../components/comerciante/ComercianteCard.vue'
+import ComercianteDeshabCard from '../../components/comerciante/ComercianteDeshabCard.vue'
+import type { Comerciante } from '../../types/comerciante'
 
-const comerciantes = [
-  { id: 1, nombre: 'Juan Pérez', establecimiento: 'Mercado Central, Av. Libertad 123' },
-  { id: 2, nombre: 'Ana Gómez', establecimiento: 'Tienda Verde, Calle 45 #10' },
-  { id: 3, nombre: 'Carlos Ruiz', establecimiento: 'Frutería Ruiz, Av. Sol 77' },
-  { id: 4, nombre: 'Lucía Torres', establecimiento: 'Panadería Dulce, Calle Luna 8' },
-  { id: 5, nombre: 'Miguel Ángel', establecimiento: 'Verduras Frescas, Av. Norte 22' },
-]
+import {
+  obtenerComerciantesHabilitados,
+  obtenerComerciantesDeshabilitados,
+  habilitar,
+  deshabilitar,
+  eliminar,
+} from '../../services/servicioComerciante'
 
-const aprobarComerciante = (id) => {
-  console.log(`Aprobado comerciante ID ${id}`)
-  // lógica para aprobar
-}
+const activeTab = ref('habilitados')
+const habilitados = ref<Comerciante[]>([])
+const deshabilitados = ref<Comerciante[]>([])
 
-const rechazarComerciante = (id) => {
-  console.log(`Rechazado comerciante ID ${id}`)
-  // lógica para rechazar
-}
+onMounted(async () => {
+  habilitados.value = await obtenerComerciantesHabilitados()
+  deshabilitados.value = await obtenerComerciantesDeshabilitados()
+})
 </script>
 
 <style scoped>
-.breadcrumb {
-  color: #666;
-  font-size: 0.875rem;
+.comerciantes {
+  padding: 1rem;
+}
+.tabs {
+  display: flex;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
-
-.title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
+.tabs button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem;
+  cursor: pointer;
 }
-
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
+.tabs button.active {
+  border-color: black;
+  font-weight: bold;
+}
+.lista {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.solicitudes {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 </style>
