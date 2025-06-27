@@ -1,0 +1,221 @@
+.dashboard-container {
+  display: flex;
+  font-family: 'Arial', sans-serif;
+  min-height: 100vh;
+  background-color: #f5f5f5; /* Color de fondo general */
+}
+
+/* --- Sidebar Styles --- */
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: #555;
+  display: block;
+  padding: 12px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+  background-color: #e6f7ff; /* Un azul claro para activo/hover */
+  color: #1890ff; /* Un azul más oscuro */
+  font-weight: bold;
+}
+
+.user-info {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc; /* Placeholder */
+  margin-bottom: 5px;
+}
+
+.user-name {
+  font-weight: bold;
+  margin: 5px 0 0px 0;
+  color: #333;
+}
+
+.user-role {
+  color: #777;
+  font-size: 0.85em;
+}
+
+/* --- Main Content Styles --- */
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: #f5f5f5;
+}
+
+.breadcrumb {
+  font-size: 0.9em;
+  color: #888;
+  margin-bottom: 25px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+
+h2 {
+  color: #333;
+  font-size: 1.5em;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* --- Tab Navigation Styles --- */
+.tab-navigation {
+  display: flex;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.tab-navigation span {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #555;
+  font-weight: 500;
+  transition: color 0.3s, border-bottom 0.3s;
+  border-bottom: 2px solid transparent;
+  margin-right: 15px; /* Espacio entre pestañas */
+}
+
+.tab-navigation span:hover {
+  color: #1890ff;
+}
+
+.tab-navigation span.active {
+  color: #1890ff;
+  border-bottom: 2px solid #1890ff;
+  font-weight: bold;
+}
+
+/* --- Orders List Table Styles --- */
+.orders-list-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  overflow: hidden; /* Para las esquinas redondeadas */
+}
+
+.orders-list-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-list-container th,
+.orders-list-container td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.orders-list-container th {
+  color: #888;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  background-color: #fafafa;
+}
+
+.orders-list-container td {
+  color: #333;
+  font-size: 0.95em;
+}
+
+.orders-list-container tbody tr:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.orders-list-container tbody tr:last-child td {
+  border-bottom: none; /* Elimina el borde inferior de la última fila */
+}
+
+.client-info span {
+  display: block;
+}
+
+.client-info span:first-child {
+  font-weight: bold;
+  color: #333;
+}
+
+.client-info .product-count {
+  font-size: 0.85em;
+  color: #777;
+}
+
+/* Estilos para los badges de estado */
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background-color: #fffbe6;
+  color: #faad14; /* Naranja */
+}
+
+.status-confirmed {
+  background-color: #f6ffed;
+  color: #52c41a; /* Verde */
+}
+
+.status-canceled {
+  background-color: #fff0f6;
+  color: #eb2f96; /* Rosa/Rojo */
+}
+
+.status-delivered { /* Nuevo estilo para "Entregado" */
+  background-color: #e6f7ff;
+  color: #1890ff; /* Azul */
+}
+
+.no-data {
+  text-align: center;
+  color: #777;
+  padding: 30px;
+  font-style: italic;
+}
