@@ -7,6 +7,7 @@ import Comerciantes from '../views/Admin/Comerciantes.vue';
 import FormCrearComerciante from '../components/comerciante/FormCrearComerciante.vue';
 import FormCrearIncidencia from '../components/incidencia/FormCrearIncidencia.vue';
 import Inventario from '../views/Admin/Inventario.vue';
+import ProductoForm from '../components/Productos/ProductoForm.vue';
 
 const routes = [
   {path: '/', redirect: '/dashboard'},
@@ -17,7 +18,8 @@ const routes = [
   {path: "/comerciantes", component: Comerciantes},
   {path: "/form-crear-comerciante", component: FormCrearComerciante},
   {path: "/form-crear-incidencia", component: FormCrearIncidencia},
-  {path: "/inventario/:id", component: Inventario, props: true}
+  {path: "/inventario/:id", component: Inventario, props: true},
+  {path: "/producto-form/:id", component: ProductoForm, props: true},
 ];
 
 const router = createRouter({

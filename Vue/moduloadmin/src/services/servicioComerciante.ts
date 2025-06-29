@@ -1,6 +1,5 @@
 import { SUPABASE_URL, SUPABASE_HEADERS } from '../config/supabaseRest'
 import type { Comerciante } from '../types/comerciante'
-import { toHandlerKey } from 'vue';
 
 export async function obtenerComerciantesHabilitados(): Promise<Comerciante[]>{
   try{
@@ -24,7 +23,6 @@ export async function obtenerComerciantesHabilitados(): Promise<Comerciante[]>{
     throw error;
   }
 }
-
 
 export async function obtenerComerciantesDeshabilitados(): Promise<Comerciante[]> {
   try{
@@ -119,7 +117,7 @@ export async function eliminar(comerciante: Comerciante): Promise<void> {
   }
 }
 
-export async function insertarComerciante(nuevo: Omit<Comerciante, 'habilitado'>): Promise<void> {
+export async function insertarComerciante(nuevo: Omit<Comerciante, 'habilitado' | 'id_comerciante'>): Promise<void> {
   try {
     const url = `${SUPABASE_URL}/rest/v1/comerciante`
 

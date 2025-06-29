@@ -95,9 +95,7 @@ label {
   font-weight: bold;
 }
 
-input,
-textarea,
-select {
+input, textarea, select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;

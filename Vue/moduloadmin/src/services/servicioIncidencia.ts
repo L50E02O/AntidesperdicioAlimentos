@@ -25,7 +25,7 @@ export async function obtenerTodasIncidencias(): Promise<Incidencia[]> {
 
 /* Actualizar estado */
 export async function actualizarEstadoIncidencia(
-  id: number,
+  id: string,
   estado: string
 ): Promise<void> {
   try {
@@ -46,9 +46,8 @@ export async function actualizarEstadoIncidencia(
   }
 }
 
-
 /* Eliminar incidencia */
-export async function eliminarIncidencia(id: number): Promise<void> {
+export async function eliminarIncidencia(id: string): Promise<void> {
   try {
     const url = `${SUPABASE_URL}/rest/v1/incidencia?id_incidencia=eq.${id}`
 
@@ -65,7 +64,6 @@ export async function eliminarIncidencia(id: number): Promise<void> {
     throw error
   }
 }
-
 
 export async function insertarIncidencia(incidencia: {
   descripcion: string
