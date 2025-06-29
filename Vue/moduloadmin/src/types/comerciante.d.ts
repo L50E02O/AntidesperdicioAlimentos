@@ -5,5 +5,5 @@ export interface Comerciante{
     telefono: string;
     email: string;
     habilitado: boolean;
-    usaurio: string;
+    usuario: string;
 }

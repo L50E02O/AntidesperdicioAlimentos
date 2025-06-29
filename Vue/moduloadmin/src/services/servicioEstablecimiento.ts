@@ -1,68 +1,111 @@
-// src/services/servicioEstablecimiento.ts
-import { supabase } from '../config/supabase'
+import { SUPABASE_URL, SUPABASE_HEADERS } from '../config/supabaseRest'
 import type { Establecimiento } from '../types/establecimiento'
-import type { Inventario } from '../types/inventario'
 
 export async function obtenerEstablecimientosHabilitados(): Promise<Establecimiento[]> {
-  const { data, error } = await supabase
-    .from('establecimiento')
-    .select('*')
-    .order('id_establecimiento', { ascending: true })
-    .eq('habilitado', true)
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/establecimiento?habilitado=eq.true&order=id_establecimiento.asc`
 
-  if (error) {
-    console.error('Error al obtener establecimientos habilitados:', error)
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: SUPABASE_HEADERS,
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al obtener establecimientos habilitados')
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error:', error)
     throw error
   }
-
-  return data || []
 }
 
 export async function obtenerEstablecimientosDeshabilitados(): Promise<Establecimiento[]> {
-  const { data, error } = await supabase
-    .from('establecimiento')
-    .select('*')
-    .order('id_establecimiento', { ascending: true })
-    .eq('habilitado', false)
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/establecimiento?habilitado=eq.false&order=id_establecimiento.asc`
 
-  if (error) {
-    console.error('Error al obtener establecimientos deshabilitados:', error)
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: SUPABASE_HEADERS,
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al obtener establecimientos deshabilitados')
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error:', error)
     throw error
   }
-
-  return data || []
 }
 
-export async function habilitar(establecimiento: Establecimiento) {
-  const { error } = await supabase
-    .from('establecimiento')
-    .update({ habilitado: true })
-    .eq('id_establecimiento', establecimiento.id_establecimiento)
 
-  if (error) throw error
+export async function habilitar(establecimiento: Establecimiento): Promise<void> {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/establecimiento?id_establecimiento=eq.${establecimiento.id_establecimiento}`
 
-  alert(`Establecimiento ${establecimiento.nombre} habilitado correctamente`)
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: SUPABASE_HEADERS,
+      body: JSON.stringify({ habilitado: true }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al habilitar el establecimiento')
+    }
+
+    alert(`Establecimiento ${establecimiento.nombre} habilitado correctamente`)
+  } catch (error) {
+    console.error('Error:', error)
+    throw error
+  }
 }
 
-export async function deshabilitar(establecimiento: Establecimiento) {
-  const { error } = await supabase
-    .from('establecimiento')
-    .update({ habilitado: false })
-    .eq('id_establecimiento', establecimiento.id_establecimiento)
 
-  if (error) throw error
+export async function deshabilitar(establecimiento: Establecimiento): Promise<void> {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/establecimiento?id_establecimiento=eq.${establecimiento.id_establecimiento}`
 
-  alert(`Establecimiento ${establecimiento.nombre} deshabilitado correctamente`)
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: SUPABASE_HEADERS,
+      body: JSON.stringify({ habilitado: false }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al deshabilitar el establecimiento')
+    }
+
+    alert(`Establecimiento ${establecimiento.nombre} deshabilitado correctamente`)
+  } catch (error) {
+    console.error('Error:', error)
+    throw error
+  }
 }
 
-export async function eliminar(establecimiento: Establecimiento) {
-  const { error } = await supabase
-    .from('establecimiento')
-    .delete()
-    .eq('id_establecimiento', establecimiento.id_establecimiento)
 
-  if (error) throw error
+export async function eliminar(establecimiento: Establecimiento): Promise<void> {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/establecimiento?id_establecimiento=eq.${establecimiento.id_establecimiento}`
 
-  alert(`Establecimiento ${establecimiento.nombre} eliminado correctamente`)
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: SUPABASE_HEADERS,
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al eliminar el establecimiento')
+    }
+
+    alert(`Establecimiento ${establecimiento.nombre} eliminado correctamente`)
+  } catch (error) {
+    console.error('Error:', error)
+    throw error
+  }
 }
+
 

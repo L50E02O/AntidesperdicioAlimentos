@@ -21,8 +21,8 @@
         :telefono="comerciante.telefono"
         :email="comerciante.email"
         :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @deshabilitar="deshabilitar(comerciante)"
-        @eliminar="eliminar(comerciante)"
+        @deshabilitar="actualizarEstado(comerciante)"
+        @eliminar="eliminarComerciante(comerciante)"
       />
     </div>
 
@@ -35,8 +35,8 @@
         :telefono="comerciante.telefono"
         :email="comerciante.email"
         :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @habilitar="habilitar(comerciante)"
-        @eliminar="eliminar(comerciante)"
+        @habilitar="actualizarEstado(comerciante)"
+        @eliminar="eliminarComerciante(comerciante)"
       />
     </div>
   </div>
@@ -55,15 +55,38 @@ import {
   deshabilitar,
   eliminar,
 } from '../../services/servicioComerciante'
+import { isAwaitExpression } from 'typescript'
+import { eliminarIncidencia } from '../../services/servicioIncidencia'
 
 const activeTab = ref('habilitados')
 const habilitados = ref<Comerciante[]>([])
 const deshabilitados = ref<Comerciante[]>([])
 
-onMounted(async () => {
-  habilitados.value = await obtenerComerciantesHabilitados()
-  deshabilitados.value = await obtenerComerciantesDeshabilitados()
-})
+async function cargarComerciantes(){
+  try{
+    habilitados.value = await obtenerComerciantesHabilitados();
+    deshabilitados.value = await obtenerComerciantesDeshabilitados();
+  }catch(error){
+    console.error("Error al cargar las incidencias", error);
+  }
+}
+
+onMounted(cargarComerciantes);
+
+async function actualizarEstado(comerciante: Comerciante){
+  if(comerciante.habilitado===false){
+    await habilitar(comerciante);
+  }else{
+    await deshabilitar(comerciante);
+  }
+  await cargarComerciantes();
+} 
+
+async function eliminarComerciante(comerciante: Comerciante) {
+  await eliminar(comerciante);
+  await cargarComerciantes();
+}
+
 </script>
 
 <style scoped>

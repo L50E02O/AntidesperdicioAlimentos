@@ -4,7 +4,7 @@
     <div class="info">
       <h3>{{ nombre }}</h3>
       <p class="contenido-datos">ID: {{ id }}</p>
-      <p class="contenido-datos">{{ direccion }}</p>
+      <p class="contenido-datos">Dirección: {{ direccion }}</p>
       <p class="contenido-datos">Teléfono: {{ telefono }}</p>
       <p class="contenido-datos">Email: {{ email }}</p>
       <p class="contenido-datos">Estado: {{ estado }}</p>
