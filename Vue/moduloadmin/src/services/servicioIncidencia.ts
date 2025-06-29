@@ -1,8 +1,7 @@
 import { SUPABASE_URL, SUPABASE_HEADERS } from '../config/supabaseRest'
 import type { Incidencia } from '../types/incidencia'
 
-/* Obtener todas las incidencias */
-export async function obtenerTodasIncidencias(): Promise<Incidencia[]> {
+export async function obtenerIncidencias(): Promise<Incidencia[]> {
   try {
     const url = `${SUPABASE_URL}/rest/v1/incidencia?order=fecha.desc`
 
@@ -23,39 +22,30 @@ export async function obtenerTodasIncidencias(): Promise<Incidencia[]> {
   }
 }
 
-/* Actualizar estado */
-export async function actualizarEstadoIncidencia(
-  id: string,
-  estado: string
-): Promise<void> {
-  try {
-    const url = `${SUPABASE_URL}/rest/v1/incidencia?id_incidencia=eq.${id}`
-
+export async function actualizarIncidencia(incidencia: Incidencia) {
+  try{
+    const url = `${SUPABASE_URL}/rest/v1/incidencia?id_incidencia=eq.${incidencia.id_incidencia}`;
     const response = await fetch(url, {
       method: 'PATCH',
       headers: SUPABASE_HEADERS,
-      body: JSON.stringify({ estado }),
-    })
-
+      body: JSON.stringify(incidencia),
+    });
     if (!response.ok) {
-      throw new Error('Error al actualizar el estado de la incidencia')
+      throw new Error('Error al actualizar el incidencia');
     }
-  } catch (error) {
-    console.error('Error:', error)
-    throw error
+  }catch(error){
+    console.error('Error al actualizar incidencia:', error);
+    throw error;  
   }
 }
 
-/* Eliminar incidencia */
-export async function eliminarIncidencia(id: string): Promise<void> {
+export async function eliminarIncidencia(incidencia: Incidencia): Promise<void> {
   try {
-    const url = `${SUPABASE_URL}/rest/v1/incidencia?id_incidencia=eq.${id}`
-
+    const url = `${SUPABASE_URL}/rest/v1/incidencia?id_incidencia=eq.${incidencia.id_incidencia}`
     const response = await fetch(url, {
       method: 'DELETE',
       headers: SUPABASE_HEADERS,
     })
-
     if (!response.ok) {
       throw new Error('Error al eliminar la incidencia')
     }
@@ -65,20 +55,14 @@ export async function eliminarIncidencia(id: string): Promise<void> {
   }
 }
 
-export async function insertarIncidencia(incidencia: {
-  descripcion: string
-  fecha: string
-  estado: string
-  id_comerciante: string
-  id_cliente: string
-}): Promise<void> {
+export async function insertarIncidencia(incidencia: Omit<Incidencia, 'id_incidencia'>): Promise<void> {
   try {
     const url = `${SUPABASE_URL}/rest/v1/incidencia`
 
     const response = await fetch(url, {
       method: 'POST',
       headers: SUPABASE_HEADERS,
-      body: JSON.stringify([incidencia]), // Se envía como array de objetos
+      body: JSON.stringify(incidencia),
     })
 
     if (!response.ok) {

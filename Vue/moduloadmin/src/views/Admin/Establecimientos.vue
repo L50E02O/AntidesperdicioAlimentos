@@ -16,7 +16,7 @@
         :horario="establecimiento.horario"
         :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
         :id_inventario="establecimiento.id_inventario"
-        @deshabilitar="deshabilitar(establecimiento)"
+        @deshabilitar="actualizarEstado(establecimiento)"
       />
     </div>
 
@@ -28,7 +28,7 @@
         :direccion="establecimiento.direccion"
         :horario="establecimiento.horario"
         :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @habilitar="habilitar(establecimiento)"
+        @habilitar="actualizarEstado(establecimiento)"
         @eliminar="eliminar(establecimiento)"
       />
     </div>
@@ -40,22 +40,30 @@ import { ref, onMounted } from 'vue'
 import EstablecimientosCard from '../../components/establecimiento/EstablecimientoCard.vue'
 import EstablecimientoDeshabilitadoRow from '../../components/establecimiento/EstablecimientoDeshabilitadoRow.vue'
 import type { Establecimiento } from '../../types/establecimiento'
-import {
-  obtenerEstablecimientosHabilitados,
-  obtenerEstablecimientosDeshabilitados,
-  habilitar,
-  deshabilitar,
-  eliminar,
-} from '../../services/servicioEstablecimiento'
+import { obtenerEstablecimientos, actualizarEstablecimiento, eliminarEstablecimiento } from '../../services/servicioEstablecimiento'
 
 const activeTab = ref('habilitados')
 const habilitados = ref<Establecimiento[]>([])
 const deshabilitados = ref<Establecimiento[]>([])
 
-onMounted(async () => {
-  habilitados.value = await obtenerEstablecimientosHabilitados()
-  deshabilitados.value = await obtenerEstablecimientosDeshabilitados()
-})
+async function cargarEstablecimientos(){
+  const establecimientos: Establecimiento[] = await obtenerEstablecimientos();
+  habilitados.value = establecimientos.filter((establecimiento)=>{return establecimiento.habilitado===true});
+  deshabilitados.value = establecimientos.filter((establecimiento)=>{return establecimiento.habilitado==false});
+}
+
+onMounted(cargarEstablecimientos);
+
+async function actualizarEstado(establecimiento: Establecimiento){
+  establecimiento.habilitado = establecimiento.habilitado===false ? true : false;
+  await actualizarEstablecimiento(establecimiento);
+  await cargarEstablecimientos();
+}
+
+async function eliminar(establecimiento:Establecimiento) {
+  await eliminarEstablecimiento(establecimiento);
+  await cargarEstablecimientos();
+}
 </script>
 
 

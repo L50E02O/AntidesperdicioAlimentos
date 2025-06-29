@@ -22,7 +22,7 @@
         :email="comerciante.email"
         :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
         @deshabilitar="actualizarEstado(comerciante)"
-        @eliminar="eliminarComerciante(comerciante)"
+        @eliminar="eliminar(comerciante)"
       />
     </div>
 
@@ -36,7 +36,7 @@
         :email="comerciante.email"
         :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
         @habilitar="actualizarEstado(comerciante)"
-        @eliminar="eliminarComerciante(comerciante)"
+        @eliminar="eliminar(comerciante)"
       />
     </div>
   </div>
@@ -48,15 +48,7 @@ import ComercianteCard from '../../components/comerciante/ComercianteCard.vue'
 import ComercianteDeshabCard from '../../components/comerciante/ComercianteDeshabCard.vue'
 import type { Comerciante } from '../../types/comerciante'
 
-import {
-  obtenerComerciantesHabilitados,
-  obtenerComerciantesDeshabilitados,
-  habilitar,
-  deshabilitar,
-  eliminar,
-} from '../../services/servicioComerciante'
-import { isAwaitExpression } from 'typescript'
-import { eliminarIncidencia } from '../../services/servicioIncidencia'
+import { obtenerComerciantes, actualizarComerciante, eliminarComerciante } from '../../services/servicioComerciante'
 
 const activeTab = ref('habilitados')
 const habilitados = ref<Comerciante[]>([])
@@ -64,8 +56,9 @@ const deshabilitados = ref<Comerciante[]>([])
 
 async function cargarComerciantes(){
   try{
-    habilitados.value = await obtenerComerciantesHabilitados();
-    deshabilitados.value = await obtenerComerciantesDeshabilitados();
+    const comerciantes: Comerciante[] = await obtenerComerciantes();
+    habilitados.value = comerciantes.filter((comerciante)=>{return comerciante.habilitado===true});
+    deshabilitados.value = comerciantes.filter((comerciante)=>{return comerciante.habilitado===false});
   }catch(error){
     console.error("Error al cargar las incidencias", error);
   }
@@ -74,19 +67,15 @@ async function cargarComerciantes(){
 onMounted(cargarComerciantes);
 
 async function actualizarEstado(comerciante: Comerciante){
-  if(comerciante.habilitado===false){
-    await habilitar(comerciante);
-  }else{
-    await deshabilitar(comerciante);
-  }
+  comerciante.habilitado = comerciante.habilitado===false ? true : false;
+  await actualizarComerciante(comerciante);
   await cargarComerciantes();
 } 
 
-async function eliminarComerciante(comerciante: Comerciante) {
-  await eliminar(comerciante);
+async function eliminar(comerciante: Comerciante) {
+  await eliminarComerciante(comerciante);
   await cargarComerciantes();
 }
-
 </script>
 
 <style scoped>
