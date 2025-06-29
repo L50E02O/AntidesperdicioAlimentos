@@ -1,4 +1,4 @@
-import './perfil.css';
+import '../../styles/Perfil.css';
 import { User, Mail, Phone, Bell, Globe } from 'lucide-react';
 
 function Perfil() {
