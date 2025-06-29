@@ -6,6 +6,7 @@
             :descripcion = "producto.descripcion"
             :precio = "producto.precio"
             :stock = "producto.stock"
+            @eliminar="eliminarProducto(producto)"
         />
     </div>
 </template>
@@ -13,10 +14,10 @@
 <script setup lang="ts">
 import ProductoRow from "./ProductoRow.vue";
 import type { Producto } from "../../types/producto";
+import { eliminarProducto } from "../../services/servicioProducto";
 
-const { productos } = defineProps<{
-    productos: Producto[]
-}>()
+const { productos } = defineProps<{productos: Producto[]}>()
+
 </script>
 
 <style scoped>

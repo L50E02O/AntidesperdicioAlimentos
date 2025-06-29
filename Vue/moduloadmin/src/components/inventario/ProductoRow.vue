@@ -17,7 +17,7 @@ defineProps({
     descripcion: String,
     precio: Number,
     stock: Number,
-})
+});
 </script>
 
 <style scoped>

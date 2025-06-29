@@ -3,8 +3,7 @@ import type { Incidencia } from '../types/incidencia'
 
 export async function obtenerIncidencias(): Promise<Incidencia[]> {
   try {
-    const url = `${SUPABASE_URL}/rest/v1/incidencia?order=fecha.desc`
-
+    const url = `${SUPABASE_URL}/rest/v1/incidencia?order=fecha.desc`;
     const response = await fetch(url, {
       method: 'GET',
       headers: SUPABASE_HEADERS,
