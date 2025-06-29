@@ -18,3 +18,18 @@ export const getProducts = async (): Promise<Producto[]> => {
     return data;
   }
 };
+import type { cliente } from '../types/clienteT';
+export const getClientes = async (id: string): Promise<cliente | null> => { //cuando se haga el login dejar lo de parentesis vacio
+  //en cliente borrar eso hasta null y dejar []
+  const { data, error } = await supabase
+    .from('cliente')
+    .select('*')
+    .eq('id', id); //borrar esto tambien cuando se haga el login
+
+  if (error) {
+    console.error('Error:', error.message);
+    return null; //[];
+  } else {
+    return data[0];
+  }
+};
