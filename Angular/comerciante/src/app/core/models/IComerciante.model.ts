@@ -1,5 +1,5 @@
 export interface Comerciante {
-  id_comerciante?: number;
+  id_comerciante?: string;
   nombre: string;
   direccion: string;
   telefono: string;

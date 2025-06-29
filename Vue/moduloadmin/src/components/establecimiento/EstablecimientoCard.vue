@@ -7,7 +7,7 @@
       <p class="contenido-datos">Horario: {{ horario }}</p>
       <p class="contenido-datos">Estado: {{ estado }}</p>
       <div class="acciones">
-        <RouterLink :to ="`/inventario/${id_inventario}`" class="btn inventario">Inventario</RouterLink>
+        <RouterLink :to="`/inventario/${id_inventario}`" class="btn inventario">Inventario</RouterLink>
         <button class="btn deshabilitar" @click="$emit('deshabilitar')">Deshabilitar</button>
       </div>
     </div>

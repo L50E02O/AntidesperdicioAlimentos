@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import ResumenCard from '../../components/ResumenCard.vue';
+import ResumenCard from '../../components/dashboard/ResumenCard.vue';
 
 const verEstablecimientos = () => {
   alert('Ver todos los establecimientos habilitados');

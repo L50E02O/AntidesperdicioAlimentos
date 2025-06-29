@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SupabaseService } from '../supabase.service';
+import { firstValueFrom } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
@@ -8,19 +10,24 @@ export class LoginService {
   constructor(private supabase: SupabaseService) {}
 
   async login(usuario: string, password: string): Promise<any> {
-    const { data, error } = await this.supabase
-      .getSupabase()
-      .from('comerciante')
-      .select('*')
-      .eq('usuario', usuario || '')
-      .eq('password', password || '')
-      .single();
+    const tableAndQuery = `comerciante?usuario=eq.${usuario}&password=eq.${password}&select=*`;
 
-    if (error && error.code !== 'PGRST116') {
-      console.error('Error al buscar comerciante:', error);
-      throw error;
-    }
+    try {
+          // Llamamos al método getAll de SupabaseService pasándole la URL ya armada
+          const response = await firstValueFrom(
+            this.supabase.getAll(tableAndQuery)
+          );
 
-    return data; // Devuelve el usuario o null
+          // Si no hay coincidencia
+          if (response.length === 0) {
+            return null;
+          }
+
+          // Devuelve el primer comerciante encontrado
+          return response[0];
+        } catch (error) {
+          console.error('Error al buscar comerciante:', error);
+          throw error;
+        } 
   }
 }
