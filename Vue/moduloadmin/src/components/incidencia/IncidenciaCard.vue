@@ -8,9 +8,8 @@
       <option value="abierto">Abierto</option>
       <option value="resuelto">Resuelto</option>
     </select>
-
-    <p><strong>Comerciante:</strong> {{ idComerciante }}</p>
-    <p><strong>Cliente:</strong> {{ idCliente }}</p>
+    <p><strong>Comerciante:</strong> {{ comerciante }}</p>
+    <p><strong>Cliente:</strong> {{ cliente }}</p>
 
     <div class="acciones">
       <button @click="$emit('actualizar-estado', estadoLocal)">Actualizar estado</button>
@@ -26,8 +25,8 @@ const props = defineProps<{
   descripcion: string
   fecha: string
   estado: string
-  idComerciante: string
-  idCliente: string
+  comerciante: string
+  cliente: string
 }>()
 
 const estadoLocal = ref(props.estado)

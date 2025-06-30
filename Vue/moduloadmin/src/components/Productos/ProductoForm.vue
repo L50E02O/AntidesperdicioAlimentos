@@ -1,7 +1,7 @@
 <template>
-  <div class="crear-comerciante">
-    <h2>Registrar nuevo comerciante</h2>
-    <form @submit.prevent="registrarComerciante">
+  <div class="crear-producto">
+    <h2>Registrar nuevo producto</h2>
+    <form @submit.prevent="registrarProducto">
 
       <div class="form-group">
         <label for="nombre">Nombre</label>
@@ -9,28 +9,18 @@
       </div>
 
       <div class="form-group">
-        <label for="usuario">Usuario</label>
-        <input v-model="form.usuario" id="usuario" type="text" maxlength="15" required />
+        <label for="descripcion">Descripcion</label>
+        <textarea v-model="form.descripcion" id="descripcion" maxlength="150" required></textarea>
       </div>
 
       <div class="form-group">
-        <label for="direccion">Dirección</label>
-        <input v-model="form.direccion" id="direccion" type="text" maxlength="100" required />
+        <label for="precio">Precio</label>
+        <input v-model="form.precio" id="precio" type="number" min="0" step="0.01" required />
       </div>
 
       <div class="form-group">
-        <label for="telefono">Teléfono</label>
-        <input v-model="form.telefono" id="telefono" type="text" maxlength="20" required />
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input v-model="form.email" id="email" type="email" maxlength="100" required />
-      </div>
-
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input v-model="form.password" id="password" type="password" maxlength="100" required />
+        <label for="stock">Stock</label>
+        <input v-model="form.stock" id="stock" type="number" min="0" step="1" required />
       </div>
 
       <button type="submit">Registrar</button>
@@ -41,26 +31,30 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { insertarComerciante } from '../../services/servicioComerciante'
+import { useRoute } from 'vue-router'
+import { insertarProducto } from '../../services/servicioProducto'
+
+const route = useRoute()
+const id_inventario = String(route.params.id)
+
 
 const form = ref({
   nombre: '',
-  usuario: '',
-  direccion: '',
-  telefono: '',
-  email: '',
-  password: '',
+  descripcion: '',
+  precio: 0,
+  stock: 0,
+  id_inventario: id_inventario
 })
 
 const mensaje = ref('')
 
-async function registrarComerciante() {
+async function registrarProducto() {
   try {
-    await insertarComerciante(form.value)
-    mensaje.value = 'Comerciante registrado exitosamente.'
-    form.value = { nombre: '', usuario: '', direccion: '', telefono: '', email: '', password: ''}
+    await insertarProducto(form.value)
+    mensaje.value = 'Producto registrado exitosamente.'
+    form.value = { nombre: '', descripcion: '', precio: 0, stock: 0, id_inventario: id_inventario }
   } catch (error) {
-    mensaje.value = 'Ocurrió un error al registrar el comerciante.'
+    mensaje.value = 'Ocurrió un error al registrar el producto.'
     console.error(error)
   }
 }
@@ -92,7 +86,7 @@ label {
   font-weight: bold;
 }
 
-input {
+input, textarea {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;

@@ -8,15 +8,15 @@
     <section class="section">
       <h3>Pendientes</h3>
       <IncidenciaCard
-        v-for="inc in pendientes"
-        :key="inc.id_incidencia"
-        :descripcion="inc.descripcion"
-        :fecha="inc.fecha"
-        :estado="inc.estado"
-        :idComerciante="inc.id_comerciante"
-        :idCliente="inc.id_cliente"
-        @actualizar-estado="estado => actualizarEstado(inc, estado)"
-        @eliminar="eliminarIncidencia(inc)"
+        v-for="incidencia in pendientes"
+        :key="incidencia.id_incidencia"
+        :descripcion="incidencia.descripcion"
+        :fecha="incidencia.fecha"
+        :estado="incidencia.estado"
+        :comerciante="incidencia.id_comerciante"
+        :cliente="incidencia.id_cliente"
+        @actualizar-estado="estado => actualizarEstado(incidencia, estado)"
+        @eliminar="eliminarIncidencia(incidencia)"
       />
       <p v-if="pendientes.length === 0" class="empty">No hay incidencias pendientes.</p>
     </section>
@@ -24,15 +24,15 @@
     <section class="section">
       <h3>Abiertas</h3>
       <IncidenciaCard
-        v-for="inc in abiertas"
-        :key="inc.id_incidencia"
-        :descripcion="inc.descripcion"
-        :fecha="inc.fecha"
-        :estado="inc.estado"
-        :idComerciante="inc.id_comerciante"
-        :idCliente="inc.id_cliente"
-        @actualizar-estado="estado => actualizarEstado(inc, estado)"
-        @eliminar="eliminarIncidencia(inc)"
+        v-for="incidencia in abiertas"
+        :key="incidencia.id_incidencia"
+        :descripcion="incidencia.descripcion"
+        :fecha="incidencia.fecha"
+        :estado="incidencia.estado"
+        :comerciante="incidencia.id_comerciante"
+        :cliente="incidencia.id_cliente"
+        @actualizar-estado="estado => actualizarEstado(incidencia, estado)"
+        @eliminar="eliminar(incidencia)"
       />
       <p v-if="abiertas.length === 0" class="empty">No hay incidencias abiertas.</p>
     </section>
@@ -40,15 +40,15 @@
     <section class="section">
       <h3>Resueltas</h3>
       <IncidenciaCard
-        v-for="inc in resueltas"
-        :key="inc.id_incidencia"
-        :descripcion="inc.descripcion"
-        :fecha="inc.fecha"
-        :estado="inc.estado"
-        :idComerciante="inc.id_comerciante"
-        :idCliente="inc.id_cliente"
-        @actualizar-estado="estado => actualizarEstado(inc, estado)"
-        @eliminar="eliminarIncidencia(inc)"
+        v-for="incidencia in resueltas"
+        :key="incidencia.id_incidencia"
+        :descripcion="incidencia.descripcion"
+        :fecha="incidencia.fecha"
+        :estado="incidencia.estado"
+        :comerciante="incidencia.id_comerciante"
+        :cliente="incidencia.id_cliente"
+        @actualizar-estado="estado => actualizarEstado(incidencia, estado)"
+        @eliminar="eliminar(incidencia)"
       />
       <p v-if="resueltas.length === 0" class="empty">No hay incidencias resueltas.</p>
     </section>
@@ -59,20 +59,15 @@
 import { ref, onMounted } from 'vue'
 import IncidenciaCard from '../../components/incidencia/IncidenciaCard.vue'
 import type { Incidencia } from '../../types/incidencia'
-import {
-  obtenerTodasIncidencias,
-  actualizarEstadoIncidencia,
-  eliminarIncidencia as srvEliminar
-} from '../../services/servicioIncidencia'
+import { obtenerIncidencias, actualizarIncidencia, eliminarIncidencia } from '../../services/servicioIncidencia'
 
 const pendientes = ref<Incidencia[]>([])
 const abiertas   = ref<Incidencia[]>([])
 const resueltas  = ref<Incidencia[]>([])
 
-/* ----- Cargar datos desde Supabase ----- */
 async function cargarIncidencias() {
   try {
-    const todas = await obtenerTodasIncidencias()
+    const todas = await obtenerIncidencias()
     pendientes.value = todas.filter(i => i.estado === 'pendiente')
     abiertas.value   = todas.filter(i => i.estado === 'abierto')
     resueltas.value  = todas.filter(i => i.estado === 'resuelto')
@@ -83,24 +78,23 @@ async function cargarIncidencias() {
 
 onMounted(cargarIncidencias)
 
-/* ----- Actualizar estado ----- */
-async function actualizarEstado(inc: Incidencia, nuevoEstado: string) {
-  if (inc.estado === nuevoEstado) return
+async function actualizarEstado(incidencia: Incidencia, nuevoEstado: string) {
+  if (incidencia.estado === nuevoEstado) return;
   try {
-    await actualizarEstadoIncidencia(inc.id_incidencia, nuevoEstado)
-    await cargarIncidencias() // refrescar listas
+    incidencia.estado = nuevoEstado;
+    await actualizarIncidencia(incidencia);
+    await cargarIncidencias();
   } catch (error) {
-    console.error('No se pudo actualizar el estado:', error)
+    console.error('No se pudo actualizar el estado:', error);
   }
 }
 
-/* ----- Eliminar ----- */
-async function eliminarIncidencia(inc: Incidencia) {
+async function eliminar(incidencia: Incidencia) {
   try {
-    await srvEliminar(inc.id_incidencia)
-    await cargarIncidencias()
+    await eliminarIncidencia(incidencia);
+    await cargarIncidencias();
   } catch (error) {
-    console.error('No se pudo eliminar la incidencia:', error)
+    console.error('No se pudo eliminar la incidencia:', error);
   }
 }
 </script>

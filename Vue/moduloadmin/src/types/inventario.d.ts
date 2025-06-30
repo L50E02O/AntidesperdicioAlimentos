@@ -5,5 +5,5 @@ export interface Inventario {
     fecha_actualizacion: string;
     cantidad_total: number;
     valor_inventario: number;
-    productos?: Producto[]
+    productos: Producto[]
 }

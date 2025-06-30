@@ -1,4 +1,4 @@
-import './Notificaciones.css';
+import '../../styles/Notificaciones.css';
 import { CircleCheckBig } from 'lucide-react';
 import { useState } from 'react';
 

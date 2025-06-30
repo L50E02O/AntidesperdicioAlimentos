@@ -1,92 +1,83 @@
-// src/services/servicioComerciante.ts
-import { supabase } from '../config/supabase'
+import { SUPABASE_URL, SUPABASE_HEADERS } from '../config/supabaseRest'
 import type { Comerciante } from '../types/comerciante'
 
-export async function obtenerComerciantesHabilitados(): Promise<Comerciante[]> {
-  const { data, error } = await supabase
-    .from('comerciante')
-    .select('*')
-    .eq('habilitado', true)
-    .order('id_comerciante', { ascending: true })
-
-  if (error) {
-    console.error('Error al obtener comerciantes habilitados:', error)
-    return []
-  }
-
-  return data as Comerciante[]
-}
-
-export async function obtenerComerciantesDeshabilitados(): Promise<Comerciante[]> {
-  const { data, error } = await supabase
-    .from('comerciante')
-    .select('*')
-    .eq('habilitado', false)
-    .order('id_comerciante', { ascending: true })
-
-  if (error) {
-    console.error('Error al obtener comerciantes deshabilitados:', error)
-    return []
-  }
-
-  return data as Comerciante[]
-}
-
-export async function habilitar(comerciante: Comerciante): Promise<void> {
-  const { error } = await supabase
-    .from('comerciante')
-    .update({ habilitado: true })
-    .eq('id_comerciante', comerciante.id_comerciante)
-
-  if (error) {
-    console.error('No se pudo habilitar el comerciante:', error)
-    throw error
+export async function obtenerComerciantes(): Promise<Comerciante[]> {
+  try{
+    const url = `${SUPABASE_URL}/rest/v1/comerciante`;
+    const response = await fetch(url,{
+      method: "GET",
+      headers: SUPABASE_HEADERS,
+    });
+    if(!response.ok){
+      throw new Error("Error al obtener los comerciantes");
+    };
+    const data = await response.json();
+    return data;
+  }catch(error){
+    console.error("Error", error);
+    throw error;
   }
 }
 
-export async function deshabilitar(comerciante: Comerciante): Promise<void> {
-  const { error } = await supabase
-    .from('comerciante')
-    .update({ habilitado: false })
-    .eq('id_comerciante', comerciante.id_comerciante)
-
-  if (error) {
-    console.error('No se pudo deshabilitar el comerciante:', error)
-    throw error
+export async function actualizarComerciante(comerciante: Comerciante) {
+  try{
+    const url = `${SUPABASE_URL}/rest/v1/comerciante?id_comerciante=eq.${comerciante.id_comerciante}`;
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: SUPABASE_HEADERS,
+      body: JSON.stringify(comerciante),
+    });
+    if (!response.ok) {
+      throw new Error('Error al actualizar el comerciante');
+    }
+  }catch(error){
+    console.error('Error al actualizar comerciante:', error);
+    throw error;  
   }
 }
 
-export async function eliminar(comerciante: Comerciante): Promise<void> {
-  // Eliminar establecimientos relacionados primero
-  const { error: errorEstablecimientos } = await supabase
-    .from('establecimiento')
-    .delete()
-    .eq('id_comerciante', comerciante.id_comerciante)
-
-  if (errorEstablecimientos) {
-    console.error('Error al eliminar los establecimientos del comerciante:', errorEstablecimientos)
-    throw errorEstablecimientos
-  }
-
-  // Luego eliminar el comerciante
-  const { error: errorComerciante } = await supabase
-    .from('comerciante')
-    .delete()
-    .eq('id_comerciante', comerciante.id_comerciante)
-
-  if (errorComerciante) {
-    console.error('No se pudo eliminar el comerciante:', errorComerciante)
-    throw errorComerciante
+export async function eliminarComerciante(comerciante: Comerciante): Promise<void> {
+  try {
+    // Primero se eliminan los establecimientos del comerciante
+    const urlEstablecimientos = `${SUPABASE_URL}/rest/v1/establecimiento?id_comerciante=eq.${comerciante.id_comerciante}`;
+    const responseEst = await fetch(urlEstablecimientos, {
+      method: 'DELETE',
+      headers: SUPABASE_HEADERS,
+    });
+    if (!responseEst.ok) {
+      throw new Error('Error al eliminar los establecimientos del comerciante')
+    }
+    // Luego se elimina el comerciante
+    const urlComerciante = `${SUPABASE_URL}/rest/v1/comerciante?id_comerciante=eq.${comerciante.id_comerciante}`;
+    const responseCom = await fetch(urlComerciante, {
+      method: 'DELETE',
+      headers: SUPABASE_HEADERS,
+    });
+    if (!responseCom.ok) {
+      throw new Error('Error al eliminar el comerciante');
+    };
+  } catch (error) {
+    console.error('Error en eliminar:', error);
+    throw error;
   }
 }
 
-export async function insertarComerciante(nuevo: Omit<Comerciante, 'habilitado'>): Promise<void> {
-  const { error } = await supabase
-    .from('comerciante')
-    .insert([{ ...nuevo, habilitado: false }]) // `habilitado` FALSE por defecto
-
-  if (error) {
-    console.error('Error al insertar comerciante:', error)
+export async function insertarComerciante(nuevo: Omit<Comerciante, 'habilitado' | 'id_comerciante'>): Promise<void> {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/comerciante`
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: SUPABASE_HEADERS,
+      body: JSON.stringify({
+        ...nuevo,
+        habilitado: false // valor por defecto
+      }),
+    })
+    if (!response.ok) {
+      throw new Error('Error al insertar comerciante')
+    }
+  } catch (error) {
+    console.error('Error en insertar comerciante:', error)
     throw error
   }
 }

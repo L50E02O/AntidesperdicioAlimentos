@@ -1,27 +1,29 @@
 <template>
-    <div>
+    <div v-if = "inventario">
         <h1>Inventario</h1>
-        <div v-if="inventario">
-            <p> ID: {{inventario.id_inventario}} </p>
-            <p> Fecha de actualizacion: {{ inventario.fecha_actualizacion }} </p>
-            <p> cantidad de productos: {{ inventario.cantidad_total }}</p>
-            <p> valor total: {{ inventario.valor_inventario }}</p>
-            <p> Productos: </p>
-            <ul>
-                <li v-for="(producto, id_producto ) in inventario.productos" :key="id_producto">
-                {{ producto.nombre }} - ${{ producto.precio }}
-                </li>
-            </ul>
+        <InventarioCard
+        :id_inventario = "inventario.id_inventario"
+        :fecha_actualizacion = "inventario.fecha_actualizacion"
+        :cantidad_total = "inventario.cantidad_total"
+        :valor_inventario = "inventario.valor_inventario"
+        />
+        <h1>Productos</h1>
+        <div class="productos">
+            <RouterLink :to='`/producto-form/${inventario.id_inventario}`' class="btn-agregar">Agregar</RouterLink>
+            <ProductoLista
+            :productos = "inventario.productos"
+            />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { obtenerInventarioPorId } from '../../services/servicioInventario'
 import type { Inventario } from '../../types/inventario'
+import InventarioCard from "../../components/inventario/InventarioCard.vue"
+import ProductoLista from "../../components/inventario/ProductoLista.vue"
 
 const route = useRoute()
 const idEstablecimiento = String(route.params.id)
@@ -40,5 +42,24 @@ onMounted(async () => {
 </script>
 
 <style>
+.productos {
+    display: flex;
+    flex-direction: column;
+}
 
+.btn-agregar {
+  align-self: flex-start;
+  padding: 6px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  text-decoration-line: none;
+}
+
+.btn-agregar:hover {
+  background-color: #1f67db;
+}
 </style>
