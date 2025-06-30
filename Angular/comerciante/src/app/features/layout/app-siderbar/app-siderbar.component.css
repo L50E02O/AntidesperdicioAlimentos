@@ -9,7 +9,7 @@
     
 :host { /* Styles applied to the component's host element itself */
     display: flex; /* Makes <app-dashboard> behave like a flex container */
-    width: 100%;
+    width: 26%;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     background-color: #FCFCFC;
@@ -83,6 +83,15 @@
     align-items: center;
     padding: 15px 10px;
     margin-top: auto; /* Pushes to the bottom */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+    background-color: #D32F2F; /* Placeholder if image fails */
 }
 
 .user-info .user-name {

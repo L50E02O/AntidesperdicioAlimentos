@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../core/services/auth.service/auth.service';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-pedido', // El selector para usar este componente
   templateUrl: './dashboard-pedido.component.html',
+  standalone: true,
+
+  imports: [CommonModule], // Importa módulos necesarios
   styleUrls: ['./dashboard-pedido.component.css']
 })
 export class DashboardPedidoComponent implements OnInit {
-
+  userName: string = '';
+  userRole: string = '';
   // Propiedad para almacenar todos los pedidos
   allPedidos: any[] = [];
   // Propiedad para almacenar los pedidos que se mostrarán (después de aplicar filtros)
@@ -14,45 +21,43 @@ export class DashboardPedidoComponent implements OnInit {
   // Propiedad para controlar la pestaña activa (Todos, Pendientes, etc.)
   activeTab: string = 'Todos'; // Por defecto, mostrar todos los pedidos
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    // Aquí es donde normalmente cargarías los pedidos desde un servicio (ej. API, Supabase)
-    // Por ahora, usaremos datos de prueba para la visualización.
-    this.allPedidos = [
-      { id: '#1023', cliente: 'María López', productos: 2, estado: 'Pendiente', fecha: '12/06/2024', total: 120.00 },
-      { id: '#1022', cliente: 'Carlos Ruiz', productos: 1, estado: 'Confirmado', fecha: '11/06/2024', total: 45.00 },
-      { id: '#1021', cliente: 'Ana Torres', productos: 3, estado: 'Cancelado', fecha: '10/06/2024', total: 80.00 },
-      { id: '#1020', cliente: 'Laura García', productos: 5, estado: 'Pendiente', fecha: '09/06/2024', total: 250.00 },
-      { id: '#1019', cliente: 'Pedro Martínez', productos: 1, estado: 'Confirmado', fecha: '08/06/2024', total: 60.00 },
-      { id: '#1018', cliente: 'Sofía Díaz', productos: 2, estado: 'Entregado', fecha: '07/06/2024', total: 95.00 } // Agregado para probar el estado "Entregado"
-    ];
+      const usuario = this.authService.getUsuario();
 
-    // Inicialmente, mostrar todos los pedidos
-    this.filterPedidos('Todos');
-  }
+      if (usuario) {
+      this.userName = usuario.nombre || usuario.id_comerciante || 'Usuario';
+      this.userRole = usuario.rol || 'Comerciante';
 
-  /**
-   * Filtra los pedidos según el estado seleccionado.
-   * @param status El estado por el cual filtrar (ej. 'Todos', 'Pendiente', 'Confirmado', 'Cancelado').
-   */
-  filterPedidos(status: string): void {
-    this.activeTab = status; // Establece la pestaña activa
+        // Simulación de pedidos obtenidos del backend
+        this.allPedidos = [
+          { id: '1', estado: 'Pendiente', fecha: '2023-10-01', total: 100, cliente: 'Cliente A' },
+          { id: '2', estado: 'Confirmado', fecha: '2023-10-02', total: 200, cliente: 'Cliente B' },
+          { id: '3', estado: 'Cancelado', fecha: '2023-10-03', total: 150, cliente: 'Cliente C' },
+          { id: '4', estado: 'Pendiente', fecha: '2023-10-04', total: 300, cliente: 'Cliente D' },
+          { id: '5', estado: 'Confirmado', fecha: '2023-10-05', total: 250, cliente: 'Cliente E' }
+        ];
 
-    if (status === 'Todos') {
-      this.filteredPedidos = [...this.allPedidos]; // Muestra todos los pedidos
+        // Inicialmente, mostrar todos los pedidos
+        this.filteredPedidos = [...this.allPedidos];
+
+      }
+    }
+    
+    filterPedidos(estado: string) {
+    if (estado === 'Todos') {
+      this.filteredPedidos = this.allPedidos;
     } else {
-      // Filtra los pedidos por el estado seleccionado
-      this.filteredPedidos = this.allPedidos.filter(pedido => pedido.estado === status);
+      this.filteredPedidos = this.allPedidos.filter(p => p.estado === estado);
     }
   }
 
-  // Si necesitas navegar a la página de detalle de un pedido
-  goToPedidoDetail(pedidoId: string): void {
-    console.log('Navegar a detalle del pedido:', pedidoId);
-    // Aquí usarías el Router de Angular para navegar:
-    // import { Router } from '@angular/router';
-    // constructor(private router: Router) { }
-    // this.router.navigate(['/pedidos', 'detalle', pedidoId]);
+  goToPedidoDetail(id: number) {
+    // Suponiendo que tienes una ruta como /pedido/:id
+    this.router.navigate(['/pedido', id]);
   }
+
+
+
 }
