@@ -2,11 +2,12 @@
   <div class="notificaciones-view">
     <h2 class="title">Notificaciones</h2>
 
-    <NotificacionAdminCard
+    <NotificacionAdminRow
       v-for="n in notificaciones"
       :key="n.id_notificacion"
       :mensaje="n.mensaje"
       :fechaEnvio="n.fecha_envio"
+      @eliminar="eliminar(n)"
     />
 
     <p v-if="notificaciones.length === 0" class="empty">No hay notificaciones.</p>
@@ -15,8 +16,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import NotificacionAdminCard from '../../components/notificacionAdmin/NotificacionAdminCard.vue'
-import { obtenerNotificacionesAdmin } from '../../services/servicioNotificacionAdmin'
+import NotificacionAdminRow from '../../components/notificacionAdmin/NotificacionAdminRow.vue'
+import { obtenerNotificacionesAdmin, eliminarNotificacionAdmin } from '../../services/servicioNotificacionAdmin'
 import type { NotificacionAdmin } from '../../types/notificacionAdmin'
 
 const notificaciones = ref<NotificacionAdmin[]>([])
@@ -24,6 +25,12 @@ const notificaciones = ref<NotificacionAdmin[]>([])
 onMounted(async () => {
   notificaciones.value = await obtenerNotificacionesAdmin()
 })
+
+async function eliminar(notificacion: NotificacionAdmin){
+  await eliminarNotificacionAdmin(notificacion);
+  notificaciones.value = await obtenerNotificacionesAdmin();
+}
+
 </script>
 
 

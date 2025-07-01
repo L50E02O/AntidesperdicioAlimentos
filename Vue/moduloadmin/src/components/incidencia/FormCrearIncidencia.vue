@@ -66,8 +66,7 @@ const form = ref({
 
 const mensaje = ref('')
 const comerciantes = ref<Comerciante[]>([]);
-const clientes = ref<Cliente[]>([])
-//const idSeleccionado = ref<string>("");
+const clientes = ref<Cliente[]>([]);
 
 onMounted(async()=>{
   try{

@@ -11,7 +11,7 @@ import ProductoForm from '../components/Productos/ProductoForm.vue';
 
 const routes = [
   {path: '/', redirect: '/dashboard'},
-  { path: '/dashboard', component: Dashboard },
+  {path: '/dashboard', component: Dashboard },
   {path: "/establecimientos", component: Establecimientos},
   {path: "/notificaciones", component: Notificaciones},
   {path: "/incidencias", component: Incidencias},
