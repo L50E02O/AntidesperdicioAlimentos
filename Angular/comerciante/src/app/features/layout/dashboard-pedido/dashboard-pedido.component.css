@@ -117,15 +117,7 @@ h2 {
   margin-right: 15px; /* Espacio entre pestañas */
 }
 
-.tab-navigation span:hover {
-  color: #1890ff;
-}
 
-.tab-navigation span.active {
-  color: #1890ff;
-  border-bottom: 2px solid #1890ff;
-  font-weight: bold;
-}
 
 /* --- Orders List Table Styles --- */
 .orders-list-container {

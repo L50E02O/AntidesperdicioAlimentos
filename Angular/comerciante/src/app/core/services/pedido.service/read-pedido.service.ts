@@ -8,20 +8,15 @@ import { firstValueFrom } from 'rxjs';
 export class readPedidoService {
   constructor(private supabase: SupabaseService) {}
 
-  async readPedido(pedidoId: string): Promise<any> {
-    const tableAndQuery = `pedido`;
-
-    try {
-      // Llamamos al método select de SupabaseService pasándole la URL ya armada
-      const response = await firstValueFrom(
-        this.supabase.getAll(tableAndQuery)
-      );
-
-      return response;
-    } catch (error) {
-      console.error('Error al leer pedido:', error);
-      throw error;
-    }
+async readPedidoPorEstablecimiento(id_establecimiento: string): Promise<any[]> {
+  const tableAndQuery = `pedido?id_establecimiento=eq.${id_establecimiento}`;
+  try {
+    const response = await firstValueFrom(this.supabase.getAll(tableAndQuery));
+    return response;
+  } catch (error) {
+    console.error('Error al obtener pedidos:', error);
+    return [];
   }
+}
 }
 

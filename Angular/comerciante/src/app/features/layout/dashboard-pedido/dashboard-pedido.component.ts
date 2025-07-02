@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { readPedidoService } from '../../../core/services/pedido.service/read-pedido.service';
+import { readEstablecimientoService } from '../../../core/services/establecimiento.service/read-establecimiento.service';
 
 @Component({
   selector: 'app-dashboard-pedido', // El selector para usar este componente
@@ -21,29 +23,46 @@ export class DashboardPedidoComponent implements OnInit {
   // Propiedad para controlar la pestaña activa (Todos, Pendientes, etc.)
   activeTab: string = 'Todos'; // Por defecto, mostrar todos los pedidos
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, 
+    private router: Router,
+    private readPedidoService: readPedidoService,
+    private readEstablecimientoService: readEstablecimientoService
+  ) { }
 
-  ngOnInit(): void {
-      const usuario = this.authService.getUsuario();
+  async ngOnInit(): Promise<void> {
+    const usuario = this.authService.getUsuario();
 
-      if (usuario) {
+    if (usuario) {
       this.userName = usuario.nombre || usuario.id_comerciante || 'Usuario';
       this.userRole = usuario.rol || 'Comerciante';
 
-        // Simulación de pedidos obtenidos del backend
-        this.allPedidos = [
-          { id: '1', estado: 'Pendiente', fecha: '2023-10-01', total: 100, cliente: 'Cliente A' },
-          { id: '2', estado: 'Confirmado', fecha: '2023-10-02', total: 200, cliente: 'Cliente B' },
-          { id: '3', estado: 'Cancelado', fecha: '2023-10-03', total: 150, cliente: 'Cliente C' },
-          { id: '4', estado: 'Pendiente', fecha: '2023-10-04', total: 300, cliente: 'Cliente D' },
-          { id: '5', estado: 'Confirmado', fecha: '2023-10-05', total: 250, cliente: 'Cliente E' }
-        ];
+    try {
+      // 1️⃣ Obtengo establecimientos del comerciante
+      const establecimientos = await this.readEstablecimientoService.readEstablecimientoPorComerciante(usuario.id_comerciante);
 
-        // Inicialmente, mostrar todos los pedidos
+      if (establecimientos.length > 0) {
+        // 2️⃣ Obtengo pedidos de esos establecimientos
+        let pedidosTotales: any[] = [];
+        console.log('Establecimientos:', establecimientos);
+for (const est of establecimientos) {
+  const pedidos = await this.readPedidoService.readPedidoPorEstablecimiento(est.id_establecimiento);
+  pedidosTotales = [...pedidosTotales, ...pedidos];
+}
+        this.allPedidos = pedidosTotales;
         this.filteredPedidos = [...this.allPedidos];
-
+      } else {
+        this.allPedidos = [];
+        this.filteredPedidos = [];
       }
+    } catch (error) {
+      console.error('Error al obtener pedidos:', error);
+      this.allPedidos = [];
+      this.filteredPedidos = [];
     }
+  }
+}
+    
+  
     
     filterPedidos(estado: string) {
     if (estado === 'Todos') {
@@ -58,6 +77,8 @@ export class DashboardPedidoComponent implements OnInit {
     this.router.navigate(['/pedido', id]);
   }
 
-
+  objectKeys(obj: any): string[] {
+  return obj ? Object.keys(obj) : [];
+}
 
 }
