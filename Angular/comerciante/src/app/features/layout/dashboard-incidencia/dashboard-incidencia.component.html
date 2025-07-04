@@ -1,1 +1,35 @@
-<p>dashboard-incidencia works!</p>
+<div class="notifications-dashboard">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Incidencias</span>
+  </div>
+
+  <h1>Incidencias</h1>
+
+  <h2>Reportes recientes</h2>
+
+  <div class="notification-list">
+    <div class="notification-item" *ngFor="let inc of incidencias; let i = index">
+      <div class="notification-icon"></div>
+      <div class="notification-content">
+        <div class="notification-title">{{ inc.titulo }}</div>
+        <div class="notification-message">
+          {{ inc.descripcion }} 
+          <span class="notification-time">[{{ inc.estado }}]</span>
+        </div>
+      </div>
+      <button class="delete-button" (click)="eliminarIncidencia(i)">✖</button>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 30px;">Nueva incidencia</h2>
+  <div class="form-group">
+    <input type="text" placeholder="Título" [(ngModel)]="nuevaIncidencia.titulo">
+    <textarea rows="2" placeholder="Descripción" [(ngModel)]="nuevaIncidencia.descripcion"></textarea>
+    <select [(ngModel)]="nuevaIncidencia.estado">
+      <option>Pendiente</option>
+      <option>En proceso</option>
+      <option>Resuelta</option>
+    </select>
+    <button (click)="crearIncidencia()">Agregar incidencia</button>
+  </div>
+</div>

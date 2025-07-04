@@ -1,1 +1,21 @@
-<p>dashboard-notificacion works!</p>
+<div class="notifications-dashboard">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Notificaciones</span>
+  </div>
+
+  <h1>Notificaciones</h1>
+
+  <h2>Mensajes recientes</h2>
+
+  <div class="notification-list">
+    <div class="notification-item" *ngFor="let notif of notifications">
+      <div class="notification-icon"></div>
+      <div class="notification-content">
+        <div class="notification-title">{{ notif.title }}</div>
+        <div class="notification-message">
+          {{ notif.message }} <span class="notification-time">{{ notif.time }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

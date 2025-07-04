@@ -37,17 +37,18 @@ export class DashboardPedidoComponent implements OnInit {
       this.userRole = usuario.rol || 'Comerciante';
 
     try {
-      // 1️⃣ Obtengo establecimientos del comerciante
+      //  Obtengo establecimientos del comerciante
       const establecimientos = await this.readEstablecimientoService.readEstablecimientoPorComerciante(usuario.id_comerciante);
 
       if (establecimientos.length > 0) {
-        // 2️⃣ Obtengo pedidos de esos establecimientos
+        // Obtengo pedidos de esos establecimientos
         let pedidosTotales: any[] = [];
         console.log('Establecimientos:', establecimientos);
 for (const est of establecimientos) {
   const pedidos = await this.readPedidoService.readPedidoPorEstablecimiento(est.id_establecimiento);
   pedidosTotales = [...pedidosTotales, ...pedidos];
 }
+
         this.allPedidos = pedidosTotales;
         this.filteredPedidos = [...this.allPedidos];
       } else {

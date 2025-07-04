@@ -26,11 +26,6 @@ export class DashboardComponent implements OnInit {
     { title: 'Incidencias', subtitle: 'Reportes y seguimiento', buttonText: 'Ver incidencias', route: '/dashboard/incidencias' }
   ];
 
-  summaryCards: DashboardCard[] = [
-    { title: 'Pedidos pendientes', subtitle: '3 pedidos por entregar', buttonText: 'Ver detalles' },
-    { title: 'Próximos a vencer', subtitle: '5 productos en riesgo', buttonText: 'Revisar inventario' }
-  ];
-
   cerrarSesionCard: DashboardCard = {
     title: 'Cerrar sesión',
     subtitle: 'Finaliza tu sesión actual',
