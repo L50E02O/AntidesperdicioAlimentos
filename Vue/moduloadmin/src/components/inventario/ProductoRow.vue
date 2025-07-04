@@ -5,7 +5,7 @@
     <div>$ {{ precio }}</div>
     <div>{{ stock }}</div>
     <div class="acciones">
-      <button class="editar" @click="$emit('editar')">Editar2</button>
+      <button class="editar" @click="$emit('editar')">Editar</button>
       <button class="eliminar" @click="$emit('eliminar')">Eliminar</button>
     </div>
   </div>

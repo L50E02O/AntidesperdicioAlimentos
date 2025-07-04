@@ -4,7 +4,7 @@
       <p class="mensaje">{{ mensaje }}</p>
       <p class="fecha">{{ fechaEnvio }}</p>
     </div>
-    <button class="eliminar" @click="$emit('eliminar')">Eliminar</button>
+    <button class="accion" @click="$emit('accion')">{{textoBoton}}</button>
   </div>
 </template>
 
@@ -12,6 +12,7 @@
 defineProps<{
   mensaje: string
   fechaEnvio: string
+  textoBoton: string
 }>()
 
 // const fechaLocal = ref(props.fechaEnvio)
@@ -50,7 +51,7 @@ defineProps<{
   color: #6b7280; /* gris medio */
 }
 
-.eliminar {
+.accion {
   background-color: #3b82f6; /* rojo */
   color: white;
   padding: 6px 12px;
@@ -60,7 +61,7 @@ defineProps<{
   transition: background-color 0.2s ease;
 }
 
-.eliminar:hover {
+.accion:hover {
   background-color: #3971f4;
 }
 </style>

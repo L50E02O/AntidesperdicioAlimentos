@@ -1,5 +1,6 @@
 <template>
   <div class="crear-producto">
+    <botonAtras @cambiarRuta="$router.push('/inventario/' + id_inventario)" />
     <h2>Registrar nuevo producto</h2>
     <form @submit.prevent="registrarProducto">
 
@@ -33,6 +34,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { insertarProducto } from '../../services/servicioProducto'
+import botonAtras from '../botonAtras/botonAtras.vue'
 
 const route = useRoute()
 const id_inventario = String(route.params.id)
@@ -61,7 +63,7 @@ async function registrarProducto() {
 </script>
 
 <style scoped>
-.crear-comerciante {
+.crear-producto {
   max-width: 500px;
   margin: 0 auto;
   background: #fff;

@@ -1,5 +1,6 @@
 <template>
   <div class="editar-producto">
+    <botonAtras @cambiarRuta="$router.push('/inventario/' + form.id_inventario)" />
     <h2>Editar producto</h2>
     <form @submit.prevent="guardarCambiosProducto">
 
@@ -34,6 +35,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { actualizarProducto} from '../../services/servicioProducto'
 import router from '../../router'
+import botonAtras from '../botonAtras/botonAtras.vue'
 
 const rout = useRoute()
 onMounted(async () => {

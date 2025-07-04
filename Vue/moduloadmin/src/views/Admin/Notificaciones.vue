@@ -7,9 +7,9 @@
       :key="n.id_notificacion"
       :mensaje="n.mensaje"
       :fechaEnvio="n.fecha_envio"
-      @eliminar="eliminar(n)"
+      :textoBoton="'Elimiar'"
+      @accion="eliminar(n)"
     />
-
     <p v-if="notificaciones.length === 0" class="empty">No hay notificaciones.</p>
   </div>
 </template>

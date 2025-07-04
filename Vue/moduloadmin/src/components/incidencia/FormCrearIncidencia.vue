@@ -1,5 +1,6 @@
 <template>
   <div class="crear-incidencia">
+    <botonAtras @cambiarRuta="$router.push('/incidencias')" />
     <h2>Registrar nueva incidencia</h2>
     <form @submit.prevent="registrarIncidencia">
       <div class="form-group">
@@ -55,7 +56,7 @@ import { obtenerComerciantes } from '../../services/servicioComerciante'
 import type { Comerciante } from '../../types/comerciante'
 import type { Cliente } from '../../types/cliente'
 import { obtenerClientes } from '../../services/servicioCliente'
-
+import botonAtras from '../botonAtras/botonAtras.vue'
 const form = ref({
   descripcion: '',
   fecha: '',

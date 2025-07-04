@@ -7,9 +7,7 @@
       <button :class="{ active: activeTab === 'deshabilitados' }" @click="activeTab = 'deshabilitados'">Deshabilitados</button>
     </div>
 
-    <div>
-      <RouterLink to="/form-crear-comerciante" >Crear Comerciante</RouterLink>
-    </div>
+    <RouterLink class="crear-comerciante" to="/form-crear-comerciante" >Crear Comerciante</RouterLink>
 
     <div v-if="activeTab === 'habilitados'" class="lista">
       <ComercianteCard
@@ -26,7 +24,7 @@
       />
     </div>
 
-    <div v-if="activeTab === 'deshabilitados'" class="solicitudes">
+    <div v-if="activeTab === 'deshabilitados'" class="lista">
       <ComercianteCard
         v-for="(comerciante, id_comerciante) in deshabilitados"
         :key="id_comerciante"
@@ -81,12 +79,14 @@ async function eliminar(comerciante: Comerciante) {
 .comerciantes {
   padding: 1rem;
 }
+
 .tabs {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
 }
-.tabs button {
+
+.tabs button{
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
@@ -98,14 +98,19 @@ async function eliminar(comerciante: Comerciante) {
   font-weight: bold;
 }
 .lista {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.solicitudes {
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+.crear-comerciante {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  text-decoration-line: none;
 }
 </style>

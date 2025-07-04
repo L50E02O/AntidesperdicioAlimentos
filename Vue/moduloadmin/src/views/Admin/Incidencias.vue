@@ -1,9 +1,7 @@
 <template>
   <div class="incidencias-view">
     <h2 class="title">Gestión de incidencias</h2>
-    <div>
-        <RouterLink to="/form-crear-incidencia" class="button">Crear Incidencia</RouterLink>
-    </div>
+    <RouterLink to="/form-crear-incidencia" class="crear-incidencia">Crear Incidencia</RouterLink>
 
     <section class="section">
       <h3>Pendientes</h3>
@@ -117,5 +115,16 @@ async function eliminar(incidencia: Incidencia) {
 .empty {
   color: #666;
   font-style: italic;
+}
+.crear-incidencia {
+  width: fit-content;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  text-decoration-line: none;
 }
 </style>
