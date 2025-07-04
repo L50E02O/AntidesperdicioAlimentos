@@ -24,79 +24,11 @@
     width: 100%;
 }
 
-.sidebar {
-    width: 260px;
-    background-color: #F7F7F7;
-    padding: 25px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-right: 1px solid #EAEAEA;
-    flex-shrink: 0; /* Prevent sidebar from shrinking */
-}
 
-.sidebar-top {
-    display: flex;
-    flex-direction: column;
-}
 
-.logo {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1D2129;
-    margin-bottom: 30px;
-    padding-left: 10px;
-}
 
-.sidebar-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
 
-.sidebar-nav li a {
-    display: block;
-    padding: 12px 15px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-    text-decoration: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
 
-.sidebar-nav li a:hover {
-    background-color: #E9ECEF;
-}
-
-.sidebar-nav li a.active {
-    background-color: #E9ECEF;
-    color: #1D2129;
-    font-weight: 600;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    padding: 15px 10px;
-    margin-top: auto; /* Pushes to the bottom */
-}
-
-.user-info .user-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1D2129;
-    margin: 0;
-}
-
-.user-info .user-role {
-    font-size: 13px;
-    color: #555;
-    margin: 0;
-}
 
 /* Main Content Area */
 .main-content {
@@ -204,12 +136,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
-    .sidebar {
-        width: 220px;
-    }
-    .logo {
-        font-size: 20px;
-    }
     .main-content {
         padding: 20px;
     }
@@ -228,30 +154,7 @@
     .dashboard-container {
         flex-direction: column;
     }
-    .sidebar {
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid #EAEAEA;
-        padding: 15px;
-    }
-    .sidebar-nav ul {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .sidebar-nav li a {
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-    .logo {
-        text-align: center;
-        margin-bottom: 15px;
-    }
-    .user-profile {
-        justify-content: center;
-        padding-top: 10px;
-    }
+
     .main-header h2 {
         font-size: 24px;
     }

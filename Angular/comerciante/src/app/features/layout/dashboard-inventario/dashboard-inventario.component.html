@@ -1,1 +1,63 @@
-<p>dashboard-inventario works!</p>
+<div class="inventory-dashboard">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Inventario</span>
+  </div>
+
+  <h1>Inventario actual</h1>
+
+  <div class="search-add-section">
+    <div class="search-bar">
+      <label for="search-product">Buscar producto</label>
+      <input
+        id="search-product"
+        type="text"
+        placeholder="Nombre, categoría..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      />
+    </div>
+    <button class="add-product-button" (click)="addProduct()">Agregar producto</button>
+  </div>
+
+  <div class="filter-tabs">
+    <button
+      *ngFor="let filter of filters"
+      [class.active]="selectedFilter === filter"
+      (click)="selectFilter(filter)"
+    >
+      {{ filter }}
+    </button>
+  </div>
+
+  <h2>Lista de productos</h2>
+
+  <div class="product-list">
+    <div class="product-item header">
+      <div>Producto</div>
+      <div>Categoría</div>
+      <div>Cantidad</div>
+      <div>Precio</div>
+      <div>Caducidad</div>
+      <div></div>
+    </div>
+
+    <ng-container *ngIf="filteredProducts.length > 0; else noProducts">
+      <div class="product-item" *ngFor="let product of filteredProducts">
+        <div>{{ product.name }}</div>
+        <div>{{ product.category }}</div>
+        <div>{{ product.quantity }}</div>
+        <div>{{ product.price }}</div>
+        <div>{{ product.expiration }}</div>
+        <div class="edit-button-container">
+          <button class="edit-button" (click)="editProduct(product)">Editar</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noProducts>
+      <div class="no-products-message">
+        No hay productos que coincidan con los filtros.
+      </div>
+    </ng-template>
+  </div>
+</div>

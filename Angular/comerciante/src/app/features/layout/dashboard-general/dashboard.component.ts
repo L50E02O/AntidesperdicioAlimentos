@@ -21,14 +21,9 @@ export class DashboardComponent implements OnInit {
 
   quickAccessCards: DashboardCard[] = [
     { title: 'Pedidos', subtitle: 'Gestiona tus pedidos', buttonText: 'Ver pedidos', route: '/dashboard/pedidos' },
-    { title: 'Inventario', subtitle: 'Controla tu stock', buttonText: 'Ver inventario' },
-    { title: 'Notificaciones', subtitle: 'Mensajes recientes', buttonText: 'Ver notificaciones' },
-    { title: 'Incidencias', subtitle: 'Reportes y seguimiento', buttonText: 'Ver incidencias' }
-  ];
-
-  summaryCards: DashboardCard[] = [
-    { title: 'Pedidos pendientes', subtitle: '3 pedidos por entregar', buttonText: 'Ver detalles' },
-    { title: 'Próximos a vencer', subtitle: '5 productos en riesgo', buttonText: 'Revisar inventario' }
+    { title: 'Inventario', subtitle: 'Controla tu stock', buttonText: 'Ver inventario', route: '/dashboard/inventario' },
+    { title: 'Notificaciones', subtitle: 'Mensajes recientes', buttonText: 'Ver notificaciones', route: '/dashboard/notificaciones' },
+    { title: 'Incidencias', subtitle: 'Reportes y seguimiento', buttonText: 'Ver incidencias', route: '/dashboard/incidencias' }
   ];
 
   cerrarSesionCard: DashboardCard = {

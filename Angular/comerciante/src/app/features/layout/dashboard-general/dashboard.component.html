@@ -22,19 +22,6 @@
         </section>
 
         <section class="dashboard-section">
-            <h3 class="section-title">Resumen</h3>
-            <div class="cards-container two-columns">
-                <div class="card" *ngFor="let card of summaryCards">
-                    <div class="card-icon-container"><div class="card-icon"></div></div>
-                    <h4 class="card-title">{{ card.title }}</h4>
-                    <p class="card-subtitle">{{ card.subtitle }}</p>
-                    <button class="card-button" (click)="handleCardAction(card.title)">
-                        {{ card.buttonText }}
-                    </button>
-                </div>
-            </div>
-        </section>
-        <section class="dashboard-section">
             <div class="cards-container one-column">
                 <div class="card" *ngIf="cerrarSesionCard">
                     <div class="card-icon-container"><div class="card-icon"></div></div>
