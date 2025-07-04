@@ -35,11 +35,13 @@
       <h2>Notificaciones recientes</h2>
       <div class="notificaciones-recientes">
         <NotificacionAdminRow
-          mensaje="Se ha reportado una nueva incidencia."
-          fechaEnvio="2023-10-01"
-          texto-boton="Ver más"
-          @accion="verApartado('/incidencias')">
-        </NotificacionAdminRow>
+          v-for="n in notificacionesAdminStore.notificacionesAdmin.slice(0, 3)"
+          :key="n.id_notificacion"
+          :mensaje="n.mensaje"
+          :fechaEnvio="n.fecha_envio"
+          :textoBoton="'Ver Más'"
+          @accion="verApartado('/notificaciones')"
+        />
       </div>
     </div>
 </template>
@@ -48,6 +50,14 @@
 import ResumenCard from '../../components/dashboard/ResumenCard.vue';
 import router from '../../router';
 import NotificacionAdminRow from '../../components/notificacionAdmin/NotificacionAdminRow.vue';
+import { useNotificacionesAdminStore } from '../../stores/notificacionAdminStore';
+import { onMounted } from 'vue';
+
+const notificacionesAdminStore = useNotificacionesAdminStore();
+
+onMounted(async () =>{
+  await notificacionesAdminStore.cargarNotificaciones();
+});
 
 const verApartado = (ruta: string) => {
   router.push(ruta);
@@ -67,6 +77,7 @@ const verApartado = (ruta: string) => {
   display: flex;
   width: 100%;
   border-radius: 12px;
+  gap: 15px
 }
 
 .notificaciones-recientes {

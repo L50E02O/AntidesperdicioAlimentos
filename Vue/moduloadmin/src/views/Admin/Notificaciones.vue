@@ -3,36 +3,34 @@
     <h2 class="title">Notificaciones</h2>
 
     <NotificacionAdminRow
-      v-for="n in notificaciones"
+      v-for="n in notificacionesAdminStore.notificacionesAdmin"
       :key="n.id_notificacion"
       :mensaje="n.mensaje"
       :fechaEnvio="n.fecha_envio"
       :textoBoton="'Elimiar'"
       @accion="eliminar(n)"
     />
-    <p v-if="notificaciones.length === 0" class="empty">No hay notificaciones.</p>
+    <p v-if="notificacionesAdminStore.notificacionesAdmin.length === 0" class="empty">No hay notificaciones.</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import NotificacionAdminRow from '../../components/notificacionAdmin/NotificacionAdminRow.vue'
-import { obtenerNotificacionesAdmin, eliminarNotificacionAdmin } from '../../services/servicioNotificacionAdmin'
 import type { NotificacionAdmin } from '../../types/notificacionAdmin'
+import { useNotificacionesAdminStore } from '../../stores/notificacionAdminStore'
 
-const notificaciones = ref<NotificacionAdmin[]>([])
+const notificacionesAdminStore = useNotificacionesAdminStore();
 
 onMounted(async () => {
-  notificaciones.value = await obtenerNotificacionesAdmin()
+  await notificacionesAdminStore.cargarNotificaciones();
 })
 
 async function eliminar(notificacion: NotificacionAdmin){
-  await eliminarNotificacionAdmin(notificacion);
-  notificaciones.value = await obtenerNotificacionesAdmin();
+  notificacionesAdminStore.eliminarNotificacion(notificacion);
 }
 
 </script>
-
 
 <style scoped>
 .notificaciones-view {
