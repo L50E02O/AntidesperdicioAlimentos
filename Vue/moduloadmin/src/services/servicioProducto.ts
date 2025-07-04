@@ -7,7 +7,7 @@ export async function actualizarProducto(Producto: Producto) {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: SUPABASE_HEADERS,
-      body: JSON.stringify(Producto),
+      body: JSON.stringify([Producto]),
     });
     if (!response.ok) {
       throw new Error('Error al actualizar el producto');

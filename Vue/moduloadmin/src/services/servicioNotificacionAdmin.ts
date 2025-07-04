@@ -18,3 +18,19 @@ export async function obtenerNotificacionesAdmin(): Promise<NotificacionAdmin[]>
     return []
   }
 }
+
+export async function eliminarNotificacionAdmin(notificacionAdmin: NotificacionAdmin): Promise<void> {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/notificacion_admin?id_notificacion=eq.${notificacionAdmin.id_notificacion}`
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: SUPABASE_HEADERS,
+    })
+    if (!response.ok) {
+      throw new Error('Error al eliminar la notificacionAdmin')
+    }
+  } catch (error) {
+    console.error('Error:', error)
+    throw error
+  }
+}

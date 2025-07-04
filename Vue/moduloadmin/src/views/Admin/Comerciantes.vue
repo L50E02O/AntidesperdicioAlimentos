@@ -16,26 +16,27 @@
         v-for="(comerciante, id_comerciante) in habilitados"
         :key="id_comerciante"
         :nombre="comerciante.nombre"
-        :id="comerciante.id_comerciante"
         :direccion="comerciante.direccion"
         :telefono="comerciante.telefono"
         :email="comerciante.email"
-        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @deshabilitar="actualizarEstado(comerciante)"
+        :estado="'Habilitado'"
+        :textoBotonEstado="'Deshabilitar'"
+        @cambiarEstado="actualizarEstado(comerciante)"
         @eliminar="eliminar(comerciante)"
       />
     </div>
 
     <div v-if="activeTab === 'deshabilitados'" class="solicitudes">
-      <ComercianteDeshabCard
+      <ComercianteCard
         v-for="(comerciante, id_comerciante) in deshabilitados"
         :key="id_comerciante"
         :nombre="comerciante.nombre"
         :direccion="comerciante.direccion"
         :telefono="comerciante.telefono"
         :email="comerciante.email"
-        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @habilitar="actualizarEstado(comerciante)"
+        :estado="'Deshabilitado'"
+        :textoBotonEstado="'Habilitar'"
+        @cambiarEstado="actualizarEstado(comerciante)"
         @eliminar="eliminar(comerciante)"
       />
     </div>
@@ -45,9 +46,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import ComercianteCard from '../../components/comerciante/ComercianteCard.vue'
-import ComercianteDeshabCard from '../../components/comerciante/ComercianteDeshabCard.vue'
 import type { Comerciante } from '../../types/comerciante'
-
 import { obtenerComerciantes, actualizarComerciante, eliminarComerciante } from '../../services/servicioComerciante'
 
 const activeTab = ref('habilitados')
