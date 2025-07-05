@@ -1,5 +1,3 @@
-// filtrarProductos.ts
-
 import type { Producto } from '../types/productoT';
 
 export const BuscarNombre = (productos: Producto[], nombre: string): Producto[] => {
@@ -8,7 +6,12 @@ export const BuscarNombre = (productos: Producto[], nombre: string): Producto[] 
 };
 
 // Puedes agregar otros filtros en este mismo archivo
-export const BuscarPrecio = (productos: Producto[], tipo: string): Producto[] => {
-  if (!tipo || tipo === 'Selecciona tipo') return productos;
-    return productos.filter(p => p.precio);
+export const BuscarPrecio = (productos: Producto[], precioMax: string): Producto[] => {
+  if (!precioMax) return productos;
+  
+  const max = parseFloat(precioMax);
+  if (isNaN(max)) return productos;
+
+  return productos.filter(p => p.precio <= max);
+
   };

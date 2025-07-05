@@ -2,19 +2,17 @@ import '../../styles/Inicio.css';
 import type { Producto } from '../../types/productoT';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../../data/base-datos';
-import { Search, MapPin, CircleCheck, Shapes } from 'lucide-react';
-import { BuscarNombre, BuscarPrecio} from '../../utils/FiltrarProductos';
-import DetallesProducto from '../DetallesProducto/detallesProducto';
+import { Search, Shapes } from 'lucide-react';
+import { BuscarNombre } from '../../utils/FiltrarProductos';
+import DetallesProducto from '../DetallesProducto/DetallesProducto';
 
 const Inicio = () => {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [productosFiltrados, setProductosFiltrados] = useState<Producto[]>([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
-
   const [nombreFiltro, setNombreFiltro] = useState('');
   const [precioFiltro, setPrecioFiltro] = useState('');
 
-  // Cargar productos iniciales
   useEffect(() => {
     const fetchProductos = async () => {
       const todosProductos = await getProducts();
@@ -24,7 +22,6 @@ const Inicio = () => {
     fetchProductos();
   }, []);
 
-  // Filtrar productos cada vez que cambian los filtros
   useEffect(() => {
     let resultado = productos;
     resultado = BuscarNombre(resultado, nombreFiltro);
@@ -32,21 +29,21 @@ const Inicio = () => {
   }, [productos, nombreFiltro, precioFiltro]);
 
   const handleDetallesClick = (producto: Producto) => {
-      setProductoSeleccionado(producto);
-    };
+    setProductoSeleccionado(producto);
+  };
 
-    if (productoSeleccionado) {
-      return <DetallesProducto producto={productoSeleccionado} />;
-    }
+  const volverAInicio = () => {
+    setProductoSeleccionado(null);
+  };
+
+  if (productoSeleccionado) {
+    return <DetallesProducto producto={productoSeleccionado} volver={volverAInicio} />;
+  }
 
   return (
     <div className="Inicio-Container">
       <h2 className="Titulo-Inicio">Explora alimentos disponibles</h2>
-
-      {/* Filtros */}
       <div className="Filtros-Busqueda">
-        
-        {/* Buscar por nombre */}
         <div>
           <p>Buscar Producto</p>
           <input
@@ -58,7 +55,6 @@ const Inicio = () => {
           <Search className="IconoLupa" size={20} />
         </div>
 
-        {/* Filtrar por tipo */}
         <div>
           <p>Precio</p>
           <input
@@ -67,17 +63,11 @@ const Inicio = () => {
             value={precioFiltro}
             onChange={(e) => setPrecioFiltro(e.target.value)}
           />
-          <Shapes className='IconoTipo' size={20} />
+          <Shapes className="IconoTipo" size={20} />
         </div>
-
-        {/* Otros filtros con estado o distancia, si quieres */}
-        {/* ... */}
-
       </div>
 
       <h3 className="Subtitulo">Alimentos para reservar</h3>
-
-      {/* Mostrar productos filtrados */}
       <div className="Tarjetas-Contenedor">
         {productosFiltrados.length > 0 ? (
           productosFiltrados.map((producto, index) => (
@@ -89,7 +79,7 @@ const Inicio = () => {
               <p className="Producto-Texto">Descripción: {producto.descripcion}</p>
               <div className="Botones">
                 <button className="Boton-Reservar">Reservar</button>
-                <button className="Boton-Detalles" onClick={() => handleDetallesClick(producto)} >Detalles</button>
+                <button className="Boton-Detalles" onClick={() => handleDetallesClick(producto)}>Detalles</button>
               </div>
             </div>
           ))
