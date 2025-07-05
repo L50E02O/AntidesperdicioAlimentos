@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Product {
-  name: string;
-  category: string;
-  quantity: string;
-  price: string;
-  expiration: string;
-}
+import { IProduct } from '../../../core/models/IProducto.model'; // Importa la interfaz
 
 @Component({
   selector: 'app-dashboard-inventario',
@@ -21,15 +14,30 @@ export class DashboardInventarioComponent implements OnInit {
   searchTerm = '';
   selectedFilter: string = 'Todos';
 
-  filters = ['Todos', 'Bajo stock', 'Próximos a vencer'];
+  filters = ['Todos', 'Bajo stock'];
 
-  products: Product[] = [
-    { name: 'Manzanas', category: 'Frutas', quantity: '12 kg', price: '$18.00/kg', expiration: '3 días' },
-    { name: 'Leche', category: 'Lácteos', quantity: '8 lts', price: '$22.00/lt', expiration: '1 día' },
-    { name: 'Pan integral', category: 'Panadería', quantity: '5 piezas', price: '$10.00/pz', expiration: '2 días' }
+  products: IProduct[] = [
+    { 
+      nombre: 'Manzanas', 
+      descripcion: 'Manzanas rojas frescas', 
+      precio: 18.00, 
+      stock: 12
+    },
+    { 
+      nombre: 'Leche', 
+      descripcion: 'Leche entera pasteurizada', 
+      precio: 22.00, 
+      stock: 8
+    },
+    { 
+      nombre: 'Pan integral', 
+      descripcion: 'Pan integral artesanal', 
+      precio: 10.00, 
+      stock: 5
+    }
   ];
 
-  filteredProducts: Product[] = [];
+  filteredProducts: IProduct[] = [];
 
   ngOnInit(): void {
     this.applyFilter();
@@ -50,16 +58,14 @@ export class DashboardInventarioComponent implements OnInit {
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
       tempProducts = tempProducts.filter(p =>
-        p.name.toLowerCase().includes(term) ||
-        p.category.toLowerCase().includes(term)
+        p.nombre.toLowerCase().includes(term) ||
+        p.descripcion.toLowerCase().includes(term)
       );
     }
 
-    // Aquí puedes implementar lógicas reales si tienes datos suficientes
     if (this.selectedFilter === 'Bajo stock') {
-      // Lógica futura
-    } else if (this.selectedFilter === 'Próximos a vencer') {
-      // Lógica futura
+      tempProducts = tempProducts.filter(p => p.stock < 10);
+
     }
 
     this.filteredProducts = tempProducts;
@@ -69,7 +75,7 @@ export class DashboardInventarioComponent implements OnInit {
     console.log('Agregar producto clicked');
   }
 
-  editProduct(product: Product): void {
+  editProduct(product: IProduct): void {
     console.log('Edit product:', product);
   }
 }

@@ -1,0 +1,196 @@
+.detalle-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.detalle-container h1 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.detalle-container p {
+  margin: 12px 0;
+  font-size: 1em;
+  color: #555;
+}
+
+.detalle-container strong {
+  color: #333;
+}
+
+.pedido-info-section,
+.detalle-pedido-section {
+  margin-bottom: 30px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pedido-info-section h2,
+.detalle-pedido-section h2 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+}
+
+/* Botones de acción */
+.detalle-container button:nth-child(1) {
+  background-color: #52c41a; /* verde */
+  color: #fff;
+}
+
+.detalle-container button:nth-child(2) {
+  background-color: #1890ff; /* azul */
+  color: #fff;
+}
+
+.detalle-container button:nth-child(3) {
+  background-color: #fa541c; /* rojo/naranja */
+  color: #fff;
+}
+
+.detalle-container button:nth-child(4) {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.detalle-container button:hover {
+  opacity: 0.9;
+}
+
+/* Estado del pedido tipo badge */
+.estado-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.estado-completado {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.estado-pendiente {
+  background-color: #fffbe6;
+  color: #faad14;
+}
+
+.estado-cancelado {
+  background-color: #fff0f6;
+  color: #eb2f96;
+}
+
+/* dashboard-detalle-pedido.component.css */
+.loading-state, .error-state {
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-state p {
+  font-size: 18px;
+  color: #666;
+}
+
+.error-state p {
+  font-size: 18px;
+  color: #dc3545;
+  margin-bottom: 20px;
+}
+
+.detalles-table-container,
+.pedido-table-container {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.detalles-table,
+.pedido-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.detalles-table th,
+.detalles-table td,
+.pedido-detail-table th,
+.pedido-detail-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.detalles-table th,
+.pedido-detail-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.no-detalles {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.btn-confirm,
+.btn-cancel,
+.btn-back {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn-confirm {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+.btn-cancel {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #c82333;
+}
+
+.btn-back {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-back:hover {
+  background-color: #545b62;
+}

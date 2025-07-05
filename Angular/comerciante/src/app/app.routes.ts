@@ -5,6 +5,7 @@ import { DashboardPedidoComponent } from './features/layout/dashboard-pedido/das
 import { DashboardInventarioComponent } from './features/layout/dashboard-inventario/dashboard-inventario.component';
 import { DashboardNotificacionComponent } from './features/layout/dashboard-notificacion/dashboard-notificacion.component';
 import { DashboardIncidenciaComponent } from './features/layout/dashboard-incidencia/dashboard-incidencia.component';
+import { DashboardDetallePedidoComponent } from './features/layout/dashboard-detalle-pedido/dashboard-detalle-pedido.component';
 import { MainLayoutComponent } from './features/layout/main-layout/main-layout.component';
 
 export const routes: Routes = [
@@ -20,7 +21,8 @@ export const routes: Routes = [
       { path: 'pedidos', component: DashboardPedidoComponent },
       { path: 'inventario', component: DashboardInventarioComponent },
       { path: 'notificaciones', component: DashboardNotificacionComponent },
-      { path: 'incidencias', component: DashboardIncidenciaComponent }
+      { path: 'incidencias', component: DashboardIncidenciaComponent },
+      { path: 'detalle-pedido/:id', component: DashboardDetallePedidoComponent }
       // aquí puedes ir agregando más páginas de dashboard
     ]
   }

@@ -9,17 +9,25 @@ export class updatePedidoService {
   constructor(private supabase: SupabaseService) {}
 
   async updatePedido(pedidoId: string, pedidoData: any): Promise<any> {
-    const tableAndQuery = `pedido`;
-
+    console.log('🔧 Servicio updatePedido iniciado');
+    console.log('🆔 ID recibido:', pedidoId);
+    console.log('📋 Datos a actualizar:', pedidoData);
+    console.log('🔍 Tipo del ID:', typeof pedidoId);
+    console.log('🔍 Tipo de datos:', typeof pedidoData);
+    
     try {
-      // Llamamos al método update de SupabaseService pasándole la URL ya armada
+      console.log('📡 Llamando a SupabaseService.update...');
+      
       const response = await firstValueFrom(
-        this.supabase.update(tableAndQuery, pedidoId, pedidoData)
+        this.supabase.update('pedido', 'id_pedido', pedidoId, pedidoData)
       );
-
+      
+      console.log('✅ Respuesta completa de Supabase:', response);
+      console.log('🔍 Tipo de respuesta:', typeof response);
+      
       return response;
     } catch (error) {
-      console.error('Error al actualizar pedido:', error);
+      console.error('❌ Error en updatePedidoService:', error);
       throw error;
     }
   }

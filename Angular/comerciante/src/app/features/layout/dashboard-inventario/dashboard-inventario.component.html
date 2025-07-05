@@ -11,7 +11,7 @@
       <input
         id="search-product"
         type="text"
-        placeholder="Nombre, categoría..."
+        placeholder="Nombre, descripción..."
         [(ngModel)]="searchTerm"
         (input)="onSearch()"
       />
@@ -34,20 +34,18 @@
   <div class="product-list">
     <div class="product-item header">
       <div>Producto</div>
-      <div>Categoría</div>
-      <div>Cantidad</div>
+      <div>Descripción</div>
+      <div>Stock</div>
       <div>Precio</div>
-      <div>Caducidad</div>
       <div></div>
     </div>
 
     <ng-container *ngIf="filteredProducts.length > 0; else noProducts">
       <div class="product-item" *ngFor="let product of filteredProducts">
-        <div>{{ product.name }}</div>
-        <div>{{ product.category }}</div>
-        <div>{{ product.quantity }}</div>
-        <div>{{ product.price }}</div>
-        <div>{{ product.expiration }}</div>
+        <div>{{ product.nombre }}</div>
+        <div>{{ product.descripcion }}</div>
+        <div>{{ product.stock }}</div>
+        <div>${{ product.precio.toFixed(2) }}</div>
         <div class="edit-button-container">
           <button class="edit-button" (click)="editProduct(product)">Editar</button>
         </div>

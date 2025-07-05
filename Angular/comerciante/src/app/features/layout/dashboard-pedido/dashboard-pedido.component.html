@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let pedido of filteredPedidos">
+          <tr *ngFor="let pedido of filteredPedidos" (click)="goToPedidoDetail(pedido.id_pedido)">
             <td *ngFor="let key of objectKeys(pedido)">{{ pedido[key] }}</td>
           </tr>
         </tbody>
