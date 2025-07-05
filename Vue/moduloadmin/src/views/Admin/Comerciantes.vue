@@ -7,36 +7,35 @@
       <button :class="{ active: activeTab === 'deshabilitados' }" @click="activeTab = 'deshabilitados'">Deshabilitados</button>
     </div>
 
-    <div>
-      <RouterLink to="/form-crear-comerciante" >Crear Comerciante</RouterLink>
-    </div>
+    <RouterLink class="crear-comerciante" to="/form-crear-comerciante" >Crear Comerciante</RouterLink>
 
     <div v-if="activeTab === 'habilitados'" class="lista">
       <ComercianteCard
         v-for="(comerciante, id_comerciante) in habilitados"
         :key="id_comerciante"
         :nombre="comerciante.nombre"
-        :id="comerciante.id_comerciante"
         :direccion="comerciante.direccion"
         :telefono="comerciante.telefono"
         :email="comerciante.email"
-        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @deshabilitar="actualizarEstado(comerciante)"
-        @eliminar="eliminarComerciante(comerciante)"
+        :estado="'Habilitado'"
+        :textoBotonEstado="'Deshabilitar'"
+        @cambiarEstado="actualizarEstado(comerciante)"
+        @eliminar="eliminar(comerciante)"
       />
     </div>
 
-    <div v-if="activeTab === 'deshabilitados'" class="solicitudes">
-      <ComercianteDeshabCard
+    <div v-if="activeTab === 'deshabilitados'" class="lista">
+      <ComercianteCard
         v-for="(comerciante, id_comerciante) in deshabilitados"
         :key="id_comerciante"
         :nombre="comerciante.nombre"
         :direccion="comerciante.direccion"
         :telefono="comerciante.telefono"
         :email="comerciante.email"
-        :estado="comerciante.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @habilitar="actualizarEstado(comerciante)"
-        @eliminar="eliminarComerciante(comerciante)"
+        :estado="'Deshabilitado'"
+        :textoBotonEstado="'Habilitar'"
+        @cambiarEstado="actualizarEstado(comerciante)"
+        @eliminar="eliminar(comerciante)"
       />
     </div>
   </div>
@@ -45,18 +44,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import ComercianteCard from '../../components/comerciante/ComercianteCard.vue'
-import ComercianteDeshabCard from '../../components/comerciante/ComercianteDeshabCard.vue'
 import type { Comerciante } from '../../types/comerciante'
-
-import {
-  obtenerComerciantesHabilitados,
-  obtenerComerciantesDeshabilitados,
-  habilitar,
-  deshabilitar,
-  eliminar,
-} from '../../services/servicioComerciante'
-import { isAwaitExpression } from 'typescript'
-import { eliminarIncidencia } from '../../services/servicioIncidencia'
+import { obtenerComerciantes, actualizarComerciante, eliminarComerciante } from '../../services/servicioComerciante'
 
 const activeTab = ref('habilitados')
 const habilitados = ref<Comerciante[]>([])
@@ -64,8 +53,9 @@ const deshabilitados = ref<Comerciante[]>([])
 
 async function cargarComerciantes(){
   try{
-    habilitados.value = await obtenerComerciantesHabilitados();
-    deshabilitados.value = await obtenerComerciantesDeshabilitados();
+    const comerciantes: Comerciante[] = await obtenerComerciantes();
+    habilitados.value = comerciantes.filter((comerciante)=>{return comerciante.habilitado===true});
+    deshabilitados.value = comerciantes.filter((comerciante)=>{return comerciante.habilitado===false});
   }catch(error){
     console.error("Error al cargar las incidencias", error);
   }
@@ -74,31 +64,29 @@ async function cargarComerciantes(){
 onMounted(cargarComerciantes);
 
 async function actualizarEstado(comerciante: Comerciante){
-  if(comerciante.habilitado===false){
-    await habilitar(comerciante);
-  }else{
-    await deshabilitar(comerciante);
-  }
+  comerciante.habilitado = comerciante.habilitado===false ? true : false;
+  await actualizarComerciante(comerciante);
   await cargarComerciantes();
 } 
 
-async function eliminarComerciante(comerciante: Comerciante) {
-  await eliminar(comerciante);
+async function eliminar(comerciante: Comerciante) {
+  await eliminarComerciante(comerciante);
   await cargarComerciantes();
 }
-
 </script>
 
 <style scoped>
 .comerciantes {
   padding: 1rem;
 }
+
 .tabs {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
 }
-.tabs button {
+
+.tabs button{
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
@@ -110,14 +98,19 @@ async function eliminarComerciante(comerciante: Comerciante) {
   font-weight: bold;
 }
 .lista {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.solicitudes {
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+.crear-comerciante {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  text-decoration-line: none;
 }
 </style>

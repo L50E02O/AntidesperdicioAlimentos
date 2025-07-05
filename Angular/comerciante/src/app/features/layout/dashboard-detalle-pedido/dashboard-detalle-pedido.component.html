@@ -1,0 +1,83 @@
+<div class="detalle-container">
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading-state">
+    <p>Cargando pedido...</p>
+  </div>
+
+  <!-- Estado de error -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button class="btn-back" (click)="volverALista()">Volver a pedidos</button>
+  </div>
+
+  <!-- Contenido del pedido -->
+  <div *ngIf="pedido && !loading && !error">
+    <h1>Detalle del Pedido #{{ pedido.id_pedido }}</h1>
+    
+    <!-- Información general del pedido -->
+    <div class="pedido-info-section">
+      <h2>Información del Pedido</h2>
+      <div class="pedido-table-container">
+        <table class="pedido-detail-table">
+          <thead>
+            <tr>
+              <th *ngFor="let key of objectKeys(pedido)">{{ key }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td *ngFor="let key of objectKeys(pedido)">{{ pedido[key] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Nueva sección: Detalles del pedido -->
+    <div class="detalle-pedido-section">
+      <h2>Detalle del Pedido</h2>
+
+      <div *ngIf="detallesPedido.length > 0; else noDetalles" class="detalles-table-container">
+        <table class="detalles-table">
+          <thead>
+            <tr>
+              <th *ngFor="let key of objectKeys(detallesPedido[0])">{{ key }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detalle of detallesPedido">
+              <td *ngFor="let key of objectKeys(detalle)">{{ detalle[key] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <ng-template #noDetalles>
+        <div class="no-detalles">
+          <p>No hay productos registrados para este pedido.</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="button-group">
+      <button 
+        class="btn-confirm" 
+        (click)="cambiarEstado('Confirmado')"
+        *ngIf="pedido.estado === 'Pendiente'"
+      >
+        Marcar como Confirmado
+      </button>
+      <button 
+        class="btn-cancel" 
+        (click)="cambiarEstado('Cancelado')"
+        *ngIf="pedido.estado === 'Pendiente'"
+      >
+        Cancelar Pedido
+      </button>
+      <button class="btn-back" (click)="volverALista()">
+        Volver a Pedidos
+      </button>
+    </div>
+  </div>
+</div>

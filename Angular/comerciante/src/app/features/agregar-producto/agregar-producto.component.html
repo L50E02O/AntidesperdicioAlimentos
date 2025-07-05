@@ -1,0 +1,17 @@
+<h2>Agregar nuevo producto</h2>
+
+<form (ngSubmit)="agregarProducto()">
+  <label>Nombre:</label>
+  <input type="text" [(ngModel)]="nombre" name="nombre" required>
+
+  <label>Descripción:</label>
+  <textarea [(ngModel)]="descripcion" name="descripcion"></textarea>
+
+  <label>Precio:</label>
+  <input type="number" [(ngModel)]="precio" name="precio" required>
+
+  <label>Stock:</label>
+  <input type="number" [(ngModel)]="stock" name="stock" required>
+
+  <button type="submit">Agregar</button>
+</form>

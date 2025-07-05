@@ -1,0 +1,73 @@
+<div class="editar-producto-container">
+  <h2>Editar producto</h2>
+
+  <!-- ✅ AGREGADO: Estado de carga -->
+  <div *ngIf="loading" class="loading-message">
+    Cargando datos del producto...
+  </div>
+
+  <form (ngSubmit)="actualizarProducto()" #editForm="ngForm" *ngIf="!loading">
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input 
+        type="text" 
+        id="nombre"
+        [(ngModel)]="nombre" 
+        name="nombre" 
+        required
+        maxlength="100">
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción:</label>
+      <textarea 
+        id="descripcion"
+        [(ngModel)]="descripcion" 
+        name="descripcion"
+        rows="3"
+        maxlength="255">
+      </textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="precio">Precio:</label>
+      <input 
+        type="number" 
+        id="precio"
+        [(ngModel)]="precio" 
+        name="precio" 
+        required
+        min="0.01"
+        step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label for="stock">Stock:</label>
+      <input 
+        type="number" 
+        id="stock"
+        [(ngModel)]="stock" 
+        name="stock" 
+        required
+        min="0">
+    </div>
+
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn-cancelar"
+        (click)="cancelar()"
+        [disabled]="loading">
+        Cancelar
+      </button>
+      
+      <button 
+        type="submit" 
+        class="btn-guardar"
+        [disabled]="!editForm.form.valid || loading">
+        <span *ngIf="loading">Actualizando...</span>
+        <span *ngIf="!loading">Guardar cambios</span>
+      </button>
+    </div>
+  </form>
+</div>

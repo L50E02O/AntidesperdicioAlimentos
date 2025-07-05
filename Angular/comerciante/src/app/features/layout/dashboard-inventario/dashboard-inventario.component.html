@@ -1,0 +1,98 @@
+<div class="inventory-dashboard">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Inventario</span>
+  </div>
+
+  <h1>Inventario actual</h1>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading-state">
+    <p>Cargando inventario...</p>
+  </div>
+
+  <!-- Estado de error -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-button" (click)="reloadData()">Reintentar</button>
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!loading && !error">
+    <div class="search-add-section">
+      <div class="search-bar">
+        <label for="search-product">Buscar producto</label>
+        <input
+          id="search-product"
+          type="text"
+          placeholder="Nombre, descripción..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+        />
+      </div>
+      <button class="add-product-button" (click)="addProduct()">Agregar producto</button>
+    </div>
+
+    <div class="filter-tabs">
+      <button
+        *ngFor="let filter of filters"
+        [class.active]="selectedFilter === filter"
+        (click)="selectFilter(filter)"
+      >
+        {{ filter }}
+      </button>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-item">
+        <span class="stat-number">{{ products.length }}</span>
+        <span class="stat-label">Total productos</span>
+      </div>
+      <div class="stat-item">
+<span class="stat-number">{{ getLowStockCount() }}</span>
+        <span class="stat-label">Bajo stock</span>
+      </div>
+    </div>
+
+    <h2>Lista de productos</h2>
+
+    <div class="product-list">
+      <div class="product-item header">
+        <div>Producto</div>
+        <div>Descripción</div>
+        <div>Stock</div>
+        <div>Precio</div>
+        <div>Acciones</div>
+      </div>
+
+      <ng-container *ngIf="filteredProducts.length > 0; else noProducts">
+        <div class="product-item" *ngFor="let product of filteredProducts"
+             [class.low-stock]="product.stock < 10">
+          <div class="product-name">
+            {{ product.nombre }}
+            <span *ngIf="product.stock < 10" class="low-stock-badge">Bajo stock</span>
+          </div>
+          <div class="product-description">{{ product.descripcion }}</div>
+          <div class="product-stock" [class.critical]="product.stock < 5">
+            {{ product.stock }}
+          </div>
+          <div class="product-price">${{ product.precio.toFixed(2) }}</div>
+          <div class="edit-button-container">
+            <button 
+              class="edit-button" 
+              (click)="editProduct(product.id_producto)"
+              [disabled]="!product.id_producto">
+              Editar
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noProducts>
+        <div class="no-products-message">
+          <p>No hay productos que coincidan con los filtros.</p>
+          <button class="add-product-button" (click)="addProduct()">Agregar primer producto</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

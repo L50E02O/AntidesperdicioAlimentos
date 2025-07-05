@@ -1,0 +1,22 @@
+<div class="notifications-dashboard">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Notificaciones</span>
+  </div>
+
+  <h1>Notificaciones</h1>
+
+  <h2>Mensajes recientes</h2>
+
+  <div class="notification-list">
+
+    <div class="notification-item" *ngFor="let notification of notifications; let i = index">
+      <div class="notification-content">
+        <div class="notification-message">
+          {{ notification.mensaje }}
+          <span class="notification-time">[{{ notification.fecha_envio | date:'short' }}]</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

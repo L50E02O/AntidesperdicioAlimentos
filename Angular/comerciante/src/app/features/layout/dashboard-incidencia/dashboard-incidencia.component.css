@@ -1,0 +1,261 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin-top: 15px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-group button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: fit-content;
+}
+
+.form-group button:hover {
+  background-color: #218838;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+  background-color: #f8d7da;
+}
+
+.notifications-dashboard {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: #1E7E34;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+
+h2 {
+  color: #1E7E34;
+  font-size: 1.5em;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.breadcrumb {
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.breadcrumb span:last-child {
+  font-weight: bold;
+  color: #333;
+}
+
+.loading-state, .error-state {
+  text-align: center;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.error-state {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.retry-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.retry-button:hover {
+  background-color: #0056b3;
+}
+
+.notification-list {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-right: 12px;
+  margin-top: 6px;
+}
+
+.notification-icon.estado-pendiente {
+  background-color: #ffc107; /* Amarillo */
+}
+
+.notification-icon.estado-proceso {
+  background-color: #007bff; /* Azul */
+}
+
+.notification-icon.estado-resuelta {
+  background-color: #28a745; /* Verde */
+}
+
+.notification-icon.estado-default {
+  background-color: #6c757d; /* Gris */
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.notification-message {
+  color: #666;
+  font-size: 14px;
+}
+
+.notification-time {
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.notification-time.estado-pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.notification-time.estado-proceso {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.notification-time.estado-resuelta {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+  background-color: #f8d7da;
+}
+
+.no-incidencias {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Leyenda de estados */
+.estado-legend {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.estado-legend h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-color.estado-pendiente {
+  background-color: #ffc107;
+}
+
+.legend-color.estado-proceso {
+  background-color: #007bff;
+}
+
+.legend-color.estado-resuelta {
+  background-color: #28a745;
+}
+
+.legend-item span {
+  font-size: 0.9rem;
+  color: #666;
+}

@@ -1,0 +1,23 @@
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <h1 class="logo">ReAprovecha</h1>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li *ngFor="let item of navItems">
+                        <a [routerLink]="item.route"
+                        [class.active]="item.active"
+                        (click)="setActiveNav(item); $event.preventDefault()">
+                        {{ item.label }}
+                        </a>
+                    </li>
+                </ul>
+        <div class="user-profile">
+            <img [src]="userAvatarUrl" [alt]="userName" class="user-avatar">
+            <div class="user-info">
+                <p class="user-name">{{ userName }}</p>
+                <p class="user-role">{{ userRole }}</p>
+            </div>
+        </div>  
+            </nav>
+        </div>
+    </aside>

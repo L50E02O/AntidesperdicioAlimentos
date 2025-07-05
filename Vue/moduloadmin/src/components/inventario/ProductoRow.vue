@@ -17,7 +17,7 @@ defineProps({
     descripcion: String,
     precio: Number,
     stock: Number,
-})
+});
 </script>
 
 <style scoped>
@@ -49,6 +49,7 @@ defineProps({
 .editar {
   background-color: #3b82f6;
   color: white;
+  text-decoration-line: none;
 }
 
 .eliminar {

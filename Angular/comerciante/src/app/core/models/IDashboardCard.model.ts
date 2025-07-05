@@ -4,4 +4,5 @@ export interface DashboardCard {
   buttonText: string;
   iconClass?: string;
   action?: () => void;
+  route?: string; // Ruta opcional para navegación
 }

@@ -1,5 +1,6 @@
 <template>
     <div v-if = "inventario">
+        <botonAtras @cambiarRuta="retroceder" />
         <h1>Inventario</h1>
         <InventarioCard
         :id_inventario = "inventario.id_inventario"
@@ -10,9 +11,7 @@
         <h1>Productos</h1>
         <div class="productos">
             <RouterLink :to='`/producto-form/${inventario.id_inventario}`' class="btn-agregar">Agregar</RouterLink>
-            <ProductoLista
-            :productos = "inventario.productos"
-            />
+            <ProductoLista :productos = "inventario.productos"/>
         </div>
     </div>
 </template>
@@ -24,6 +23,8 @@ import { obtenerInventarioPorId } from '../../services/servicioInventario'
 import type { Inventario } from '../../types/inventario'
 import InventarioCard from "../../components/inventario/InventarioCard.vue"
 import ProductoLista from "../../components/inventario/ProductoLista.vue"
+import botonAtras from '../../components/botonAtras/botonAtras.vue'
+import router from '../../router'
 
 const route = useRoute()
 const idEstablecimiento = String(route.params.id)
@@ -38,6 +39,10 @@ onMounted(async () => {
         console.error('Error al obtener el inventario:', error)
     }
 })
+
+function retroceder(){
+    router.push("/establecimientos");
+}
 
 </script>
 

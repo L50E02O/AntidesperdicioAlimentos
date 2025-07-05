@@ -1,0 +1,65 @@
+<div class="notifications-dashboard">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Incidencias</span>
+  </div>
+
+  <h1>Incidencias</h1>
+
+  <!-- Estado de carga -->
+  <div *ngIf="loading" class="loading-state">
+    <p>Cargando incidencias...</p>
+  </div>
+
+  <!-- Estado de error -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-button" (click)="loadIncidencias()">Reintentar</button>
+  </div>
+
+  <!-- Contenido de incidencias -->
+  <div *ngIf="!loading && !error">
+
+    <div *ngIf="incidencias.length > 0; else noIncidencias" class="notification-list">
+      <div class="notification-item" *ngFor="let inc of incidencias; let i = index">
+        <div class="notification-icon" [ngClass]="getEstadoColor(inc.estado)"></div>
+        <div class="notification-content">
+          <div class="notification-title">{{ inc.descripcion }}</div>
+          <div class="notification-message">
+            Fecha: {{ inc.fecha | date:'short' }}
+            <span class="notification-time" [ngClass]="getEstadoColor(inc.estado)">
+              [{{ inc.estado }}]
+            </span>
+          </div>
+        </div>
+        <button class="delete-button" (click)="eliminarIncidencia(inc)" title="Eliminar incidencia">
+          ✖
+        </button>
+      </div>
+    </div>
+
+    <ng-template #noIncidencias>
+      <div class="no-incidencias">
+        <p>No hay incidencias registradas en este momento.</p>
+      </div>
+    </ng-template>
+
+    <!-- Leyenda de estados -->
+    <div class="estado-legend" *ngIf="incidencias.length > 0">
+      <h3>Estados de incidencias:</h3>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <div class="legend-color estado-pendiente"></div>
+          <span>Pendiente</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color estado-proceso"></div>
+          <span>En proceso</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color estado-resuelta"></div>
+          <span>Resuelta</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

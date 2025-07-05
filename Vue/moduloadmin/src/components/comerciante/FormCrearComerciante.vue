@@ -1,5 +1,6 @@
 <template>
   <div class="crear-comerciante">
+    <botonAtras @cambiarRuta="$router.push('/comerciantes')" />
     <h2>Registrar nuevo comerciante</h2>
     <form @submit.prevent="registrarComerciante">
 
@@ -42,6 +43,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { insertarComerciante } from '../../services/servicioComerciante'
+import botonAtras from '../botonAtras/botonAtras.vue'
 
 const form = ref({
   nombre: '',

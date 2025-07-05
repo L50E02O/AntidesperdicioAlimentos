@@ -3,13 +3,12 @@
     <div class="icon"></div>
     <div class="info">
       <h3>{{ nombre }}</h3>
-      <p class="contenido-datos">ID: {{ id }}</p>
       <p class="contenido-datos">Dirección: {{ direccion }}</p>
       <p class="contenido-datos">Teléfono: {{ telefono }}</p>
       <p class="contenido-datos">Email: {{ email }}</p>
       <p class="contenido-datos">Estado: {{ estado }}</p>
       <div class="acciones">
-        <button class="btn deshabilitar" @click="$emit('deshabilitar')">Deshabilitar</button>
+        <button class="btn cambiar-estado" @click="$emit('cambiarEstado')">{{ textoBotonEstado }}</button>
         <button class="btn eliminar" @click="$emit('eliminar')">Eliminar</button>
       </div>
     </div>
@@ -19,11 +18,11 @@
 <script setup lang="ts">
 defineProps({
   nombre: String,
-  id: String,
   direccion: String,
   telefono: String,
   email: String,
-  estado: String
+  estado: String,
+  textoBotonEstado: String,
 })
 
 </script>
@@ -75,7 +74,7 @@ defineProps({
   cursor: pointer;
 }
 
-.deshabilitar {
+.cambiar-estado {
   background-color: #3b82f6;
   color: white;
 }

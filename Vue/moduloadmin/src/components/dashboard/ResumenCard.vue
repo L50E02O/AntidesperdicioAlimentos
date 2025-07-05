@@ -8,7 +8,6 @@
     <div class="contenido">
       <p class="titulo">{{ titulo }}</p>
       <h2 class="subtitulo">{{ subtitulo }}</h2>
-      <p class="cantidad">{{ cantidad }}</p>
       <button class="boton" @click="onClick">{{ textoBoton }}</button>
     </div>
   </div>
