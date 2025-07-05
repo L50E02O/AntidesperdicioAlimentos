@@ -5,6 +5,7 @@ import { IProduct } from '../../../core/models/IProducto.model';
 import { ReadProductoPorInventarioService } from '../../../core/services/producto.service/read-producto.service';
 import { AuthService } from '../../../core/services/auth.service/auth.service';
 import { readEstablecimientoService } from '../../../core/services/establecimiento.service/read-establecimiento.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-inventario',
@@ -27,17 +28,16 @@ export class DashboardInventarioComponent implements OnInit {
   constructor(
     private readProductoService: ReadProductoPorInventarioService,
     private authService: AuthService,
-    private readEstablecimientoService: readEstablecimientoService
-
+    private readEstablecimientoService: readEstablecimientoService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     const usuario = this.authService.getUsuario();
 
     if (usuario) {
- usuario.id_comerciante || 'Usuario';
-
-    await this.loadProducts();
+      usuario.id_comerciante || 'Usuario';
+      await this.loadProducts();
     }
   }
 
@@ -46,7 +46,6 @@ export class DashboardInventarioComponent implements OnInit {
       this.loading = true;
       this.error = '';
 
-      // Obtener ID del establecimiento del usuario autenticado
       const idComerciante = this.authService.getCurrentUserId();
       const usuario = this.authService.getUsuario();
       
@@ -55,50 +54,34 @@ export class DashboardInventarioComponent implements OnInit {
         return;
       }
 
-      // Opción 1: Cargar desde inventario
       const id_establecimiento = await this.readEstablecimientoService.readEstablecimientoPorComerciante(usuario.id_comerciante);
-
       const id_inventario = await this.readEstablecimientoService.readInventarioPorEstablecimiento(id_establecimiento[0].id_establecimiento);
-      console.log('ID del inventario:', id_inventario);
-
-      const inventario = await this.readProductoService.readProductoPorInventario(id_inventario[0].id_inventario);
-      console.log('Productos del inventario:', inventario);
-
       
 
+      const inventario = await this.readProductoService.readProductoPorInventario(id_inventario[0].id_inventario);
+
       if (inventario && inventario.length > 0) {
-        // Transformar datos del inventario al formato IProduct
         this.products = this.transformInventarioToProducts(inventario);
-      } 
+      } else {
+        this.products = [];
+      }
 
       this.applyFilter();
     } catch (error) {
       this.error = 'Error al cargar el inventario';
-      console.error('Error al cargar productos:', error);
     } finally {
       this.loading = false;
     }
   }
 
-  // Transformar datos del inventario al formato IProduct
+  // ✅ CORREGIDO: Asegurar que id_producto nunca sea undefined
   private transformInventarioToProducts(inventario: any[]): IProduct[] {
-    return inventario.map(item => ({
+    return inventario.map((item, index) => ({
+      id_producto: item.id_producto || item.id || item.producto_id || `temp_${index}`,
       nombre: item.nombre || item.nombre_producto || 'Sin nombre',
       descripcion: item.descripcion || item.descripcion_producto || 'Sin descripción',
       precio: parseFloat(item.precio || item.precio_venta || '0'),
       stock: parseInt(item.stock || item.cantidad || '0')
-
-    }));
-  }
-
-  // Transformar datos de productos al formato IProduct
-  private transformProductosToProducts(productos: any[]): IProduct[] {
-    return productos.map(item => ({
-      id_producto: item.id_producto,
-      nombre: item.nombre || 'Sin nombre',
-      descripcion: item.descripcion || 'Sin descripción',
-      precio: parseFloat(item.precio || '0'),
-      stock: parseInt(item.stock || '0'),
     }));
   }
 
@@ -114,7 +97,6 @@ export class DashboardInventarioComponent implements OnInit {
   applyFilter(): void {
     let tempProducts = [...this.products];
 
-    // Filtro por búsqueda
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
       tempProducts = tempProducts.filter(p =>
@@ -123,7 +105,6 @@ export class DashboardInventarioComponent implements OnInit {
       );
     }
 
-    // Filtro por stock
     if (this.selectedFilter === 'Bajo stock') {
       tempProducts = tempProducts.filter(p => p.stock < 10);
     }
@@ -131,23 +112,24 @@ export class DashboardInventarioComponent implements OnInit {
     this.filteredProducts = tempProducts;
   }
 
-  // Recargar datos
   async reloadData(): Promise<void> {
     await this.loadProducts();
   }
 
   addProduct(): void {
-    console.log('Agregar producto clicked');
-    // Aquí podrías abrir un modal o navegar a una página de agregar producto
+    this.router.navigate(['/dashboard/agregar-producto']);
   }
 
-  editProduct(product: IProduct): void {
-    console.log('Edit product:', product);
-    // Aquí podrías abrir un modal o navegar a una página de editar producto
+  // ✅ CORREGIDO: Validar que el ID existe
+  editProduct(id_producto: string | undefined): void {
+    if (!id_producto) {
+      alert('Error: No se pudo obtener el ID del producto');
+      return;
+    }
+        this.router.navigate(['/dashboard/editar-producto', id_producto]);
   }
 
   getLowStockCount(): number {
-  return this.products.filter(p => p.stock < 10).length;
-}
-
+    return this.products.filter(p => p.stock < 10).length;
+  }
 }

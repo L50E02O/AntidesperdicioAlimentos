@@ -1,5 +1,5 @@
 export interface IProduct {
-  id_producto?: string; // Opcional, ya que Supabase lo auto-genera
+  id_producto: string; // Opcional, ya que Supabase lo auto-genera
   nombre: string;
   descripcion: string;
   precio: number;

@@ -45,5 +45,18 @@ export class readEstablecimientoService {
       return [];
     }
   }
+
+  async readInventarioPorEstablecimiento(id_establecimiento: string): Promise<any[]> {
+    // ✅ CORRECCIÓN: Seleccionar específicamente el campo id_inventario
+    const tableAndQuery = `establecimiento?id_establecimiento=eq.${id_establecimiento}&select=id_inventario`;
+    
+    try {
+      const response = await firstValueFrom(this.supabase.getAll(tableAndQuery));
+      return response;
+    } catch (error) {
+      console.error('Error al obtener inventario:', error);
+      return [];
+    }
+  }
 }
 

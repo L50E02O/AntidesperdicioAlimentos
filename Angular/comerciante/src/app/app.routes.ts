@@ -7,6 +7,8 @@ import { DashboardNotificacionComponent } from './features/layout/dashboard-noti
 import { DashboardIncidenciaComponent } from './features/layout/dashboard-incidencia/dashboard-incidencia.component';
 import { DashboardDetallePedidoComponent } from './features/layout/dashboard-detalle-pedido/dashboard-detalle-pedido.component';
 import { MainLayoutComponent } from './features/layout/main-layout/main-layout.component';
+import { AgregarProductoComponent } from './features/agregar-producto/agregar-producto.component';
+import { EditarProductoComponent } from './features/editar-producto/editar-producto.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -22,8 +24,10 @@ export const routes: Routes = [
       { path: 'inventario', component: DashboardInventarioComponent },
       { path: 'notificaciones', component: DashboardNotificacionComponent },
       { path: 'incidencias', component: DashboardIncidenciaComponent },
-      { path: 'detalle-pedido/:id', component: DashboardDetallePedidoComponent }
-      // aquí puedes ir agregando más páginas de dashboard
+      { path: 'detalle-pedido/:id', component: DashboardDetallePedidoComponent },
+      { path: 'agregar-producto', component: AgregarProductoComponent },
+      { path: 'editar-producto/:id', component: EditarProductoComponent }
+      // páginas de dashboard
     ]
   }
 ];

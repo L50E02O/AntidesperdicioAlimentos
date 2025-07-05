@@ -9,11 +9,6 @@ export class updatePedidoService {
   constructor(private supabase: SupabaseService) {}
 
   async updatePedido(pedidoId: string, pedidoData: any): Promise<any> {
-    console.log('🔧 Servicio updatePedido iniciado');
-    console.log('🆔 ID recibido:', pedidoId);
-    console.log('📋 Datos a actualizar:', pedidoData);
-    console.log('🔍 Tipo del ID:', typeof pedidoId);
-    console.log('🔍 Tipo de datos:', typeof pedidoData);
     
     try {
       console.log('📡 Llamando a SupabaseService.update...');

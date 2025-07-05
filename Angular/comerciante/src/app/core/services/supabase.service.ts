@@ -58,4 +58,9 @@ export class SupabaseService {
     const url = `${API_BASE_URL}/${table}?id=eq.${id}`;
     return this.http.delete(url, { headers: this.getHeaders('DELETE') });
   }
+
+  getById(table: string, idField: string, idValue: string): Observable<any> {
+    const url = `${API_BASE_URL}/${table}?${idField}=eq.${idValue}`;
+    return this.http.get(url, { headers: this.getHeaders('GET') });
+  }
 }
