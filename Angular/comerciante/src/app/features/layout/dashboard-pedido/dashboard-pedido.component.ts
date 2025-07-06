@@ -43,7 +43,7 @@ export class DashboardPedidoComponent implements OnInit {
       if (establecimientos.length > 0) {
         // Obtengo pedidos de esos establecimientos
         let pedidosTotales: any[] = [];
-        console.log('Establecimientos:', establecimientos);
+
 for (const est of establecimientos) {
   const pedidos = await this.readPedidoService.readPedidoPorEstablecimiento(est.id_establecimiento);
   pedidosTotales = [...pedidosTotales, ...pedidos];
@@ -63,8 +63,6 @@ for (const est of establecimientos) {
   }
 }
     
-  
-    
     filterPedidos(estado: string) {
     if (estado === 'Todos') {
       this.filteredPedidos = this.allPedidos;
@@ -74,12 +72,13 @@ for (const est of establecimientos) {
   }
 
   goToPedidoDetail(id: number) {
-    // Suponiendo que tienes una ruta como /pedido/:id
-    this.router.navigate(['/pedido', id]);
+    // Suponiendo que tienes una ruta como /detalle-pedido/:id
+this.router.navigate(['/dashboard/detalle-pedido', id]);
   }
 
   objectKeys(obj: any): string[] {
   return obj ? Object.keys(obj) : [];
 }
+
 
 }

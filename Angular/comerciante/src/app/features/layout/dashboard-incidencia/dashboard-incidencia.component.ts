@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Incidencia {
-  titulo: string;
-  descripcion: string;
-  estado: string;
-}
+import { Incidencia } from '../../../core/models/IIncidencia.model';
+import { readIncidenciaService } from '../../../core/services/incidencia.service/read-incidencia.service';
+import { AuthService } from '../../../core/services/auth.service/auth.service';
 
 @Component({
   selector: 'app-dashboard-incidencia',
@@ -16,28 +13,62 @@ interface Incidencia {
   styleUrls: ['./dashboard-incidencia.component.css']
 })
 export class DashboardIncidenciaComponent implements OnInit {
-
   incidencias: Incidencia[] = [];
+  loading: boolean = true;
+  error: string = '';
 
-  // Para el formulario
-  nuevaIncidencia: Incidencia = { titulo: '', descripcion: '', estado: 'Pendiente' };
+  constructor(
+    private readIncidenciaService: readIncidenciaService,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit(): void {
-    this.incidencias = [
-      { titulo: 'Falla en pago', descripcion: 'El pedido #12345 tuvo un error en el cobro.', estado: 'Pendiente' },
-      { titulo: 'Incidencia de entrega', descripcion: 'Retraso en entrega de pedido #12346.', estado: 'Resuelta' },
-      { titulo: 'Producto dañado', descripcion: 'El pedido #12347 llegó en mal estado.', estado: 'En proceso' },
-    ];
+  async ngOnInit(): Promise<void> {
+    await this.loadIncidencias();
   }
 
-  crearIncidencia() {
-    if (this.nuevaIncidencia.titulo && this.nuevaIncidencia.descripcion) {
-      this.incidencias.unshift({ ...this.nuevaIncidencia });
-      this.nuevaIncidencia = { titulo: '', descripcion: '', estado: 'Pendiente' };
+  async loadIncidencias(): Promise<void> {
+    try {
+      this.loading = true;
+      this.error = '';
+      
+      const idComerciante = this.authService.getCurrentUserId();
+      
+      if (idComerciante) {
+        const incidencias = await this.readIncidenciaService.readIncidenciaPorComerciante(idComerciante);
+        this.incidencias = incidencias || [];
+      } else {
+        this.error = 'No se pudo obtener el ID del comerciante actual.';
+      }
+    } catch (error) {
+      this.error = 'Error al cargar las incidencias';
+      this.incidencias = [];
+    } finally {
+      this.loading = false;
     }
   }
 
-  eliminarIncidencia(index: number) {
-    this.incidencias.splice(index, 1);
+  getEstadoColor(estado: string): string {
+    switch (estado?.toLowerCase()) {
+      case 'pendiente':
+        return 'estado-pendiente';
+      case 'en_proceso':
+      case 'en proceso':
+        return 'estado-proceso';
+      case 'resuelta':
+      case 'resuelto':
+        return 'estado-resuelta';
+      default:
+        return 'estado-default';
+    }
+  }
+
+  eliminarIncidencia(incidencia: Incidencia): void {
+    if (confirm('¿Estás seguro de que deseas eliminar esta incidencia?')) {
+      // Eliminar de la lista local
+      this.incidencias = this.incidencias.filter(inc => inc.id_incidencia !== incidencia.id_incidencia);
+      
+      // Aquí podrías agregar la llamada al servicio de eliminación
+      // await this.deleteIncidenciaService.deleteIncidencia(incidencia.id_incidencia);
+    }
   }
 }

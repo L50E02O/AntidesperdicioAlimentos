@@ -19,6 +19,11 @@ export class AuthService {
     return !!this.getUsuario();
   }
 
+  getCurrentUserId(): string | null {
+    const usuario = this.getUsuario();
+    return usuario ? usuario.id_comerciante : null;
+  }
+
   logout() {
     this.usuario = null;
     localStorage.removeItem('usuario');

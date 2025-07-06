@@ -8,12 +8,13 @@
   <h2>Mensajes recientes</h2>
 
   <div class="notification-list">
-    <div class="notification-item" *ngFor="let notif of notifications">
-      <div class="notification-icon"></div>
+
+    <div class="notification-item" *ngFor="let notification of notifications; let i = index">
       <div class="notification-content">
-        <div class="notification-title">{{ notif.title }}</div>
         <div class="notification-message">
-          {{ notif.message }} <span class="notification-time">{{ notif.time }}</span>
+          {{ notification.mensaje }}
+          <span class="notification-time">[{{ notification.fecha_envio | date:'short' }}]</span>
+
         </div>
       </div>
     </div>
