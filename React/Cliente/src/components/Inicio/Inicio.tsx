@@ -3,7 +3,7 @@ import type { Producto } from '../../types/productoT';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../../data/base-datos';
 import { Search, Shapes } from 'lucide-react';
-import { BuscarNombre } from '../../utils/FiltrarProductos';
+import { BuscarNombre, BuscarPrecio } from '../../utils/FiltrarProductos';
 import DetallesProducto from '../DetallesProducto/DetallesProducto';
 
 const Inicio = () => {
@@ -25,6 +25,7 @@ const Inicio = () => {
   useEffect(() => {
     let resultado = productos;
     resultado = BuscarNombre(resultado, nombreFiltro);
+    resultado = BuscarPrecio(resultado, precioFiltro);
     setProductosFiltrados(resultado);
   }, [productos, nombreFiltro, precioFiltro]);
 
