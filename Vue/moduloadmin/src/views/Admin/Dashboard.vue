@@ -1,6 +1,5 @@
 <template>
     <div class="contenido">
-
       <h2>Resumen general</h2>
       <div class="resumen-general">
         <ResumenCard
@@ -68,6 +67,8 @@ const verApartado = (ruta: string) => {
 <style>
 .contenido{
   display: flex;
+  justify-content: space-between;
+  align-items: stretch;
   flex-direction: column;
   width: 100%;
   gap: 10px;

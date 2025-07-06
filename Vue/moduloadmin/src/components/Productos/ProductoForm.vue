@@ -1,6 +1,6 @@
 <template>
   <div class="crear-producto">
-    <botonAtras @cambiarRuta="$router.push('/inventario/' + id_inventario)" />
+    <botonAtras @cambiarRuta="router.push('/inventario/' + id_inventario)" />
     <h2>Registrar nuevo producto</h2>
     <form @submit.prevent="registrarProducto">
 
@@ -33,21 +33,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import router from '../../router'
 import { insertarProducto } from '../../services/servicioProducto'
-import botonAtras from '../botonAtras/botonAtras.vue'
+import botonAtras from '../botonAtras/BotonAtras.vue'
 
 const route = useRoute()
 const id_inventario = String(route.params.id)
-
-
-const form = ref({
-  nombre: '',
-  descripcion: '',
-  precio: 0,
-  stock: 0,
-  id_inventario: id_inventario
-})
-
+const form = ref({nombre: '',descripcion: '',precio: 0,stock: 0,id_inventario: id_inventario})
 const mensaje = ref('')
 
 async function registrarProducto() {
@@ -57,7 +49,6 @@ async function registrarProducto() {
     form.value = { nombre: '', descripcion: '', precio: 0, stock: 0, id_inventario: id_inventario }
   } catch (error) {
     mensaje.value = 'Ocurrió un error al registrar el producto.'
-    console.error(error)
   }
 }
 </script>

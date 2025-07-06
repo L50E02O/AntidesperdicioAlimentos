@@ -1,6 +1,6 @@
 <template>
   <div class="editar-producto">
-    <botonAtras @cambiarRuta="$router.push('/inventario/' + form.id_inventario)" />
+    <botonAtras @cambiarRuta="router.push('/inventario/' + form.id_inventario)" />
     <h2>Editar producto</h2>
     <form @submit.prevent="guardarCambiosProducto">
 
@@ -35,7 +35,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { actualizarProducto} from '../../services/servicioProducto'
 import router from '../../router'
-import botonAtras from '../botonAtras/botonAtras.vue'
+import botonAtras from '../botonAtras/BotonAtras.vue'
 
 const rout = useRoute()
 onMounted(async () => {
@@ -51,14 +51,7 @@ onMounted(async () => {
     console.log(form.value)
 })
 
-const form = ref({
-    id_producto: "",
-    nombre: "",
-    descripcion: "",
-    precio: 0,
-    stock: 0,
-    id_inventario: "",
-})
+const form = ref({id_producto: "",nombre: "",descripcion: "",precio: 0,stock: 0,id_inventario: ""})
 
 const mensaje = ref('')
 

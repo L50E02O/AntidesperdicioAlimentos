@@ -25,10 +25,13 @@
   const onClick = () => {
     emit('boton-click')
   }
+
 </script>
 
 <style scoped>
 .resumen-card {
+  flex: 1;
+  min-width: 0;
   flex-direction: column;
   background: #f9f9f9;
   border-radius: 12px;

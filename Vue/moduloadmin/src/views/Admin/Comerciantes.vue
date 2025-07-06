@@ -42,36 +42,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import ComercianteCard from '../../components/comerciante/ComercianteCard.vue'
 import type { Comerciante } from '../../types/comerciante'
-import { obtenerComerciantes, actualizarComerciante, eliminarComerciante } from '../../services/servicioComerciante'
+import { useComercianteStore } from "../../stores/ComercianteStore"
+
+const comercianteStore = useComercianteStore();
+
+onMounted(async ()=>{await comercianteStore.cargarComerciantes();});
 
 const activeTab = ref('habilitados')
-const habilitados = ref<Comerciante[]>([])
-const deshabilitados = ref<Comerciante[]>([])
+const habilitados = computed(()=>{return comercianteStore.comerciantes.filter(c => c.habilitado===true)});
 
-async function cargarComerciantes(){
-  try{
-    const comerciantes: Comerciante[] = await obtenerComerciantes();
-    habilitados.value = comerciantes.filter((comerciante)=>{return comerciante.habilitado===true});
-    deshabilitados.value = comerciantes.filter((comerciante)=>{return comerciante.habilitado===false});
-  }catch(error){
-    console.error("Error al cargar las incidencias", error);
-  }
-}
-
-onMounted(cargarComerciantes);
+const deshabilitados = computed(()=>{return comercianteStore.comerciantes.filter(c=>c.habilitado===false)});
 
 async function actualizarEstado(comerciante: Comerciante){
-  comerciante.habilitado = comerciante.habilitado===false ? true : false;
-  await actualizarComerciante(comerciante);
-  await cargarComerciantes();
+  comerciante.habilitado = comerciante.habilitado ? false : true;
+  await comercianteStore.actualizarComercianteStore(comerciante);
 } 
 
 async function eliminar(comerciante: Comerciante) {
-  await eliminarComerciante(comerciante);
-  await cargarComerciantes();
+  await comercianteStore.eliminarComercianteStore(comerciante);
 }
 </script>
 

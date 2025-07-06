@@ -1,6 +1,6 @@
 <template>
   <div class="crear-incidencia">
-    <botonAtras @cambiarRuta="$router.push('/incidencias')" />
+    <botonAtras @cambiarRuta="router.push('/incidencias')" />
     <h2>Registrar nueva incidencia</h2>
     <form @submit.prevent="registrarIncidencia">
       <div class="form-group">
@@ -26,7 +26,7 @@
         <label for="id_comerciante">Comerciante</label>
         <select v-model="form.id_comerciante" id="id_comerciante">
           <option value="" disabled> Selecciona un Comerciante </option>
-          <option v-for="comerciante in comerciantes"
+          <option v-for="comerciante in comercianteStore.comerciantes"
             :key="comerciante.id_comerciante"
             :value="comerciante.id_comerciante"
           > {{ comerciante.nombre }} ({{ comerciante.usuario }}) </option>
@@ -52,41 +52,29 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { insertarIncidencia } from '../../services/servicioIncidencia'
-import { obtenerComerciantes } from '../../services/servicioComerciante'
-import type { Comerciante } from '../../types/comerciante'
+import { useComercianteStore } from '../../stores/ComercianteStore'
 import type { Cliente } from '../../types/cliente'
 import { obtenerClientes } from '../../services/servicioCliente'
-import botonAtras from '../botonAtras/botonAtras.vue'
-const form = ref({
-  descripcion: '',
-  fecha: '',
-  estado: 'pendiente',
-  id_comerciante: '',
-  id_cliente: '',
-})
+import botonAtras from '../botonAtras/BotonAtras.vue'
+import router from '../../router'
 
+const form = ref({descripcion: '', fecha: '', estado: 'pendiente', id_comerciante: '', id_cliente: ''})
+const comercianteStore = useComercianteStore();
 const mensaje = ref('')
-const comerciantes = ref<Comerciante[]>([]);
 const clientes = ref<Cliente[]>([]);
 
 onMounted(async()=>{
-  try{
-    comerciantes.value = await obtenerComerciantes();
-    clientes.value = await obtenerClientes();
-  }catch(error){
-    console.error("Error al cargar las Comerciantes o Clientes", error);
-  }
+  await comercianteStore.cargarComerciantes();
+  clientes.value = await obtenerClientes();
 });
 
 async function registrarIncidencia() {
-  try {
-    await insertarIncidencia(form.value)
-    mensaje.value = 'Incidencia registrada exitosamente.'
-    form.value = {descripcion: '', fecha: '', estado: 'pendiente', id_comerciante: '', id_cliente: '',
-    }
-  } catch (error) {
-    mensaje.value = 'Ocurrió un error al registrar la incidencia.'
-    console.error(error)
+  try{
+  await insertarIncidencia(form.value)
+  mensaje.value = 'Incidencia registrada exitosamente.'
+  form.value = {descripcion: '', fecha: '', estado: 'pendiente', id_comerciante: '', id_cliente: ''}
+  }catch(error){
+    mensaje.value = "Ocurrió un error al registrar el comerciante."
   }
 }
 </script>

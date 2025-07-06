@@ -62,9 +62,9 @@ export async function eliminarComerciante(comerciante: Comerciante): Promise<voi
   }
 }
 
-export async function insertarComerciante(nuevo: Omit<Comerciante, 'habilitado' | 'id_comerciante'>): Promise<void> {
+export async function insertarComerciante(nuevo: Omit<Comerciante, 'habilitado' | 'id_comerciante'>): Promise<Comerciante> {
   try {
-    const url = `${SUPABASE_URL}/rest/v1/comerciante`
+    const url = `${SUPABASE_URL}/rest/v1/comerciante?returning=representation`
     const response = await fetch(url, {
       method: 'POST',
       headers: SUPABASE_HEADERS,
@@ -76,6 +76,9 @@ export async function insertarComerciante(nuevo: Omit<Comerciante, 'habilitado' 
     if (!response.ok) {
       throw new Error('Error al insertar comerciante')
     }
+
+    const data = await response.json();
+    return data[0]
   } catch (error) {
     console.error('Error en insertar comerciante:', error)
     throw error

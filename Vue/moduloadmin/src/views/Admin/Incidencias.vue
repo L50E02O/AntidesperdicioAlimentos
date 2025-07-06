@@ -13,7 +13,7 @@
         :estado="incidencia.estado"
         :comerciante="incidencia.id_comerciante"
         :cliente="incidencia.id_cliente"
-        @actualizar-estado="estado => actualizarEstado(incidencia, estado)"
+        @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
         @eliminar="eliminarIncidencia(incidencia)"
       />
       <p v-if="pendientes.length === 0" class="empty">No hay incidencias pendientes.</p>
@@ -29,7 +29,7 @@
         :estado="incidencia.estado"
         :comerciante="incidencia.id_comerciante"
         :cliente="incidencia.id_cliente"
-        @actualizar-estado="estado => actualizarEstado(incidencia, estado)"
+        @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
         @eliminar="eliminar(incidencia)"
       />
       <p v-if="abiertas.length === 0" class="empty">No hay incidencias abiertas.</p>
@@ -45,7 +45,7 @@
         :estado="incidencia.estado"
         :comerciante="incidencia.id_comerciante"
         :cliente="incidencia.id_cliente"
-        @actualizar-estado="estado => actualizarEstado(incidencia, estado)"
+        @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
         @eliminar="eliminar(incidencia)"
       />
       <p v-if="resueltas.length === 0" class="empty">No hay incidencias resueltas.</p>
