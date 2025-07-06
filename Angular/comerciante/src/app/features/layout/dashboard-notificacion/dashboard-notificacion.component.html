@@ -9,14 +9,18 @@
 
   <div class="notification-list">
 
-    <div class="notification-item" *ngFor="let notification of notifications; let i = index">
-      <div class="notification-content">
-        <div class="notification-message">
-          {{ notification.mensaje }}
-          <span class="notification-time">[{{ notification.fecha_envio | date:'short' }}]</span>
+<div class="notification-item" *ngFor="let notification of notifications">
+  <div class="notification-icon" [ngClass]="getNotificationColor(notification)"></div>
+  <div class="notification-content">
+    <div class="notification-message">
+      <span class="notification-text">{{ notification.mensaje }}</span>
+      <span class="notification-time">
+        {{ notification.fecha_envio | date:'short' }}
+      </span>
+    </div>
+    <div class="notification-footer">
 
-        </div>
-      </div>
     </div>
   </div>
+  <button class="delete-button" (click)="deleteNotification(notification)">×</button>
 </div>
