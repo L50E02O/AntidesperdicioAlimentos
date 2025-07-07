@@ -5,6 +5,7 @@ import { getProducts } from '../../data/base-datos';
 import { Search, Shapes } from 'lucide-react';
 import { BuscarNombre, BuscarPrecio } from '../../utils/FiltrarProductos';
 import DetallesProducto from '../DetallesProducto/DetallesProducto';
+import { useNavigate } from 'react-router-dom';
 
 const Inicio = () => {
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -12,6 +13,8 @@ const Inicio = () => {
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
   const [nombreFiltro, setNombreFiltro] = useState('');
   const [precioFiltro, setPrecioFiltro] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -79,7 +82,7 @@ const Inicio = () => {
               <p className="Producto-Texto">Stock: {producto.stock}</p>
               <p className="Producto-Texto">Descripción: {producto.descripcion}</p>
               <div className="Botones">
-                <button className="Boton-Reservar">Reservar</button>
+                <button className="Boton-Reservar" onClick = {() => navigate(`/reserva/${producto.id_producto}`, { state: {nombre: producto.nombre, precio: producto.precio} })}>Reservar</button>
                 <button className="Boton-Detalles" onClick={() => handleDetallesClick(producto)}>Detalles</button>
               </div>
             </div>

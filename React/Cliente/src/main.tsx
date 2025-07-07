@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/Dashboard/App';
 import { BrowserRouter } from 'react-router-dom';
+import Reserva from './components/Reserva/Reserva';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -5,6 +5,7 @@ import Perfil from '../Perfil/perfil';
 import Inicio from '../Inicio/Inicio';
 import Notificaciones from '../Notificaciones/Notificaciones';
 import DetallesProducto from '../DetallesProducto/DetallesProducto';
+import Reserva from "../Reserva/Reserva";
 
 function App() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/notificaciones" element={<Notificaciones />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/detalles-producto/:id" element={<DetallesProducto/>} />
+          <Route path="/reserva/:id" element={<Reserva />} />
         </Routes>
       </div>
     </div>
