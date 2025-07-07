@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory,  type RouteRecordRaw } from 'vue-router';
 import Dashboard from '../views/Admin/Dashboard.vue';
 import Establecimientos from '../views/Admin/Establecimientos.vue';
 import Notificaciones from '../views/Admin/Notificaciones.vue';
@@ -10,7 +10,7 @@ import Inventario from '../views/Admin/Inventario.vue';
 import ProductoForm from '../components/Productos/ProductoForm.vue';
 import PorductoFormEdit from "../components/Productos/ProductoFormEdit.vue"
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {path: '/', redirect: '/dashboard'},
   {path: '/dashboard', component: Dashboard },
   {path: "/establecimientos", component: Establecimientos},

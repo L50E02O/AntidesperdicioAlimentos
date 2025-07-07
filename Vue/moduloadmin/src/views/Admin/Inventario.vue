@@ -23,7 +23,7 @@ import { obtenerInventarioPorId } from '../../services/servicioInventario'
 import type { Inventario } from '../../types/inventario'
 import InventarioCard from "../../components/inventario/InventarioCard.vue"
 import ProductoLista from "../../components/inventario/ProductoLista.vue"
-import botonAtras from '../../components/botonAtras/botonAtras.vue'
+import botonAtras from '../../components/botonAtras/BotonAtras.vue'
 import router from '../../router'
 
 const route = useRoute()
