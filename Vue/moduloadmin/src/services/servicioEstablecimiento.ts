@@ -51,8 +51,6 @@ export async function eliminarEstablecimiento(establecimiento: Establecimiento):
     if (!response.ok) {
       throw new Error('Error al eliminar el establecimiento')
     }
-
-    alert(`Establecimiento ${establecimiento.nombre} eliminado correctamente`)
   } catch (error) {
     console.error('Error:', error)
     throw error

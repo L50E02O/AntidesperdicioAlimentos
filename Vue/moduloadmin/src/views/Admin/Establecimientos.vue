@@ -9,8 +9,8 @@
 
     <div v-if="activeTab === 'habilitados'" class="lista">
       <EstablecimientosCard
-        v-for="(establecimiento, id_establecimiento) in habilitados"
-        :key="id_establecimiento"
+        v-for="(establecimiento) in habilitados"
+        :key="establecimiento.id_establecimiento"
         :nombre="establecimiento.nombre"
         :direccion="establecimiento.direccion"
         :horario="establecimiento.horario"
@@ -22,8 +22,8 @@
 
     <div v-if="activeTab === 'deshabilitados'" class="solicitudes">
       <EstablecimientoDeshabilitadoRow
-        v-for="(establecimiento, id_establecimiento) in deshabilitados"
-        :key="id_establecimiento"
+        v-for="(establecimiento) in deshabilitados"
+        :key="establecimiento.id_establecimiento"
         :nombre="establecimiento.nombre"
         :direccion="establecimiento.direccion"
         :horario="establecimiento.horario"
@@ -36,20 +36,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import EstablecimientosCard from '../../components/establecimiento/EstablecimientoCard.vue'
 import EstablecimientoDeshabilitadoRow from '../../components/establecimiento/EstablecimientoDeshabilitadoRow.vue'
 import type { Establecimiento } from '../../types/establecimiento'
 import { obtenerEstablecimientos, actualizarEstablecimiento, eliminarEstablecimiento } from '../../services/servicioEstablecimiento'
 
 const activeTab = ref('habilitados')
-const habilitados = ref<Establecimiento[]>([])
-const deshabilitados = ref<Establecimiento[]>([])
+
+const establecimientos = ref<Establecimiento[]>([]);
+const habilitados = computed(()=>{return establecimientos.value.filter((e)=>e.habilitado===true)});
+const deshabilitados = computed(()=>{return establecimientos.value.filter((e)=> e.habilitado===false)});
 
 async function cargarEstablecimientos(){
-  const establecimientos: Establecimiento[] = await obtenerEstablecimientos();
-  habilitados.value = establecimientos.filter((establecimiento)=>{return establecimiento.habilitado===true});
-  deshabilitados.value = establecimientos.filter((establecimiento)=>{return establecimiento.habilitado==false});
+  establecimientos.value = await obtenerEstablecimientos();
 }
 
 onMounted(cargarEstablecimientos);
@@ -57,12 +57,11 @@ onMounted(cargarEstablecimientos);
 async function actualizarEstado(establecimiento: Establecimiento){
   establecimiento.habilitado = establecimiento.habilitado===false ? true : false;
   await actualizarEstablecimiento(establecimiento);
-  await cargarEstablecimientos();
 }
 
 async function eliminar(establecimiento:Establecimiento) {
   await eliminarEstablecimiento(establecimiento);
-  await cargarEstablecimientos();
+  establecimientos.value = establecimientos.value.filter((e)=>{return e.id_establecimiento!==establecimiento.id_establecimiento});
 }
 </script>
 
