@@ -26,9 +26,16 @@ export class LoginComponent {
     try {
       const usuario = await this.loginService.login(this.usuario, this.password);
       if (usuario) {
-        this.authService.setUsuario(usuario); // Guarda el usuario
+        this.authService.setUsuario(usuario); // Guarda el usuario y su tipo
         this.error = 'Credenciales correctas';
-        this.router.navigate(['/dashboard']);
+        // Redirige según el tipo de usuario
+        if (usuario.tipo === 'administrador') {
+          this.router.navigate(['/admin']);
+        } else if (usuario.tipo === 'comerciante') {
+          this.router.navigate(['/dashboard']);
+        } else if (usuario.tipo === 'cliente') {
+          this.router.navigate(['/cliente']);
+        }
       } else {
         this.error = 'Credenciales incorrectas';
       }

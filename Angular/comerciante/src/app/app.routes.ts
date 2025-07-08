@@ -13,7 +13,14 @@ import { EditarProductoComponent } from './features/editar-producto/editar-produ
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  
+  {
+    path: 'admin',
+    loadComponent: () => import('./pages/wrappers/admin-wrapper/admin-wrapper.component').then(m => m.AdminWrapperComponent)
+  },
+  {
+    path: 'cliente',
+    loadComponent: () => import('./pages/wrappers/cliente-wrapper/cliente-wrapper.component').then(m => m.ClienteWrapperComponent)
+  },
   {
     path: 'dashboard',
     component: MainLayoutComponent,

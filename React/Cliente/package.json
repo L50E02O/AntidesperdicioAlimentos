@@ -10,10 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1",
     "@supabase/supabase-js": "^2.50.0",
+    "html-webpack-plugin": "^5.6.3",
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-refresh": "^0.17.0",
+    "react-router-dom": "^7.6.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2",
+    "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
