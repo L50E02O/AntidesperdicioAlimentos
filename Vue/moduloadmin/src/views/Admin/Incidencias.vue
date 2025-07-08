@@ -54,46 +54,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import IncidenciaCard from '../../components/incidencia/IncidenciaCard.vue'
 import type { Incidencia } from '../../types/incidencia'
 import { obtenerIncidencias, actualizarIncidencia, eliminarIncidencia } from '../../services/servicioIncidencia'
 
-const pendientes = ref<Incidencia[]>([])
-const abiertas   = ref<Incidencia[]>([])
-const resueltas  = ref<Incidencia[]>([])
+const incidencias = ref<Incidencia[]>([]);
 
-async function cargarIncidencias() {
-  try {
-    const todas = await obtenerIncidencias()
-    pendientes.value = todas.filter(i => i.estado === 'pendiente')
-    abiertas.value   = todas.filter(i => i.estado === 'abierto')
-    resueltas.value  = todas.filter(i => i.estado === 'resuelto')
-  } catch (error) {
-    console.error('Error al cargar incidencias:', error)
-  }
-}
+const pendientes = computed(()=>{return incidencias.value.filter(i=>i.estado==='pendiente')});
+const abiertas   = computed(()=>{return incidencias.value.filter(i=>i.estado==='abierto')});
+const resueltas  = computed(()=>{return incidencias.value.filter(i=>i.estado==='resuelto')});
 
-onMounted(cargarIncidencias)
+onMounted(async ()=>{
+  incidencias.value = await obtenerIncidencias();
+  console.log(incidencias.value)
+  console.log(pendientes.value)
+});
 
 async function actualizarEstado(incidencia: Incidencia, nuevoEstado: string) {
   if (incidencia.estado === nuevoEstado) return;
-  try {
-    incidencia.estado = nuevoEstado;
-    await actualizarIncidencia(incidencia);
-    await cargarIncidencias();
-  } catch (error) {
-    console.error('No se pudo actualizar el estado:', error);
-  }
+  incidencia.estado = nuevoEstado;
+  await actualizarIncidencia(incidencia);
 }
 
 async function eliminar(incidencia: Incidencia) {
-  try {
-    await eliminarIncidencia(incidencia);
-    await cargarIncidencias();
-  } catch (error) {
-    console.error('No se pudo eliminar la incidencia:', error);
-  }
+  await eliminarIncidencia(incidencia);
+  incidencias.value = incidencias.value.filter((i)=>{return i.id_incidencia!==incidencia.id_incidencia});
 }
 </script>
 
