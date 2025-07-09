@@ -39,19 +39,29 @@ export const crearReserva = async (
   fechaRetiro: string,
   estado: string,
   precioTotal: number,
-  idEstablecimiento: string,
-) => {
-  const { error } = await supabase.from('pedido').insert([
-    {
-      fecha_retiro: fechaRetiro,
-      estado,
-      precio_total: precioTotal,
-      id_establecimiento: idEstablecimiento,
-    }
-  ]);
+  idEstablecimiento: string
+): Promise<string | null> => {
+  const { data, error } = await supabase
+    .from('pedido')
+    .insert([
+      {
+        fecha_retiro: fechaRetiro,
+        estado,
+        precio_total: precioTotal,
+        id_establecimiento: idEstablecimiento,
+      }
+    ])
+    .select('id_pedido') // Esto hace que retorne el ID creado
+    .single();
 
-  return error;
+  if (error) {
+    console.error('Error al crear reserva:', error.message);
+    return null;
+  }
+
+  return data?.id_pedido ?? null;
 };
+
 
 export const getEstablecimientos = async (): Promise<Establecimiento[]> => {
   const { data, error } = await supabase
@@ -64,4 +74,23 @@ export const getEstablecimientos = async (): Promise<Establecimiento[]> => {
     return [];
   }
   return data;
+};
+
+
+export const crearDetallePedido = async (
+  cantidad: number,
+  subtotal: number,
+  idProducto: string,
+  idPedido: string
+): Promise<any> => {
+  const { error } = await supabase.from('detalle_pedido').insert([
+    {
+      cantidad,
+      subtotal,
+      id_producto: idProducto,
+      id_pedido: idPedido
+    }
+  ]);
+
+  return error;
 };

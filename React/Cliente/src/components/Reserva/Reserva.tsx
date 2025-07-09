@@ -1,15 +1,14 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import '../../styles/Reserva.css';
-import { crearReserva, getEstablecimientos } from '../../data/base-datos';
+import { crearReserva, getEstablecimientos, crearDetallePedido } from '../../data/base-datos';
 import type { Establecimiento } from '../../types/establecimientoT';
 
 const Reserva = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // id del producto
   const location = useLocation();
   const nombreProducto = location.state?.nombre || 'Producto';
   const precioUnitario = location.state?.precio || 0;
-
   const navigate = useNavigate();
 
   const [fechaRetiro, setFechaRetiro] = useState('');
@@ -23,7 +22,7 @@ const Reserva = () => {
   useEffect(() => {
     const fetchEstablecimientos = async () => {
       const lista = await getEstablecimientos();
-      setEstablecimientos(lista)
+      setEstablecimientos(lista);
 
       if (lista.length > 0) {
         setEstablecimientoSeleccionado(lista[0].id_establecimiento);
@@ -38,16 +37,35 @@ const Reserva = () => {
   }, [cantidad, precioUnitario]);
 
   const handleReserva = async () => {
-  if (!fechaRetiro || !cantidad || !establecimientoSeleccionado) {
+    if (!fechaRetiro || !cantidad || !establecimientoSeleccionado) {
       alert('Por favor, completa todos los campos.');
       return;
     }
 
-    const error = await crearReserva(fechaRetiro, estado, precioTotal, establecimientoSeleccionado);
+    // 1. Crear el pedido (reserva)
+    const idPedido = await crearReserva(
+      fechaRetiro,
+      estado,
+      precioTotal,
+      establecimientoSeleccionado
+    );
 
-    if (error) {
-      console.error('Error al crear reserva:', error.message);
-      alert('Hubo un problema al hacer la reserva.');
+    if (!idPedido) {
+      alert('Error al crear la reserva.');
+      return;
+    }
+
+    // 2. Crear el detalle del pedido
+    const errorDetalle = await crearDetallePedido(
+      cantidad,
+      precioTotal,
+      id || '', // id del producto
+      idPedido
+    );
+
+    if (errorDetalle) {
+      console.error('Error al guardar detalle del pedido:', errorDetalle.message);
+      alert('Hubo un problema al guardar el detalle.');
     } else {
       alert('Reserva realizada con éxito!');
       navigate('/');
@@ -62,24 +80,38 @@ const Reserva = () => {
 
       <div className="Reserva-Form">
         <label>Fecha de Retiro:</label>
-        <input className = "Fecha-Reserva" type="datetime-local" value={fechaRetiro} onChange={(e) => setFechaRetiro(e.target.value)} />
+        <input
+          className="Fecha-Reserva"
+          type="datetime-local"
+          value={fechaRetiro}
+          onChange={(e) => setFechaRetiro(e.target.value)}
+        />
 
         <label>Cantidad:</label>
-        <input type="number" value={cantidad} onChange={(e) => setCantidad(Number(e.target.value))} />
+        <input
+          type="number"
+          value={cantidad}
+          onChange={(e) => setCantidad(Number(e.target.value))}
+        />
 
         <p><strong>Precio Total:</strong> ${precioTotal.toFixed(2)}</p>
 
         <label>Establecimiento:</label>
-        <select value={establecimientoSeleccionado} onChange={(e) => setEstablecimientoSeleccionado(e.target.value)}>
-        <option value="">Selecciona un establecimiento</option>
-        {establecimientos.map((establecimiento) => (
-          <option key={establecimiento.id_establecimiento} value={establecimiento.id_establecimiento}>
-            {establecimiento.nombre}
-          </option>
-        ))}
+        <select
+          value={establecimientoSeleccionado}
+          onChange={(e) => setEstablecimientoSeleccionado(e.target.value)}
+        >
+          <option value="">Selecciona un establecimiento</option>
+          {establecimientos.map((establecimiento) => (
+            <option key={establecimiento.id_establecimiento} value={establecimiento.id_establecimiento}>
+              {establecimiento.nombre}
+            </option>
+          ))}
         </select>
 
-        <button className = "Confirmar-Reserva"onClick={handleReserva}>Confirmar Reserva</button>
+        <button className="Confirmar-Reserva" onClick={handleReserva}>
+          Confirmar Reserva
+        </button>
         <button onClick={() => navigate(-1)}>Volver</button>
       </div>
     </div>
