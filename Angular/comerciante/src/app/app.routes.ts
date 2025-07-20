@@ -9,21 +9,25 @@ import { DashboardDetallePedidoComponent } from './features/layout/dashboard-det
 import { MainLayoutComponent } from './features/layout/main-layout/main-layout.component';
 import { AgregarProductoComponent } from './features/agregar-producto/agregar-producto.component';
 import { EditarProductoComponent } from './features/editar-producto/editar-producto.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
     path: 'admin',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/wrappers/admin-wrapper/admin-wrapper.component').then(m => m.AdminWrapperComponent)
   },
   {
     path: 'cliente',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/wrappers/cliente-wrapper/cliente-wrapper.component').then(m => m.ClienteWrapperComponent)
   },
   {
     path: 'dashboard',
     component: MainLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       { path: 'inicio', component: DashboardComponent },
