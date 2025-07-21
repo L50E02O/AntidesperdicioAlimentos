@@ -13,15 +13,15 @@
         (click)="filterPedidos('Todos')"
       >Todos</span>
       <span
-        [class.active]="activeTab === 'Pendiente'"
+        [class.active]="activeTab.toLowerCase() === 'pendiente'"
         (click)="filterPedidos('Pendiente')"
       >Pendientes</span>
       <span
-        [class.active]="activeTab === 'Confirmado'"
+        [class.active]="activeTab.toLowerCase() === 'confirmado'"
         (click)="filterPedidos('Confirmado')"
       >Confirmados</span>
       <span
-        [class.active]="activeTab === 'Cancelado'"
+        [class.active]="activeTab.toLowerCase() === 'cancelado'"
         (click)="filterPedidos('Cancelado')"
       >Cancelados</span>
     </div>

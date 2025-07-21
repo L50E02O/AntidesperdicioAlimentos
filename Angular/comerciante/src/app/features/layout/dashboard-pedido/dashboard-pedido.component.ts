@@ -64,12 +64,14 @@ for (const est of establecimientos) {
 }
     
     filterPedidos(estado: string) {
-    if (estado === 'Todos') {
-      this.filteredPedidos = this.allPedidos;
-    } else {
-      this.filteredPedidos = this.allPedidos.filter(p => p.estado === estado);
-    }
+  if (estado.toLowerCase() === 'todos') {
+    this.filteredPedidos = this.allPedidos;
+  } else {
+    this.filteredPedidos = this.allPedidos.filter(
+      p => p.estado?.toLowerCase() === estado.toLowerCase()
+    );
   }
+}
 
   goToPedidoDetail(id: number) {
     // Suponiendo que tienes una ruta como /detalle-pedido/:id
