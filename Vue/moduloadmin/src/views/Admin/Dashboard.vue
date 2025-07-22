@@ -54,6 +54,7 @@ import { onMounted } from 'vue';
 
 const notificacionesAdminStore = useNotificacionesAdminStore();
 
+
 onMounted(async () =>{
   await notificacionesAdminStore.cargarNotificaciones();
 });

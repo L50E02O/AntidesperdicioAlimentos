@@ -19,7 +19,7 @@
             <div class="user-profile">
             <div class="avatar-static"></div>
             <div class="user-info">
-                <p class="user-name">Admin</p>
+                <p class="user-name"> {{ authStore.usuarioActual }} </p>
                 <p class="user-role">Administrador</p>
             </div>
             </div>
@@ -36,7 +36,9 @@
 </template>
 
 <script setup>
-//import { RouterLink } from 'vue-router'
+import { useAuthStore } from '../stores/authStore';
+
+const authStore = useAuthStore();
 </script>
 
 <style scoped>
