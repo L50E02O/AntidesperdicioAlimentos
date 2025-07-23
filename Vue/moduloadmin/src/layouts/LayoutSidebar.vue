@@ -27,10 +27,13 @@
       </aside>
 
         <!-- Contenido principal -->
-    <main class="main-content">
+    <main class="main-content" v-if="authStore.usuarioActual">
       <RouterView/>
       <!-- <slot/> -->
     </main>
+    <div v-else class="main-content loading">
+      Cargando usuario...
+    </div>
     
   </div>
 </template>
@@ -121,5 +124,15 @@ const authStore = useAuthStore();
   padding: 2rem;
   background-color: #fafafa;
   overflow-y: auto;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #888;
+  min-height: 100vh;
+  letter-spacing: 0.5px;
 }
 </style>

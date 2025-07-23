@@ -36,7 +36,10 @@
       </div>
 
       <h2>Notificaciones recientes</h2>
-      <div class="notificaciones-recientes">
+      <div v-if="loading" class="mensaje-info">
+        Cargando Notificaciones...
+      </div>
+      <div v-if="notificacionesAdminStore.notificacionesAdmin.length > 0 && loading === false" class="notificaciones-recientes">
         <NotificacionAdminRow
           v-for="n in notificacionesAdminStore.notificacionesAdmin.slice(0, 3)"
           :key="n.id_notificacion"
@@ -45,6 +48,9 @@
           :textoBoton="'Ver Más'"
           @accion="verApartado('/notificaciones')"
         />
+      </div>
+      <div v-if="notificacionesAdminStore.notificacionesAdmin.length === 0 && loading===false" class="mensaje-info">
+        Actualmente no hay Notificacion para mostrar
       </div>
     </div>
 </template>
@@ -55,13 +61,17 @@ import router from '../../router';
 import NotificacionAdminRow from '../../components/notificacionAdmin/NotificacionAdminRow.vue';
 import { useNotificacionesAdminStore } from '../../stores/notificacionAdminStore';
 import { useAuthStore } from '../../stores/authStore';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const notificacionesAdminStore = useNotificacionesAdminStore();
 const authStore = useAuthStore();
+const loading = ref(true);
 
 onMounted(async () =>{
+  loading.value = true;
+  await new Promise(resolve => setTimeout(resolve, 7000));
   await notificacionesAdminStore.cargarNotificaciones();
+  loading.value = false;
 });
 
 const verApartado = (ruta: string) => {
