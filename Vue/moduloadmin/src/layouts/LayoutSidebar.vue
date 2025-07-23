@@ -19,7 +19,7 @@
             <div class="user-profile">
             <div class="avatar-static"></div>
             <div class="user-info">
-                <p class="user-name"> {{ authStore.usuarioActual }} </p>
+                <p class="user-name"> {{ authStore.usuarioActual?.nombre }} </p>
                 <p class="user-role">Administrador</p>
             </div>
             </div>
@@ -35,10 +35,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useAuthStore } from '../stores/authStore';
 
 const authStore = useAuthStore();
+
 </script>
 
 <style scoped>

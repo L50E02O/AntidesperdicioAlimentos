@@ -1,6 +1,10 @@
 <template>
     <div class="contenido">
-      <h2>Resumen general</h2>
+      <div class="titulo">
+        <h2>Resumen general</h2>
+        <button class="boton" @click="cerrarSesion">Cerrar Sesión</button>
+      </div>
+    
       <div class="resumen-general">
         <ResumenCard
           titulo="Habilitados"
@@ -50,10 +54,11 @@ import ResumenCard from '../../components/dashboard/ResumenCard.vue';
 import router from '../../router';
 import NotificacionAdminRow from '../../components/notificacionAdmin/NotificacionAdminRow.vue';
 import { useNotificacionesAdminStore } from '../../stores/notificacionAdminStore';
+import { useAuthStore } from '../../stores/authStore';
 import { onMounted } from 'vue';
 
 const notificacionesAdminStore = useNotificacionesAdminStore();
-
+const authStore = useAuthStore();
 
 onMounted(async () =>{
   await notificacionesAdminStore.cargarNotificaciones();
@@ -63,9 +68,14 @@ const verApartado = (ruta: string) => {
   router.push(ruta);
 }
 
+const cerrarSesion = () => {
+  authStore.logout();
+  window.parent.postMessage({ type: 'logout-admin' }, '*');
+}
+
 </script>
 
-<style>
+<style scoped>
 .contenido{
   display: flex;
   justify-content: space-between;
@@ -87,5 +97,29 @@ const verApartado = (ruta: string) => {
   width: 100%;
   flex-direction: column;
   gap: 10px ;
+}
+
+.titulo {
+  display: flex;
+  width: 100%;
+  gap: 60%;
+}
+
+.boton {
+  margin-bottom: 50px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 40%;
+}
+.boton:hover {
+  background: #2563eb;
+}
+
+h2{
+  width: 100%;
 }
 </style>
