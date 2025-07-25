@@ -1,18 +1,25 @@
 <template>
-    <div v-if = "inventario">
+    <div>
         <botonAtras @cambiarRuta="retroceder" />
         <h1>Inventario</h1>
-        <InventarioCard
-        :id_inventario = "inventario.id_inventario"
-        :fecha_actualizacion = "inventario.fecha_actualizacion"
-        :cantidad_total = "inventario.cantidad_total"
-        :valor_inventario = "inventario.valor_inventario"
-        />
-        <h1>Productos</h1>
-        <div class="productos">
-            <RouterLink :to='`/producto-form/${inventario.id_inventario}`' class="btn-agregar">Agregar</RouterLink>
-            <ProductoLista :productos = "inventario.productos"/>
+        <div v-if="loading" class="mensaje-info">
+            Cargando Inventario...
         </div>
+        <div v-if="inventario && !loading">
+            <InventarioCard
+            :id_inventario = "inventario.id_inventario"
+            :fecha_actualizacion = "inventario.fecha_actualizacion"
+            :cantidad_total = "inventario.cantidad_total"
+            :valor_inventario = "inventario.valor_inventario"
+            />
+            <h1>Productos</h1>
+            <div class="productos">
+                <RouterLink :to='`/producto-form/${inventario.id_inventario}`' class="btn-agregar">Agregar</RouterLink>
+                <ProductoLista v-if="inventario.productos.length > 0" :productos = "inventario.productos"/>
+                <p v-if="inventario.productos.length === 0 && !loading" class="mensaje-info">No hay productos.</p> 
+            </div>
+        </div>
+        <p v-if="!inventario && !loading" class="mensaje-info">No hay inventario.</p>
     </div>
 </template>
 
@@ -28,16 +35,14 @@ import router from '../../router'
 
 const route = useRoute()
 const idEstablecimiento = String(route.params.id)
-console.log('ID del establecimiento:', idEstablecimiento)
 const inventario = ref<Inventario | null>(null)
+const loading = ref(true);
 
 onMounted(async () => {
-    try {
-        inventario.value = await obtenerInventarioPorId(idEstablecimiento)
-        console.log('Inventario:', inventario.value)
-    } catch (error) {
-        console.error('Error al obtener el inventario:', error)
-    }
+    loading.value = true;
+    await new Promise(resolve => setTimeout(resolve, 700));
+    inventario.value = await obtenerInventarioPorId(idEstablecimiento);
+    loading.value = false;
 })
 
 function retroceder(){

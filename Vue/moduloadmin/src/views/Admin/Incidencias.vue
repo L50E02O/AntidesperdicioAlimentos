@@ -2,54 +2,58 @@
   <div class="incidencias-view">
     <h2 class="title">Gestión de incidencias</h2>
     <RouterLink to="/form-crear-incidencia" class="crear-incidencia">Crear Incidencia</RouterLink>
+    <div v-if="loading" class="mensaje-info">
+      Cargando Incidencias...
+    </div>
+    <div v-else>
+        <section class="section">
+        <h3>Pendientes</h3>
+        <IncidenciaCard
+          v-for="incidencia in pendientes"
+          :key="incidencia.id_incidencia"
+          :descripcion="incidencia.descripcion"
+          :fecha="incidencia.fecha"
+          :estado="incidencia.estado"
+          :comerciante="incidencia.id_comerciante"
+          :cliente="incidencia.id_cliente"
+          @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
+          @eliminar="eliminarIncidencia(incidencia)"
+        />
+        <p v-if="pendientes.length === 0" class="empty">No hay incidencias pendientes.</p>
+      </section>
 
-    <section class="section">
-      <h3>Pendientes</h3>
-      <IncidenciaCard
-        v-for="incidencia in pendientes"
-        :key="incidencia.id_incidencia"
-        :descripcion="incidencia.descripcion"
-        :fecha="incidencia.fecha"
-        :estado="incidencia.estado"
-        :comerciante="incidencia.id_comerciante"
-        :cliente="incidencia.id_cliente"
-        @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
-        @eliminar="eliminarIncidencia(incidencia)"
-      />
-      <p v-if="pendientes.length === 0" class="empty">No hay incidencias pendientes.</p>
-    </section>
+      <section class="section">
+        <h3>Abiertas</h3>
+        <IncidenciaCard
+          v-for="incidencia in abiertas"
+          :key="incidencia.id_incidencia"
+          :descripcion="incidencia.descripcion"
+          :fecha="incidencia.fecha"
+          :estado="incidencia.estado"
+          :comerciante="incidencia.id_comerciante"
+          :cliente="incidencia.id_cliente"
+          @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
+          @eliminar="eliminar(incidencia)"
+        />
+        <p v-if="abiertas.length === 0" class="empty">No hay incidencias abiertas.</p>
+      </section>
 
-    <section class="section">
-      <h3>Abiertas</h3>
-      <IncidenciaCard
-        v-for="incidencia in abiertas"
-        :key="incidencia.id_incidencia"
-        :descripcion="incidencia.descripcion"
-        :fecha="incidencia.fecha"
-        :estado="incidencia.estado"
-        :comerciante="incidencia.id_comerciante"
-        :cliente="incidencia.id_cliente"
-        @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
-        @eliminar="eliminar(incidencia)"
-      />
-      <p v-if="abiertas.length === 0" class="empty">No hay incidencias abiertas.</p>
-    </section>
-
-    <section class="section">
-      <h3>Resueltas</h3>
-      <IncidenciaCard
-        v-for="incidencia in resueltas"
-        :key="incidencia.id_incidencia"
-        :descripcion="incidencia.descripcion"
-        :fecha="incidencia.fecha"
-        :estado="incidencia.estado"
-        :comerciante="incidencia.id_comerciante"
-        :cliente="incidencia.id_cliente"
-        @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
-        @eliminar="eliminar(incidencia)"
-      />
-      <p v-if="resueltas.length === 0" class="empty">No hay incidencias resueltas.</p>
-    </section>
+      <section class="section">
+        <h3>Resueltas</h3>
+        <IncidenciaCard
+          v-for="incidencia in resueltas"
+          :key="incidencia.id_incidencia"
+          :descripcion="incidencia.descripcion"
+          :fecha="incidencia.fecha"
+          :estado="incidencia.estado"
+          :comerciante="incidencia.id_comerciante"
+          :cliente="incidencia.id_cliente"
+          @actualizar-estado="(estado: string) => actualizarEstado(incidencia, estado)"
+          @eliminar="eliminar(incidencia)"
+        />
+        <p v-if="resueltas.length === 0" class="empty">No hay incidencias resueltas.</p>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -65,10 +69,13 @@ const pendientes = computed(()=>{return incidencias.value.filter(i=>i.estado==='
 const abiertas   = computed(()=>{return incidencias.value.filter(i=>i.estado==='abierto')});
 const resueltas  = computed(()=>{return incidencias.value.filter(i=>i.estado==='resuelto')});
 
+const loading = ref(true);
+
 onMounted(async ()=>{
+  loading.value = true;
+  await new Promise(resolve => setTimeout(resolve, 7000));
   incidencias.value = await obtenerIncidencias();
-  console.log(incidencias.value)
-  console.log(pendientes.value)
+  loading.value = false;
 });
 
 async function actualizarEstado(incidencia: Incidencia, nuevoEstado: string) {
