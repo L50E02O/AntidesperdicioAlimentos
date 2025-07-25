@@ -63,7 +63,7 @@ const comercianteStore = useComercianteStore();
 
 onMounted(async ()=>{
   loading.value = true;
-  await new Promise(resolve => setTimeout(resolve, 7000));
+  await new Promise(resolve => setTimeout(resolve, 1000));
   await comercianteStore.cargarComerciantes();
   loading.value = false;
 });

@@ -21,12 +21,12 @@ defineProps({
 
 <style scoped>
 .inventario-card {
-  background-color: #f9fafb;
+  background-color: #ffffff;
   border: 1px solid #d1d5db;
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 .info {
   display: flex;
