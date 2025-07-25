@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NotificacionComerciante } from '../../../core/models/INotificacionComerciante.model';
 import { ReadNotificacionPorComerciante } from '../../../core/services/notificacion.service/read-notificacion.service';
 import { AuthService } from '../../../core/services/auth.service/auth.service';
+import { EliminarNotificacionService } from '../../../core/services/notificacion.service/eliminar-notificacion.service';
 
 @Component({
   selector: 'app-dashboard-notificacion',
@@ -20,7 +21,8 @@ export class DashboardNotificacionComponent implements OnInit {
 
   constructor(
     private readNotificacionService: ReadNotificacionPorComerciante, 
-    private authService: AuthService
+    private authService: AuthService,
+    private eliminarNotificacionService: EliminarNotificacionService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -64,7 +66,25 @@ export class DashboardNotificacionComponent implements OnInit {
     }
   }
 
-  deleteNotification(notification: NotificacionComerciante): void {
-    // Implementación existente
+  async deleteNotification(notification: NotificacionComerciante): Promise<void> {
+    if (!notification.id_notificacion) {
+      this.error = 'ID de notificación no válido.';
+      return;
+    }
+    this.loading = true;
+    this.error = '';
+    try {
+      console.log('Eliminando notificación:', notification.id_notificacion);
+      const eliminado = await this.eliminarNotificacionService.eliminarNotificacion(notification.id_notificacion);
+      if (eliminado) {
+        await this.loadNotifications();
+      } else {
+        this.error = 'No se pudo eliminar la notificación.';
+      }
+    } catch (error) {
+      this.error = 'Error al eliminar la notificación.';
+    } finally {
+      this.loading = false;
+    }
   }
 }

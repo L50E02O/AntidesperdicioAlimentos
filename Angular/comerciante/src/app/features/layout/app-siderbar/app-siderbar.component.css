@@ -258,8 +258,10 @@
         margin-bottom: 15px;
     }
     .user-profile {
-        justify-content: center;
-        padding-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 0;
     }
     .main-header h2 {
         font-size: 24px;
