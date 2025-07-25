@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
+import { RegistroComponent } from './features/auth/registro/registro.component';
 import { DashboardComponent } from './features/layout/dashboard-general/dashboard.component';
 import { DashboardPedidoComponent } from './features/layout/dashboard-pedido/dashboard-pedido.component';
 import { DashboardInventarioComponent } from './features/layout/dashboard-inventario/dashboard-inventario.component';
@@ -25,6 +26,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/wrappers/cliente-wrapper/cliente-wrapper.component').then(m => m.ClienteWrapperComponent)
   },
   {
+    path: 'registro',
+    component: RegistroComponent
+  },
+  {
     path: 'dashboard',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
@@ -37,8 +42,7 @@ export const routes: Routes = [
       { path: 'incidencias', component: DashboardIncidenciaComponent },
       { path: 'detalle-pedido/:id', component: DashboardDetallePedidoComponent },
       { path: 'agregar-producto', component: AgregarProductoComponent },
-      { path: 'editar-producto/:id', component: EditarProductoComponent }
-      // páginas de dashboard
+      { path: 'editar-producto/:id', component: EditarProductoComponent },      // páginas de dashboard
     ]
   }
 ];
