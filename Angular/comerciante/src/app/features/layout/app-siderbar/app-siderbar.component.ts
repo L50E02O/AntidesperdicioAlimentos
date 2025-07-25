@@ -32,11 +32,11 @@ export class AppSiderbarComponent implements OnInit {
 
 
   navItems: NavItem[] = [
-    { label: 'Inicio', route: '/dashboard/inicio', active: true },
-    { label: 'Pedidos', route: '/dashboard/pedidos', active: false },
-    { label: 'Inventario', route: '/dashboard/inventario', active: false },
-    { label: 'Notificaciones', route: '/dashboard/notificaciones', active: false },
-    { label: 'Incidencias', route: '/dashboard/incidencias', active: false }
+    { label: '🏠Inicio', route: '/dashboard/inicio', active: true },
+    { label: '🛒Pedidos', route: '/dashboard/pedidos', active: false },
+    { label: '💼Inventario', route: '/dashboard/inventario', active: false },
+    { label: '🔔Notificaciones', route: '/dashboard/notificaciones', active: false },
+    { label: '❗Incidencias', route: '/dashboard/incidencias', active: false }
 
   ];
 
