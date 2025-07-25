@@ -17,7 +17,6 @@
   defineProps({
     titulo: String,
     subtitulo: String,
-    cantidad: String,
     textoBoton: String
   })
   

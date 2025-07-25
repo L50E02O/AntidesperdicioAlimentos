@@ -8,9 +8,13 @@
     </div>
 
     <RouterLink class="crear-comerciante" to="/form-crear-comerciante" >Crear Comerciante</RouterLink>
-
-    <div v-if="activeTab === 'habilitados'" class="lista">
-      <ComercianteCard
+    
+    <div v-if="loading" class="mensaje-info">
+      Cargando Comerciantes...
+    </div>
+    <div v-if="activeTab === 'habilitados'">
+      <div v-if="habilitados.length > 0 && loading===false" class="lista">
+        <ComercianteCard
         v-for="(comerciante, id_comerciante) in habilitados"
         :key="id_comerciante"
         :nombre="comerciante.nombre"
@@ -21,11 +25,16 @@
         :textoBotonEstado="'Deshabilitar'"
         @cambiarEstado="actualizarEstado(comerciante)"
         @eliminar="eliminar(comerciante)"
-      />
+        />
+      </div>
+      <div v-if="habilitados.length === 0 && loading===false" class="mensaje-info">
+        Actualmente no hay comerciantes habilitados
+      </div>
     </div>
 
-    <div v-if="activeTab === 'deshabilitados'" class="lista">
-      <ComercianteCard
+    <div v-if="activeTab === 'deshabilitados'">
+      <div v-if="deshabilitados.length > 0 && loading===false" class="lista">
+        <ComercianteCard
         v-for="(comerciante, id_comerciante) in deshabilitados"
         :key="id_comerciante"
         :nombre="comerciante.nombre"
@@ -37,6 +46,10 @@
         @cambiarEstado="actualizarEstado(comerciante)"
         @eliminar="eliminar(comerciante)"
       />
+      </div>
+      <div v-if="deshabilitados.length === 0 && loading===false" class="mensaje-info">
+        Actualmente no hay comerciantes deshabilitados
+      </div>
     </div>
   </div>
 </template>
@@ -46,15 +59,19 @@ import { ref, onMounted, computed } from 'vue'
 import ComercianteCard from '../../components/comerciante/ComercianteCard.vue'
 import type { Comerciante } from '../../types/comerciante'
 import { useComercianteStore } from "../../stores/ComercianteStore"
-
 const comercianteStore = useComercianteStore();
 
-onMounted(async ()=>{await comercianteStore.cargarComerciantes();});
+onMounted(async ()=>{
+  loading.value = true;
+  await new Promise(resolve => setTimeout(resolve, 7000));
+  await comercianteStore.cargarComerciantes();
+  loading.value = false;
+});
 
 const activeTab = ref('habilitados')
 const habilitados = computed(()=>{return comercianteStore.comerciantes.filter(c => c.habilitado===true)});
-
 const deshabilitados = computed(()=>{return comercianteStore.comerciantes.filter(c=>c.habilitado===false)});
+const loading = ref(true);
 
 async function actualizarEstado(comerciante: Comerciante){
   comerciante.habilitado = comerciante.habilitado ? false : true;

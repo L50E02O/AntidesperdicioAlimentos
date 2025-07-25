@@ -7,30 +7,44 @@
       <button :class="{ active: activeTab === 'deshabilitados' }" @click="activeTab = 'deshabilitados'">Pendientes</button>
     </div>
 
-    <div v-if="activeTab === 'habilitados'" class="lista">
-      <EstablecimientosCard
-        v-for="(establecimiento) in habilitados"
-        :key="establecimiento.id_establecimiento"
-        :nombre="establecimiento.nombre"
-        :direccion="establecimiento.direccion"
-        :horario="establecimiento.horario"
-        :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        :id_inventario="establecimiento.id_inventario"
-        @deshabilitar="actualizarEstado(establecimiento)"
-      />
+    <div v-if="loading" class="mensaje-info">
+      Cargando Establecimientos...
     </div>
 
-    <div v-if="activeTab === 'deshabilitados'" class="solicitudes">
-      <EstablecimientoDeshabilitadoRow
-        v-for="(establecimiento) in deshabilitados"
-        :key="establecimiento.id_establecimiento"
-        :nombre="establecimiento.nombre"
-        :direccion="establecimiento.direccion"
-        :horario="establecimiento.horario"
-        :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
-        @habilitar="actualizarEstado(establecimiento)"
-        @eliminar="eliminar(establecimiento)"
-      />
+    <div v-if="activeTab === 'habilitados' && !loading">
+      <div v-if="habilitados.length > 0" class="lista">
+        <EstablecimientosCard
+          v-for="(establecimiento) in habilitados"
+          :key="establecimiento.id_establecimiento"
+          :nombre="establecimiento.nombre"
+          :direccion="establecimiento.direccion"
+          :horario="establecimiento.horario"
+          :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
+          :id_inventario="establecimiento.id_inventario"
+          @deshabilitar="actualizarEstado(establecimiento)"
+        />
+      </div>
+      <div v-else class="mensaje-info">
+        Actualmente no hay establecimientos habilitados
+      </div>
+    </div>
+
+    <div v-if="activeTab === 'deshabilitados' && !loading">
+      <div v-if="deshabilitados.length > 0" class="solicitudes">
+        <EstablecimientoDeshabilitadoRow
+          v-for="(establecimiento) in deshabilitados"
+          :key="establecimiento.id_establecimiento"
+          :nombre="establecimiento.nombre"
+          :direccion="establecimiento.direccion"
+          :horario="establecimiento.horario"
+          :estado="establecimiento.habilitado ? 'Habilitado' : 'Deshabilitado'"
+          @habilitar="actualizarEstado(establecimiento)"
+          @eliminar="eliminar(establecimiento)"
+        />
+      </div>
+      <div v-else class="mensaje-info">
+        Actualmente no hay establecimientos deshabilitados
+      </div>
     </div>
   </div>
 </template>
@@ -43,13 +57,17 @@ import type { Establecimiento } from '../../types/establecimiento'
 import { obtenerEstablecimientos, actualizarEstablecimiento, eliminarEstablecimiento } from '../../services/servicioEstablecimiento'
 
 const activeTab = ref('habilitados')
+const loading = ref(true);
 
 const establecimientos = ref<Establecimiento[]>([]);
 const habilitados = computed(()=>{return establecimientos.value.filter((e)=>e.habilitado===true)});
 const deshabilitados = computed(()=>{return establecimientos.value.filter((e)=> e.habilitado===false)});
 
 async function cargarEstablecimientos(){
+  loading.value = true;
+  await new Promise(resolve => setTimeout(resolve, 700));
   establecimientos.value = await obtenerEstablecimientos();
+  loading.value = false;
 }
 
 onMounted(cargarEstablecimientos);

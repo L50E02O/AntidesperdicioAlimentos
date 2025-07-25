@@ -19,7 +19,7 @@
             <div class="user-profile">
             <div class="avatar-static"></div>
             <div class="user-info">
-                <p class="user-name">Admin</p>
+                <p class="user-name"> {{ authStore.usuarioActual?.nombre }} </p>
                 <p class="user-role">Administrador</p>
             </div>
             </div>
@@ -27,16 +27,22 @@
       </aside>
 
         <!-- Contenido principal -->
-    <main class="main-content">
+    <main class="main-content" v-if="authStore.usuarioActual">
       <RouterView/>
       <!-- <slot/> -->
     </main>
+    <div v-else class="main-content loading">
+      Cargando usuario...
+    </div>
     
   </div>
 </template>
 
-<script setup>
-//import { RouterLink } from 'vue-router'
+<script setup lang="ts">
+import { useAuthStore } from '../stores/authStore';
+
+const authStore = useAuthStore();
+
 </script>
 
 <style scoped>
@@ -118,5 +124,15 @@
   padding: 2rem;
   background-color: #fafafa;
   overflow-y: auto;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #888;
+  min-height: 100vh;
+  letter-spacing: 0.5px;
 }
 </style>
