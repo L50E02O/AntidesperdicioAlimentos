@@ -43,4 +43,8 @@ export class LoginComponent {
       this.error = 'Error al iniciar sesión';
     }
   }
+
+  irARegistro() {
+    this.router.navigate(['registro']);
+  }
 }
