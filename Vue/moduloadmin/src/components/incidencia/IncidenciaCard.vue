@@ -43,6 +43,7 @@ watch(() => props.estado, (nuevo) => {
   border-radius: 8px;
   background-color: #fff;
   margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .acciones {

@@ -65,7 +65,7 @@ const deshabilitados = computed(()=>{return establecimientos.value.filter((e)=> 
 
 async function cargarEstablecimientos(){
   loading.value = true;
-  await new Promise(resolve => setTimeout(resolve, 700));
+  await new Promise(resolve => setTimeout(resolve, 1000));
   establecimientos.value = await obtenerEstablecimientos();
   loading.value = false;
 }

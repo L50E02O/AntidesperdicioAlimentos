@@ -29,12 +29,12 @@ defineProps({
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #f9f9f9;
+  background: #ffffff;
   border-radius: 12px;
   padding: 1rem;
   width: 100%;
   max-width: 300px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   flex-direction: column;
   text-align: center;
 }

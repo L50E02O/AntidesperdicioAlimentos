@@ -30,7 +30,7 @@ defineProps({
   border-radius: 8px;
   background-color: #ffffff;
   gap: 10px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 10px rgba(0,0,0,0.04);
 }
 
 .acciones {

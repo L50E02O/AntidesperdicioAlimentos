@@ -32,13 +32,13 @@
   flex: 1;
   min-width: 0;
   flex-direction: column;
-  background: #f9f9f9;
+  background: #ffffff;
   border-radius: 12px;
   padding: 20px;
   width: 220px;
   height: auto;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .icono {
   font-size: 30px;

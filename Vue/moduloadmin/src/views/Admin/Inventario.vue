@@ -40,7 +40,7 @@ const loading = ref(true);
 
 onMounted(async () => {
     loading.value = true;
-    await new Promise(resolve => setTimeout(resolve, 700));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     inventario.value = await obtenerInventarioPorId(idEstablecimiento);
     loading.value = false;
 })

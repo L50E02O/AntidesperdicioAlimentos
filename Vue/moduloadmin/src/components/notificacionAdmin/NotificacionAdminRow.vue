@@ -27,11 +27,11 @@ defineProps<{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f3f4f6; /* gris suave */
+  background-color: #ffffff; /* gris suave */
   border-radius: 10px;
   padding: 16px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .contenido {
